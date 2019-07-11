@@ -2,7 +2,7 @@
 addons:
   postgresql: "11.2"
 services:
-  - postgres
+  - postgresql
 sudo: false
 language: ruby
 cache: bundler
