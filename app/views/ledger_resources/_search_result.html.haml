@@ -1,0 +1,33 @@
+- if result.failure?
+  .alert.alert-danger= t('search.failure')
+- elsif result.resources.blank?
+  .alert.alert-warning= t('search.no_results')
+- else
+  .mb-5
+    - result.resources.each do |resource|
+      .row.mb-3
+        .col
+          = render layout: 'resources/lib_resource_card', locals: { resource: resource } do
+            = form_with model: Forms::LedgerResources::Assign.new(ledger_resource: ledger_resource), url: ledger_resource_assignments_path(ledger_resource), method: :post, data: { confirm: ledger_resource.assignment_confirmation }, remote: false do |f|
+              = f.hidden_field :resource_ledger_id, value: resource.ledger_id
+              = f.submit 'Assign', class: 'btn btn-primary btn-assign'
+  %nav
+    .row
+      .col
+        %ul.pagination
+          %li.page-item{ class: css_class_string(disabled: result.previous_searcher.blank?) }
+            - if result.previous_searcher.blank?
+              - url = '#'
+            - else
+              - url = search_ledger_resource_assignments_path(ledger_resource, q: params[:q], pagination: result.previous_searcher.pagination)
+            = link_to url, class: 'page-link' do
+              Previous
+      .col
+        %ul.pagination.float-right
+          %li.page-item{ class: css_class_string(disabled: result.next_searcher.blank?) }
+            - if result.next_searcher.blank?
+              - url = '#'
+            - else
+              - url = search_ledger_resource_assignments_path(ledger_resource, q: params[:q], pagination: result.next_searcher.pagination)
+            = link_to url, class: 'page-link' do
+              Next

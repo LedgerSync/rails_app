@@ -1,0 +1,2 @@
+window.history.pushState(<%= ledger_resource_search_params.to_json.html_safe %>, '', "?<%= j ledger_resource_search_params.to_query %>");
+$('#search-result-container').html("<%= j render('ledger_resources/search_result', ledger_resource: @ledger_resource, result: @result) %>")

@@ -1,0 +1,93 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company//customer/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.15.4
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer access_token
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 21 May 2019 06:26:15 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '420'
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - timeout=5
+      Intuit-Tid:
+      - 3e5f69b5-c5e9-5ba1-55f4-ef8c03e28241
+      Www-Authenticate:
+      - Bearer realm="Intuit", error="invalid_token"
+    body:
+      encoding: UTF-8
+      string: '{"warnings":null,"intuitObject":null,"fault":{"error":[{"message":"message=AuthenticationFailed;
+        errorCode=003200; statusCode=401","detail":"Malformed bearer token: too short
+        or too long","code":"3200","element":null}],"type":"AUTHENTICATION"},"report":null,"queryResponse":null,"batchItemResponse":[],"attachableResponse":[],"syncErrorResponse":null,"requestId":null,"time":1558419975230,"status":null,"cdcresponse":[]}'
+    http_version: 
+  recorded_at: Tue, 21 May 2019 06:26:15 GMT
+- request:
+    method: post
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company//customer
+    body:
+      encoding: UTF-8
+      string: '{"DisplayName":"Test Customer","PrimaryPhone":{"FreeFormNumber":null},"PrimaryEmailAddr":{"Address":"test@example.com"}}'
+    headers:
+      User-Agent:
+      - Faraday v0.15.4
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer access_token
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 21 May 2019 06:26:15 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '420'
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - timeout=5
+      Intuit-Tid:
+      - d2fdc2c1-9ba1-566a-59ec-aa39c9a17df3
+      Www-Authenticate:
+      - Bearer realm="Intuit", error="invalid_token"
+    body:
+      encoding: UTF-8
+      string: '{"warnings":null,"intuitObject":null,"fault":{"error":[{"message":"message=AuthenticationFailed;
+        errorCode=003200; statusCode=401","detail":"Malformed bearer token: too short
+        or too long","code":"3200","element":null}],"type":"AUTHENTICATION"},"report":null,"queryResponse":null,"batchItemResponse":[],"attachableResponse":[],"syncErrorResponse":null,"requestId":null,"time":1558419975433,"status":null,"cdcresponse":[]}'
+    http_version: 
+  recorded_at: Tue, 21 May 2019 06:26:15 GMT
+recorded_with: VCR 4.0.0

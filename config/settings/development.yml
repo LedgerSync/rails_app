@@ -1,0 +1,4 @@
+application:
+  host_url: 'localhost'
+  host_port: 3000
+  mailer_delivery_method: 'letter_opener'

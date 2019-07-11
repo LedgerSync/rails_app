@@ -1,0 +1,12 @@
+- cache(ledger_resource.recent_syncs) do
+  .recent-syncs-tabs
+    %ul.nav.nav-tabs{:role => "tablist"}
+      - ledger_resource.recent_syncs.each_with_index do |sync_resource, i|
+        - id = "sync-resource-tab-#{sync_resource.id}"
+        %li.nav-item
+          %a.nav-link.active{id: id, "aria-controls" => "#{id}", "aria-selected" => "true", "data-toggle" => "tab", :href => "##{id}", :role => "tab"}= sync_resource.tab_title
+    .tab-content
+      - ledger_resource.recent_syncs.each_with_index do |sync_resource, i|
+        - id = "sync-resource-tab-#{sync_resource.id}"
+        .tab-pane.fade.show.active{id: id, "aria-labelledby" => "#{id}-tab", :role => "tabpanel"}
+          = render 'sync_resources/data_table', sync_resource: sync_resource

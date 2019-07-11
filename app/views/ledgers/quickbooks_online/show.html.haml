@@ -1,0 +1,46 @@
+- content_for :more_js do
+  %script{:src => "https://appcenter.intuit.com/Content/IA/intuit.ipp.anywhere.js", :type => "text/javascript"}
+  :javascript
+    intuit.ipp.anywhere.setup({
+      grantUrl: "#{@grant_url}",
+      datasources: {
+        quickbooks : true,
+        payments : false
+      }
+    });
+.container.my-5
+  %h1.mb-3 Quickbooks Online
+  - if @ledger.expires_at < Time.zone.now
+    .alert.alert-danger EXPIRED
+  - if @ledger.expires_at.present?
+    %table.table.table-striped.w-100
+      %tbody
+        %tr
+          %th Connection
+          %td
+            = link_to 'Disconnect', ledgers_quickbooks_online_path(@ledger), class: 'btn btn-secondary d-inline mr-2', method: :delete, data: { confirm: 'Are you sure you want to disconnect?' }
+            = link_to 'Refresh', ledgers_quickbooks_online_path(@ledger), class: 'btn btn-secondary d-inline mr-2', method: :put
+        %tr
+          %th Access Token
+          %td= text_area_tag :access_token, @ledger.access_token, disabled: true, class: 'w-100 form-control'
+        %tr
+          %th Refresh Token
+          %td= @ledger.refresh_token
+        %tr
+          %th Expires At
+          %td= @ledger.expires_at
+        %tr
+          %th State
+          %td= @ledger.data['state']
+        %tr
+          %th Code
+          %td= @ledger.data['code']
+        %tr
+          %th Realm ID
+          %td= @ledger.data['realm_id']
+        %tr
+          %th RAW
+          %td= text_area_tag :raw, @ledger.data['response'], disabled: true, class: 'w-100 form-control'
+  - else
+    = link_to 'Connect', @grant_url#, target: '_blank'
+    %connecttointuit

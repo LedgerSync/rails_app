@@ -1,0 +1,31 @@
+%button.navbar-toggler{"aria-controls" => "nav-collapse", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#nav-collapse", "data-toggle" => "collapse", :type => "button"}
+  %span.navbar-toggler-icon
+#nav-collapse.collapse.navbar-collapse
+  %ul.navbar-nav.ml-auto
+    %li.nav-item
+      = link_to root_path, class: 'nav-link' do
+        Home
+    %li.nav-item
+      = link_to syncs_path, class: 'nav-link' do
+        Syncs
+    - if current_user
+      %li.nav-item.dropdown
+        %a#account-dropdown.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "http://example.com"}
+          Account
+        .dropdown-menu{"aria-labelledby" => "account-dropdown"}
+          -# = link_to 'Settings',settings_profile_path, class: 'dropdown-item'
+          - if current_user.is_admin?
+            -# = link_to 'Admin', admin_root_path, class: 'dropdown-item', target: '_blank'
+            = link_to 'Dev', dev_path, class: 'dropdown-item'
+            = link_to 'Sidekiq', sidekiq_web_path, class: 'dropdown-item', target: '_blank'
+            %hr.my-4
+          = link_to 'Ledgers', ledgers_path, class: 'dropdown-item'
+          = link_to 'Log Out', logout_path, class: 'dropdown-item'
+    - else
+      %li.nav-item.mr-3
+        = link_to '#', class: 'nav-link' do
+          Log In
+      - if Rails.env.development?
+        %li.nav-item.mr-3
+          = link_to dev_login_path, class: 'nav-link btn btn-danger' do
+            Dev Log In

@@ -1,0 +1,16 @@
+inherit_from: .rubocop_todo.yml
+
+require: rubocop-rspec
+
+AllCops:
+  Include:
+    - Rakefile
+    - config.ru
+  Exclude:
+    - bin/**/*
+    - config/**/*
+    - config.ru
+    - db/**/*
+    - Rakefile
+    - scripts/**/*
+    - vendor/**/*

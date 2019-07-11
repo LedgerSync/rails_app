@@ -1,0 +1,8 @@
+- if data
+  %table.table.table-striped.table-hover
+    - data.each do |k, v|
+      %tr
+        %th= k
+        %td= prettify(v)
+- else
+  .alert.alert-info No data

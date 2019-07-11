@@ -1,0 +1,30 @@
+adaptors:
+  quickbooks_online:
+    oauth_client_id: # required
+    oauth_client_secret: # required
+    oauth_redirect_uri: # required
+
+add_ons:
+  paper_trail:
+    enabled: false # optional
+
+api:
+  root_secret_key: # required: The API key your application will use to send data to the Ledger Sync App
+
+application:
+  login_url: # recommended: the url where users will be redirect if authentication is required
+  host_port: # optional
+  host_url: # required: where this app is hosted (e.g. `sync.example.com`)
+  mailer_delivery_method: # required
+  name: 'Ledger Sync' # required: usually your company name
+  webhook_url: # optional: URL to which webhooks will be sent
+
+authentication:
+  auth_token_valid_for_minutes: 5 # required: number of minutes before an auth token expires
+
+customization:
+  after_application_css_urls: # A list of string URLs to style sheets that are to be loaded after the application CSS
+  before_application_css_urls: # A list of string URLs to style sheets that are to be loaded before the application CSS
+
+dev: # Settings that only work in development
+  offline: false # optional: when true, any controller/view blocks wrapped with dev_offline_optional will not be loaded.  Good for when on slow or no internet access.

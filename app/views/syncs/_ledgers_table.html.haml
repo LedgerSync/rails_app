@@ -1,0 +1,13 @@
+%table.table.table-striped.table-hover
+  - sync.ledgers.each do |ledger|
+    %tr
+      %th.w-25= ledger.decorate.name
+      %td.text-right
+        = render 'shared/status', resource: sync
+  - sync.ledgers_not_connected.each do |ledger|
+    %tr
+      %th.w-25= ledger.name
+      %td.text-right
+        = form_with url: sync_ledgers_path(sync), method: :post, local: true, data: { confirm: "Are you sure you want to sync this to #{ledger.name}?" } do |f|
+          = f.hidden_field :ledger, value: ledger.id
+          = f.submit 'Sync to Ledger', class: 'btn btn-secondary'

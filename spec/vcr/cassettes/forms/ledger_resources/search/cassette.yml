@@ -1,0 +1,183 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company//query?query=SELECT%20*%20FROM%20Customer%20WHERE%20DisplayName%20LIKE%20%27%25%27
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.15.4
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer access_token
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Fri, 31 May 2019 22:33:32 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '420'
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - timeout=5
+      Intuit-Tid:
+      - 1fb02fcd-4da8-ecae-3360-d6adc243e01f
+      Www-Authenticate:
+      - Bearer realm="Intuit", error="invalid_token"
+    body:
+      encoding: UTF-8
+      string: '{"warnings":null,"intuitObject":null,"fault":{"error":[{"message":"message=AuthenticationFailed;
+        errorCode=003200; statusCode=401","detail":"Malformed bearer token: too short
+        or too long","code":"3200","element":null}],"type":"AUTHENTICATION"},"report":null,"queryResponse":null,"batchItemResponse":[],"attachableResponse":[],"syncErrorResponse":null,"requestId":null,"time":1559342012995,"status":null,"cdcresponse":[]}'
+    http_version: 
+  recorded_at: Fri, 31 May 2019 22:33:33 GMT
+- request:
+    method: post
+    uri: https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer
+    body:
+      encoding: UTF-8
+      string: client_id=Q0kCeGlRauoCpUFqc0TE8MgT3r2WKyPUsZ3itTOR0XCwILj9Cj&client_secret=dbV3ERTy2HHtAjWhKzUkZpE4Skr1yzgQaCZj6HEL&grant_type=refresh_token&refresh_token=refresh_token
+    headers:
+      User-Agent:
+      - Faraday v0.15.4
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '82'
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - timeout=5
+      Server:
+      - nginx
+      Date:
+      - Fri, 31 May 2019 22:33:33 GMT
+      Strict-Transport-Security:
+      - max-age=15552000
+      Intuit-Tid:
+      - ef2f7b83-e975-d97c-5627-1db3fe7a5a8e
+      Cache-Control:
+      - no-cache, no-store
+      Pragma:
+      - no-cache
+    body:
+      encoding: UTF-8
+      string: '{"error_description":"Incorrect or invalid refresh token","error":"invalid_grant"}'
+    http_version: 
+  recorded_at: Fri, 31 May 2019 22:33:33 GMT
+- request:
+    method: get
+    uri: https://sandbox-quickbooks.api.intuit.com/v3/company//query?query=SELECT%20*%20FROM%20Customer%20WHERE%20DisplayName%20LIKE%20%27%25%27
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.15.4
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer access_token
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Fri, 31 May 2019 22:33:33 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '420'
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - timeout=5
+      Intuit-Tid:
+      - c9c0e2a7-1ba7-3c9c-4225-e08c416c69f2
+      Www-Authenticate:
+      - Bearer realm="Intuit", error="invalid_token"
+    body:
+      encoding: UTF-8
+      string: '{"warnings":null,"intuitObject":null,"fault":{"error":[{"message":"message=AuthenticationFailed;
+        errorCode=003200; statusCode=401","detail":"Malformed bearer token: too short
+        or too long","code":"3200","element":null}],"type":"AUTHENTICATION"},"report":null,"queryResponse":null,"batchItemResponse":[],"attachableResponse":[],"syncErrorResponse":null,"requestId":null,"time":1559342013385,"status":null,"cdcresponse":[]}'
+    http_version: 
+  recorded_at: Fri, 31 May 2019 22:33:33 GMT
+- request:
+    method: post
+    uri: https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer
+    body:
+      encoding: UTF-8
+      string: client_id=Q0kCeGlRauoCpUFqc0TE8MgT3r2WKyPUsZ3itTOR0XCwILj9Cj&client_secret=dbV3ERTy2HHtAjWhKzUkZpE4Skr1yzgQaCZj6HEL&grant_type=refresh_token&refresh_token=refresh_token
+    headers:
+      User-Agent:
+      - Faraday v0.15.4
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '82'
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - timeout=5
+      Server:
+      - nginx
+      Date:
+      - Fri, 31 May 2019 22:33:33 GMT
+      Strict-Transport-Security:
+      - max-age=15552000
+      Intuit-Tid:
+      - c45e9b07-644c-efa4-57f3-9dc2fccbe815
+      Cache-Control:
+      - no-cache, no-store
+      Pragma:
+      - no-cache
+    body:
+      encoding: UTF-8
+      string: '{"error_description":"Incorrect or invalid refresh token","error":"invalid_grant"}'
+    http_version: 
+  recorded_at: Fri, 31 May 2019 22:33:33 GMT
+recorded_with: VCR 4.0.0

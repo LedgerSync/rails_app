@@ -1,0 +1,16 @@
+version: '2'
+services:
+  db:
+    image: postgres:9.6
+  redis:
+    image: redis:4.0.10
+  app:
+    build: .
+    depends_on:
+      - db
+      - redis
+    environment:
+      PGHOST: db
+      PGUSER: postgres
+      REDIS_URL: redis://redis:6379
+

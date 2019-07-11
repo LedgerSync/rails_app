@@ -1,0 +1,14 @@
+adaptors:
+  quickbooks_online:
+    oauth_client_id: 'test_oauth_client'
+    oauth_client_secret: 'test_oauth_client_secret'
+    oauth_redirect_uri: 'http://lvh.me:3000/ledgers/quickbooks_online/callback'
+add_ons:
+  paper_trail:
+    enabled: true
+api:
+  root_secret_key: 'test_api_key'
+application:
+  host_url: 'lvh.me'
+  host_port: 3000
+  mailer_delivery_method: 'test'

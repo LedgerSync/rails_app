@@ -1,0 +1,21 @@
+.container.my-5
+  %h1.mb-5= @ledger_resource.title
+  .mb-5
+    - if @ledger_resource.todo?
+      .row
+        .col
+          - # TODO: Add search and bring in resources/ledgers
+          = link_to t('ledger_resources.create_btn'), ledger_resource_path(@ledger_resource), class: 'btn btn-primary', method: :post, data: { confirm: t('ledger_resources.confirm_creation_approve') }
+        - if @ledger_resource.searcher?
+          .col
+            = link_to t('ledger_resources.assign_to_existing_btn', ledger: @ledger_resource.ledger.name, type: @ledger_resource.resource.type), ledger_resource_assignments_path(@ledger_resource), class: 'btn btn-primary'
+    - elsif @ledger_resource.exists_in_ledger?
+      .row
+        .col
+          Ledger ID: #{@ledger_resource.resource_ledger_id}
+    - else
+      .row
+        .col
+          .alert.alert-info= t('ledger_resources.approved_for_creation')
+  .mb-5
+    = render 'ledger_resources/recent_syncs_tabs', ledger_resource: @ledger_resource

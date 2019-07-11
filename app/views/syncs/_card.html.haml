@@ -1,0 +1,13 @@
+.card.border.rounded
+  .card-header
+    .row
+      .col-md-10
+        = link_to sync_path(sync) do
+          %h4= sync.title
+      .col-md-2
+        .float-right
+          .badge= render 'shared/status', resource: sync
+  .card-body
+    %h5.mb-3 Ledgers
+    = render 'syncs/ledgers_table', sync: sync
+

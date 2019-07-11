@@ -1,0 +1,53 @@
+# frozen_string_literal: true
+
+require 'rails_helper'
+require 'formify/spec_helpers'
+
+describe Forms::Resources::Upsert, type: :form do
+  include Formify::SpecHelpers
+
+  # :attributes is used to initialize the form.
+  # These values should result in a valid form.
+  # You can override these in blocks or use let(:attributes_override) { { foo: bar } }
+  let(:attributes) do
+    {
+      account: ACCOUNT_VALUE,
+      external_id: EXTERNAL_ID_VALUE,
+      resource: RESOURCE_VALUE,
+      type: TYPE_VALUE
+    }
+  end
+
+  it { expect_valid } # Expect the form to be valid
+  it { expect(result).to be_success }
+  it { expect(value).to be_a(Resource) } # Model name inferred
+
+  describe '#account' do
+    it { expect_error_with_missing_attribute(:account) }
+    xit { expect_error_with_attribute_value(:account, ACCOUNT_BAD_VALUE, message: nil) } # :message is optional
+    xit { expect_valid_with_attribute_value(:account, ACCOUNT_GOOD_VALUE) }
+  end
+
+  describe '#external_id' do
+    it { expect_error_with_missing_attribute(:external_id) }
+    xit { expect_error_with_attribute_value(:external_id, EXTERNAL_ID_BAD_VALUE, message: nil) } # :message is optional
+    xit { expect_valid_with_attribute_value(:external_id, EXTERNAL_ID_GOOD_VALUE) }
+  end
+
+  describe '#resource' do
+    it { expect_error_with_missing_attribute(:resource) }
+    xit { expect_error_with_attribute_value(:resource, RESOURCE_BAD_VALUE, message: nil) } # :message is optional
+    xit { expect_valid_with_attribute_value(:resource, RESOURCE_GOOD_VALUE) }
+  end
+
+  describe '#type' do
+    it { expect_error_with_missing_attribute(:type) }
+    xit { expect_error_with_attribute_value(:type, TYPE_BAD_VALUE, message: nil) } # :message is optional
+    xit { expect_valid_with_attribute_value(:type, TYPE_GOOD_VALUE) }
+  end
+
+  # Other Expectation Helpers
+  # xit { expect_error_message(message) }
+  # xit { expect_error_with_attribute(attribute) }
+  # xit { expect_not_valid(attribute: nil, message: nil) } # :attribute and :message are optional
+end

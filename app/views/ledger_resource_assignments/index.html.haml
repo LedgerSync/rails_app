@@ -1,0 +1,26 @@
+.container.my-5
+  .row.mb-5
+    .col
+      %h1= @ledger_resource.assignment_title
+  .row.mb-5
+    .col
+      %h3.mb-3 Recent Syncs
+      = render 'ledger_resources/recent_syncs_tabs', ledger_resource: @ledger_resource
+  .row.mb-5
+    .col
+      %h3.mb-3 Search
+      = form_with url: search_ledger_resource_assignments_path(@ledger_resource), method: :get, id: 'search-form' do |f|
+        .input-group.mb-3
+          = f.text_field :q, class: 'form-control', value: params[:q], autofocus: true
+          .input-group-append
+            = f.submit 'Search', class: 'btn btn-primary'
+      #search-result-container
+        = render 'ledger_resources/search_result', ledger_resource: @ledger_resource, result: @result
+
+:javascript
+  $(document).ready(function() {
+    $('#search-form').submit(function() {
+      console.log('here');
+      $('#search-result-container').html('Searching...');
+    });
+  });

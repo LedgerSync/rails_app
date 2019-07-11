@@ -1,0 +1,157 @@
+# frozen_string_literal: true
+
+require 'simplecov'
+SimpleCov.start do
+  add_filter '/config/initializers'
+  add_filter '/spec/support'
+end
+
+# This file is copied to spec/ when you run 'rails generate rspec:install'
+require 'spec_helper'
+
+ENV['RAILS_ENV'] ||= 'test'
+
+require File.expand_path('../config/environment', __dir__)
+
+# Prevent database truncation if the environment is production
+abort('The Rails environment is running in production mode!') if Rails.env.production?
+
+require 'rspec/rails'
+# Add additional requires below this line. Rails is not loaded until this point!
+
+require 'capybara/rails'
+require 'capybara/rspec'
+require 'capybara-screenshot/rspec'
+
+require 'formify/spec_helpers'
+
+# Requires supporting ruby files with custom matchers and macros, etc, in
+# spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
+# run as spec files by default. This means that files in spec/support that end
+# in _spec.rb will both be required and run as specs, causing the specs to be
+# run twice. It is recommended that you do not name files matching this glob to
+# end with _spec.rb. You can configure this pattern with the --pattern
+# option on the command line or in ~/.rspec, .rspec or `.rspec-local`.
+#
+# The following line is provided for convenience purposes. It has the downside
+# of increasing the boot-up time by auto-requiring all files in the support
+# directory. Alternatively, in the individual `*_spec.rb` files, manually
+# require only the support files necessary.
+#
+# Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+
+support :database_cleaner
+support :sidekiq
+support :vcr
+support :authentication_helpers
+support :warden
+support :feature_helpers
+support :locale_helpers
+support :api_helpers
+support :test_errors
+support :factory_bot
+
+# Checks for pending migrations and applies them before tests are run.
+# If you are not using ActiveRecord, you can remove this line.
+ActiveRecord::Migration.maintain_test_schema!
+
+RSpec.configure do |config|
+  # config.include Warden::Test::Helpers
+  # config.after do
+  #   Warden.test_reset!
+  # end
+
+  # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
+  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+
+  config.include LocaleHelpers
+  config.include FeatureHelpers, type: :feature
+  config.include AuthenticationHelpers, type: :feature
+  config.include Formify::SpecHelpers, type: :form
+  config.include APIHelpers, type: :api
+
+  config.use_transactional_fixtures = false
+
+  Capybara.javascript_driver =  if ENV['HEADLESS'] == 'false'
+                                  :selenium_chrome
+                                else
+                                  :selenium_chrome_headless
+                                end
+  Capybara.server = :puma
+  Capybara.raise_server_errors = false
+
+  Selenium::WebDriver.logger.level = ENV.fetch('LOG_LEVEL', 'info').downcase.to_sym if ENV.fetch('JS_CONSOLE', false)
+  Selenium::WebDriver::Chrome.path = "/usr/bin/chromium" if ENV["CI"] == "true"
+
+  config.example_status_persistence_file_path = 'tmp/rspec_history.txt'
+
+  # RSpec Rails can automatically mix in different behaviours to your tests
+  # based on their file location, for example enabling you to call `get` and
+  # `post` in specs under `spec/controllers`.
+  #
+  # You can disable this behaviour by removing the line below, and instead
+  # explicitly tag your specs with their type, e.g.:
+  #
+  #     RSpec.describe UsersController, :type => :controller do
+  #       # ...
+  #     end
+  #
+  # The different available types are documented in the features, such as in
+  # https://relishapp.com/rspec/rspec-rails/docs
+  config.infer_spec_type_from_file_location!
+
+  # Filter lines from Rails gems in backtraces.
+  config.filter_rails_from_backtrace!
+  # arbitrary gems may also be filtered via:
+  # config.filter_gems_from_backtrace("gem name")
+
+  config.after type: :feature do |example|
+    if example.exception && ENV['JS_CONSOLE']
+      errors = page.driver.browser.manage.logs.get(:browser)
+      if errors.present?
+        pdb 'START: JS CONSOLE LOGS'
+        message = errors.map(&:message).join("\n")
+        puts message
+        pdb 'END: JS CONSOLE LOGS'
+      end
+    end
+  end
+
+  # Add VCR to all tests
+  config.around do |example|
+    vcr_tag = example.metadata[:vcr]
+
+    if vcr_tag == false
+      VCR.turned_off(&example)
+    else
+      options = vcr_tag.is_a?(Hash) ? vcr_tag : {}
+      path_data = [example.metadata[:description]]
+      parent = example.example_group
+      while parent != RSpec::ExampleGroups
+        path_data << parent.metadata[:description]
+        parent = parent.parent
+      end
+
+      name = path_data.map { |str| str.underscore.delete('.').gsub(%r{[^\w/]+}, '_').gsub(%r{/$}, '') }.reverse.join('/')
+      name += 'cassette'
+
+      VCR.use_cassette(name, options, &example)
+    end
+  end
+
+  config.around(:each, :with_authorization, type: :api) do |example|
+    with_authorization { example.run }
+  end
+
+  config.around(:each, :with_idempotency, type: :api) do |example|
+    with_idempotency { example.run }
+  end
+end
+
+Capybara::Screenshot.class_eval do
+  register_driver(:poltergeist) do |driver, path|
+    driver.render(path, full: true)
+  end
+end
+
+Capybara::Screenshot.autosave_on_failure

@@ -1,0 +1,12 @@
+#dashboard-container.container.my-5
+  %h1.mb-5 Dashboard
+  - unless current_account.ledger_connected?
+    .alert.alert-info.my-5= t('ledgers.connect_a_ledger_html', href: link_to('connect a ledger', ledgers_path))
+  .row.mb-5
+    .col.border.rounded.p-3
+      %h2.mb-4 To Dos
+      - if current_user.todos.any?
+        = render 'shared/todos_table', todos: current_user.todos
+      - else
+        .alert.alert-info
+          = t('todos.none')

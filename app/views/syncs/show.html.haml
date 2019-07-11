@@ -1,0 +1,68 @@
+.container.my-5
+  .row.mb-5
+    .col
+      %h1
+        = @sync.title
+        .float-right
+          = render 'shared/status', resource: @sync
+  - unless @sync.succeeded?
+    .row.my-5
+      .col
+        = link_to 'Sync Now', perform_sync_path(@sync), class: 'btn btn-primary', method: :post
+  - if @sync.todos.any?
+    .row.mb-3
+      .col
+        %h3 To Dos
+        = render 'shared/todos_table', todos: @sync.todos
+  .row.mb-3
+    .col
+      %table.table.table-striped.table-hover
+        %tr
+          %th.w-25 Type
+          %td= @sync.resource_type
+        %tr
+          %th.w-25 External ID
+          %td= @sync.resource_external_id
+        %tr
+          %th.w-25 Operation
+          %td= @sync.operation_method
+        %tr
+          %th.w-25 Position
+          %td= @sync.position
+        - if @sync.parent_blocker.present?
+          %tr
+            %th.w-25 Blocked By
+            %td= link_to @sync.parent_blocker.decorate.title, sync_path(@sync.parent_blocker)
+  .row.mb-3
+    .col
+      %h3 Ledgers
+      - if @sync.sync_ledgers.blank? && current_account.ledgers.blank?
+        .alert.alert-info= t('ledgers.connect_a_ledger_html', href: link_to('connect a ledger', ledgers_path))
+      - else
+        = render 'syncs/ledgers_table', sync: @sync
+
+  - if @sync.self_reference
+    .row.mb-3
+      .col
+        %h3 Data
+        %table.table.table-striped.table-hover
+          - @sync.self_reference['data'].each do |k, v|
+            %tr
+              %th.w-25= k
+              %td= prettify(v)
+  .row.mb-3
+    .col
+      %h3 All References
+      - @sync.references.each do |type, refs|
+        %table.table.table-striped.table-hover
+          %tr
+            %th.w-25 Type
+            %td= type
+          - refs.each do |external_id, ref|
+            %tr
+              %th.w-25 External ID
+              %td= external_id
+            - ref['data'].each do |k, v|
+              %tr
+                %th.w-25= k
+                %td= prettify(v)

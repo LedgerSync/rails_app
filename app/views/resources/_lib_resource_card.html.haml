@@ -1,0 +1,9 @@
+.lib-resource-card
+  .card
+    .card-header
+      = resource.name
+    .card-body
+      = render 'shared/data_table', data: Hash[resource.attributes.map { |a| [a, resource.send(a)] }]
+    - if block_given?
+      .card-footer
+        = yield

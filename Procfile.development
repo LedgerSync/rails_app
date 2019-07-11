@@ -1,0 +1,4 @@
+redis: redis-server
+web: PORT=3000 bundle exec puma -C config/puma.rb
+worker: bundle exec sidekiq -q default -q mailers
+# clock: bundle exec sidekiq -r ./config/environment.rb

@@ -1,0 +1,9 @@
+%table.table.table-striped.table-hover
+  %tbody
+    - todos.each do |todo|
+      %tr
+        %td= todo.title
+        %td
+          = link_to ledger_resource_path(todo), class: 'btn btn-primary' do
+            View
+

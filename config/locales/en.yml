@@ -1,0 +1,94 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# The following keys must be escaped otherwise they will not be retrieved by
+# the default I18n backend:
+#
+# true, false, on, off, yes, no
+#
+# Instead, surround them with single quotes.
+#
+# en:
+#   'true': 'foo'
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+en:
+  activemodel:
+    errors:
+      models:
+        forms/users/find:
+          attributes:
+            external_id:
+              does_not_exist: 'is not associated with an existing user.'
+    attributes:
+      external_id: 'External ID'
+  activerecord:
+    attributes:
+      forms/users/find:
+        external_id: 'External ID'
+  auth_tokens:
+    destroy:
+      success: 'You have been successfully logged out.'
+    dev_login:
+      success: 'You have been successfully logged in as a developer.'
+    invalid_token: 'Invalid token.'
+    use:
+      failure:
+        already_used: 'This auth token has already been used.'
+        expired: 'This auth token has expired.'
+    show:
+      success: 'You have been successfully logged in.'
+  authorization:
+    already_logged_in: 'You are already logged in.'
+    log_in_required: 'Please log in.'
+  date:
+    formats:
+      date: '%y-%m-%d'
+  ledgers:
+    connect_a_ledger_html: "Please %{href} to start syncing."
+    refresh_quickbooks_online_token:
+      success: 'Your token has been refreshed.'
+  ledger_resources:
+    assign:
+      already_assigned: 'has already been assigned.'
+      success: 'The resource has been assigned.'
+    approve_create:
+      success: 'You have successfully approved the creation of this resource in your ledger.'
+    approved_for_creation: 'Approved for creation.'
+    assign_to_existing_btn: 'Assign to Existing %{ledger} %{type}'
+    assignment_confirmation: 'Are you sure you want to assign this %{type} to this resource in %{ledger}?'
+    assignment_title: 'Assign to Existing %{ledger} %{type}'
+    confirm_creation_approve: 'Are you sure you want to create a new resource in your ledger?'
+    create_btn: 'Create in Ledger'
+    search_not_available: 'Search is not available for this type of resource in this ledger.'
+  search:
+    failure: 'Something went wrong.'
+    no_results: 'No results match your query.'
+  sync_ledgers:
+    create:
+      success: 'This will not be synced to the selected ledger.'
+  sync_resources:
+    tab_title: '%{date}'
+  syncs:
+    title: 'Sync %{type}'
+    processing_in_background: 'This sync will be performed in the background. Please refresh in a few moments to check the status.'
+  todos:
+    none: 'You do not have any to dos.'
+    title: 'Sync %{type} to %{ledger}'
