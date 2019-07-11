@@ -3,6 +3,7 @@ sudo: false
 language: ruby
 cache: bundler
 env:
+  - RACK_ENV=test
   - RAILS_ENV=test
 before_install:
   - gem update --system
