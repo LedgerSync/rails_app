@@ -72,17 +72,6 @@ RSpec.configure do |config|
 
   config.use_transactional_fixtures = false
 
-  Capybara.javascript_driver =  if ENV['HEADLESS'] == 'false'
-                                  :selenium_chrome
-                                else
-                                  :selenium_chrome_headless
-                                end
-  Capybara.server = :puma
-  Capybara.raise_server_errors = false
-
-  Selenium::WebDriver.logger.level = ENV.fetch('LOG_LEVEL', 'info').downcase.to_sym if ENV.fetch('JS_CONSOLE', false)
-  # Selenium::WebDriver::Chrome.path = "/usr/bin/chromium" if ENV["CI"] == "true"
-
   config.example_status_persistence_file_path = 'tmp/rspec_history.txt'
 
   # RSpec Rails can automatically mix in different behaviours to your tests
@@ -147,6 +136,26 @@ RSpec.configure do |config|
     with_idempotency { example.run }
   end
 end
+
+Capybara.javascript_driver =  if ENV['HEADLESS'] == 'false'
+  :selenium_chrome
+else
+  :selenium_chrome_headless
+end
+
+require 'capybara'
+Capybara.register_driver :chrome do |app|
+  options = Selenium::WebDriver::Chrome::Options.new(args: %w[no-sandbox headless disable-gpu])
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+end
+
+Capybara.javascript_driver = :chrome
+
+Capybara.server = :puma
+Capybara.raise_server_errors = false
+
+# Selenium::WebDriver.logger.level = ENV.fetch('LOG_LEVEL', 'info').downcase.to_sym if ENV.fetch('JS_CONSOLE', false)
+# Selenium::WebDriver::Chrome.path = "/usr/bin/chromium" if ENV["CI"] == "true"
 
 Capybara::Screenshot.class_eval do
   register_driver(:poltergeist) do |driver, path|
