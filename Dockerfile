@@ -14,4 +14,5 @@ RUN bundle install --deployment --without development test \
     && apt install -y build-essential libpq-dev nodejs
 
 # Start the application server
-ENTRYPOINT ['./entrypoint.sh']
+ENTRYPOINT ["./entrypoint.sh"]
+CMD ["bundle", "exec", "rails", "server"]
