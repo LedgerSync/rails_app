@@ -1,6 +1,6 @@
 ---
 addons:
-  postgresql: "11.2"
+  postgresql: "9.6"
 services:
   - postgresql
 sudo: false
