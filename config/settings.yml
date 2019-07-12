@@ -6,7 +6,7 @@ adaptors:
 
 add_ons:
   paper_trail: # https://github.com/paper-trail-gem/paper_trail
-    enabled: false # optional
+    enabled: true # optional
   sentry: # https://sentry.io
     enabled: false # optional
     dsn: # required if enabled
