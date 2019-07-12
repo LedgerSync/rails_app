@@ -63,6 +63,13 @@ Config.setup do |config|
             required(:enabled).filled(:bool?)
           end
         end
+
+        required(:sentry).maybe do
+          schema do
+            required(:enabled).filled(:bool?)
+            required(:dsn).maybe(:str?)
+          end
+        end
       end
     end
 
@@ -87,4 +94,16 @@ Config.setup do |config|
       end
     end
   end
+
+  # rule(:dsn, :enabled) do
+  #   key.failure('must be filled') if values[:enabled] == true && values[:dsn].blank?
+  # end
+
+  # block = proc do
+  #   key.failure('must be filled') if values[:enabled] == true && values[:dsn].blank?
+  # end
+
+  # Dry::Validation::Rule.new(keys: { add_ons: [:sentry, :dsn] }, block: block).tap do |rule|
+  #   config.schema.rules << rule
+  # end
 end
