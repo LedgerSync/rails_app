@@ -81,7 +81,7 @@ RSpec.configure do |config|
   Capybara.raise_server_errors = false
 
   Selenium::WebDriver.logger.level = ENV.fetch('LOG_LEVEL', 'info').downcase.to_sym if ENV.fetch('JS_CONSOLE', false)
-  Selenium::WebDriver::Chrome.path = "/usr/bin/chromium" if ENV["CI"] == "true"
+  # Selenium::WebDriver::Chrome.path = "/usr/bin/chromium" if ENV["CI"] == "true"
 
   config.example_status_persistence_file_path = 'tmp/rspec_history.txt'
 
