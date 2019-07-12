@@ -1,17 +1,17 @@
-FROM ruby:2.6.2
+FROM ruby:2.6.2-stretch
 
-RUN apt-get update -qq && apt-get install apt-transport-https
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
-RUN apt-get install -y build-essential libpq-dev nodejs chromedriver
-
-# throw errors if Gemfile has been modified since Gemfile.lock
-RUN bundle config --global frozen 1
-
+# Copy application code
+COPY . /app
+# Change to the application's directory
 WORKDIR /app
 
-COPY Gemfile Gemfile.lock ./
-RUN bundle install
+# Set Rails environment to production
+ENV RAILS_ENV production
 
-COPY . .
+# Install gems, nodejs and precompile the assets
+RUN bundle install --deployment --without development test \
+    && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+    && apt install -y build-essential libpq-dev nodejs
 
-CMD ["bundle", "exec", "rails", "server"]
+# Start the application server
+ENTRYPOINT ['./entrypoint.sh']
