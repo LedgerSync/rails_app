@@ -5,8 +5,11 @@ adaptors:
     oauth_redirect_uri: # required
 
 add_ons:
-  paper_trail:
+  paper_trail: # https://github.com/paper-trail-gem/paper_trail
     enabled: false # optional
+  sentry: # https://sentry.io
+    enabled: false # optional
+    dsn: # required if enabled
 
 api:
   root_secret_key: # required: The API key your application will use to send data to the Ledger Sync App
