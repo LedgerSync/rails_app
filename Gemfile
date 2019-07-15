@@ -9,7 +9,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.2'
 
-gem 'ledger_sync', '1.0.0'
+gem 'ledger_sync'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'bootstrap'
 gem 'coffee-rails', '~> 4.2'
@@ -53,6 +53,7 @@ group :development, :test do
   gem 'dotenv-rails', require: 'dotenv/rails-now'
   gem 'factory_bot_rails', '~> 4.0'
   gem 'hookup'
+  # gem 'ledger_sync', github: 'LedgerSync/ledger_sync', branch: 'master'
   gem 'letter_opener'
   gem 'rspec-rails', '>= 3.4.0'
   gem 'rubocop'

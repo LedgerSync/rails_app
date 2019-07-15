@@ -33,7 +33,10 @@
     - before_application_css_urls.each do |url|
       = stylesheet_link_tag url, media: :all
 
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    - if theme.exists?
+      = stylesheet_link_tag theme.application_stylesheet_asset_path, media: 'all', 'data-turbolinks-track': 'reload'
+    - else
+      = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
 
     - after_application_css_urls = Settings.dig(:customization, :after_application_css_urls) || []
     - after_application_css_urls.each do |url|
@@ -44,17 +47,19 @@
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   %body
     = content_tag :div, "[#{params[:controller]}/#{params[:action]}]", class: 'rspec_eyes_only' if Rails.env.test?
-    %nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
-      .container
-        = link_to root_url, class: 'navbar-brand' do
-          = Settings.application.name
-        = render 'layouts/nav'
-    - if flash.any?
-      .container
-        - flash.each do |key, value|
-          .text-center
-            = content_tag(:div, value.html_safe, class: "alert alert-#{key}")
-    = yield
+    #main-navbar.navbar-underlined
+      %nav.navbar.navbar-expand-lg.navbar-light.fixed-top
+        .container
+          = link_to root_url, class: 'navbar-brand' do
+            .header-name= Settings.application.name
+          = render 'layouts/nav'
+    .application-content
+      - if flash.any?
+        .container
+          - flash.each do |key, value|
+            .text-center
+              = content_tag(:div, value.html_safe, class: "alert alert-#{key}")
+      = yield
     #footer-container
     - if content_for?(:more_js)
       = yield(:more_js)

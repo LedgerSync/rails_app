@@ -83,6 +83,8 @@ Config.setup do |config|
       required(:login_url).maybe(:str?)
       required(:name).filled(:str?)
       required(:mailer_delivery_method).filled(:str?)
+      optional(:theme).maybe(:str?)
+      optional(:webhook_url).maybe(:str?)
     end
 
     optional(:customization).schema do

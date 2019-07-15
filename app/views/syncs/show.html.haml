@@ -1,12 +1,10 @@
-.container.my-5
-  .row.mb-5
-    .col
-      %h1
-        = @sync.title
-        .float-right
-          = render 'shared/status', resource: @sync
+.container
+  %h1
+    = @sync.title
+    .float-right
+      = render 'shared/status', resource: @sync
   - unless @sync.succeeded?
-    .row.my-5
+    .row.mb-5
       .col
         = link_to 'Sync Now', perform_sync_path(@sync), class: 'btn btn-primary', method: :post
   - if @sync.todos.any?
