@@ -7,8 +7,8 @@ describe Util::Router do
 
   it { expect(subject).to respond_to(:login_url) }
 
-  context 'when test=true' do
-    subject { described_class.new(test: true) }
+  describe Util::Router::Test do
+    subject { described_class }
 
     it { expect(subject).not_to respond_to(:login_url) }
   end

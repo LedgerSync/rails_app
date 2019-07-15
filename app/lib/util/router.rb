@@ -4,11 +4,7 @@ module Util
   class Router # :nodoc:
     include Rails.application.routes.url_helpers
 
-    def login_url
-      Settings.application.login_url
-    end
-
-    if Rails.env.test?
+    class Test < self
       instance_methods.map(&:to_s).each do |method|
         next unless method.ends_with?('_url')
 
@@ -16,6 +12,10 @@ module Util
           raise "Method #{method} not available in test.  Please use *_path instead."
         end
       end
+    end
+
+    def login_url
+      Settings.application.login_url
     end
   end
 end

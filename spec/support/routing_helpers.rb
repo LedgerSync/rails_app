@@ -5,7 +5,7 @@ module RoutingHelpers
 
   included do
     def r
-      @r ||= Util::Router.new(test: true)
+      @r ||= Util::Router::Test.new
     end
   end
 end
