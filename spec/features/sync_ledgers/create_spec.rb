@@ -20,7 +20,7 @@ describe 'sync_ledgers/create', js: true, type: :feature do
     click_on 'Sync to Ledger'
     accept_alert
     expect_content 'Test Ledger Adaptor'
-    expect_content 'blocked'
+    expect_content 'BLOCKED'
     expect(SyncLedger.count).to eq(1)
   end
 end

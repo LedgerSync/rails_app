@@ -90,5 +90,5 @@ en:
     title: 'Sync %{type}'
     processing_in_background: 'This sync will be performed in the background. Please refresh in a few moments to check the status.'
   todos:
-    none: 'You do not have any to dos.'
+    none: 'You have no todos 🎉.'
     title: 'Sync %{type} to %{ledger}'

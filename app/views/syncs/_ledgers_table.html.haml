@@ -10,4 +10,4 @@
       %td.text-right
         = form_with url: sync_ledgers_path(sync), method: :post, local: true, data: { confirm: "Are you sure you want to sync this to #{ledger.name}?" } do |f|
           = f.hidden_field :ledger, value: ledger.id
-          = f.submit 'Sync to Ledger', class: 'btn btn-secondary'
+          = f.submit 'Sync to Ledger', class: 'btn btn-primary'

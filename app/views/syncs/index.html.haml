@@ -1,5 +1,5 @@
-.container.my-5
-  %h1.mb-5 Syncs
+.container
+  %h1 Syncs
   - if current_account.syncs_for_index.empty?
     .alert.alert-info You do not have any syncs yet.
   - current_account.syncs_for_index.each do |sync|

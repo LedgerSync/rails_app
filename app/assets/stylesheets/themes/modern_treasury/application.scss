@@ -1,0 +1,138 @@
+// Bootstrap Overrides
+// Media
+$xs-screen-size: 576px;
+$small-screen-size: 768px;
+$medium-screen-size: 992px;
+// Colors
+$primary: #2894A9 !default;
+$secondary: #FBFBFC !default;
+$success: #1CAA78 !default;
+$danger: #DB4545 !default;
+$light: #F0F3ED !default;
+$mt-newblack: #262c35;
+$mt-light-oceanblue: #f1f6f7;
+$mt-white: #fff;
+$mt-newgreen: #28a979;
+$mt-lightestgrey: #f8f8f8;
+@import 'bootstrap';
+@import '../../includes/**/*';
+.alert {
+  border-radius: 4px;
+  padding: 12px 12px 12px 15px;
+}
+
+.alert-info {
+  background-color: $mt-light-oceanblue;
+  border-color: $mt-light-oceanblue;
+  color: $mt-newblack;
+}
+
+.alert-notice {
+  background-color: $mt-newgreen;
+  color: $mt-white;
+}
+
+.alert-danger {
+  background-color: $danger;
+  border-color: $danger;
+  color: $mt-white;
+}
+
+.alert-success {
+  background-color: $mt-newgreen;
+  border-color: $mt-newgreen;
+  color: $mt-white;
+}
+
+.badge {
+  height: 26px;
+  padding: 3px 12px 1px 12px;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 22px;
+  border-radius: 2px;
+  border: none;
+  vertical-align: top;
+}
+
+.application-content {
+  background-color: $mt-lightestgrey;
+  padding: 30px 34px 0 34px;
+  min-height: calc(100vh - 62px);
+  .container {
+    background: $mt-white;
+    padding: 24px 34px;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.07);
+    margin-bottom: 18px;
+  }
+}
+
+.container {
+  h1 {
+    font-size: 24px;
+    font-weight: 400;
+    padding-top: 7px;
+    line-height: 33px;
+    margin-bottom: 16px;
+  }
+  .badge {
+    margin: auto 0;
+  }
+}
+
+.dashboard-info-section {
+  .dashboard-info-content {
+    padding: 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    color: $mt-newblack;
+    background-color: $mt-light-oceanblue;
+  }
+  .header {
+    font-size: 15px;
+    font-weight: 600;
+    padding-bottom: 16px;
+    text-align: center;
+  }
+}
+
+#main-navbar {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  height: 62px;
+  background-color: $mt-white;
+  .navbar {
+    padding: 0;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.07);
+    background-color: $mt-white;
+    max-width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    ;
+  }
+  .navbar-brand {
+    padding: 14.3px 0 14.3px 0;
+  }
+  .navbar-toggler {
+    outline: none;
+    border: none;
+  }
+  .test-mode {
+    color: $success;
+    font-size: 0.75rem;
+    padding-left: 0.25rem;
+  }
+  .header-name {
+    vertical-align: middle;
+  }
+  .header-name {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+  }
+}

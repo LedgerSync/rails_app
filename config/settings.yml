@@ -20,6 +20,7 @@ application:
   host_url: # required: where this app is hosted (e.g. `sync.example.com`)
   mailer_delivery_method: # required
   name: 'Ledger Sync' # required: usually your company name
+  theme: modern_treasury # optional: Name of theme in app/assets/stylesheets/themes
   webhook_url: # optional: URL to which webhooks will be sent
 
 authentication:
