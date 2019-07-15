@@ -42,7 +42,7 @@ describe 'settings/add_ons/paper_trail' do
       expect_content(sync.decorate.title)
       click_on 'Sync to Ledger'
       accept_alert
-      expect_content 'blocked'
+      expect_content 'BLOCKED'
 
       expect(SyncLedger.count).to eq(1)
       sync_ledger = SyncLedger.first
