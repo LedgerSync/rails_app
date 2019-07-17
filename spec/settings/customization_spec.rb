@@ -1,15 +1,11 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-support :klass_helpers,
-        :routing_helpers,
-        :settings_helpers
+support :routing_helpers
 
-describe 'Settings.customizations' do
+describe 'Settings.customizations', type: :settings do
   include Capybara::DSL
-  include KlassHelpers
   include RoutingHelpers
-  include SettingsHelpers
 
   describe '.before_application_css_urls', js: true, type: :feature do
     def expect_before_application_css_urls(*urls)

@@ -1,11 +1,8 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-support :klass_helpers
 
-describe 'settings/add_ons/paper_trail' do
-  include KlassHelpers
-
+describe 'settings/add_ons/paper_trail', :settings do
   it do
     ClimateControl.modify(SETTINGS__ADD_ONS__PAPER_TRAIL__ENABLED: 'true') do
       Settings.reload!

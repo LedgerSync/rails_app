@@ -50,6 +50,7 @@ support :locale_helpers
 support :api_helpers
 support :test_errors
 support :factory_bot
+support :settings_helpers
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
@@ -69,6 +70,7 @@ RSpec.configure do |config|
   config.include AuthenticationHelpers, type: :feature
   config.include Formify::SpecHelpers, type: :form
   config.include APIHelpers, type: :api
+  config.include SettingsHelpers, type: :settings
 
   config.use_transactional_fixtures = false
 
