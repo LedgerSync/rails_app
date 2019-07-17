@@ -138,7 +138,7 @@ RSpec.configure do |config|
 end
 
 Capybara.server = :puma
-Capybara.raise_server_errors = false
+Capybara.raise_server_errors = true
 
 Capybara.register_driver :chrome do |app|
   options = Selenium::WebDriver::Chrome::Options.new(args: %w[no-sandbox headless disable-gpu])

@@ -43,7 +43,8 @@ Config.setup do |config|
 
   # Validate presence and type of specific config values. Check https://github.com/dry-rb/dry-validation for details.
   #
-  config.schema do
+  contract = Class.new(Dry::Validation::Contract)
+  contract.params do
     required(:adaptors).maybe do
       schema do
         required(:quickbooks_online).maybe do
@@ -64,10 +65,10 @@ Config.setup do |config|
           end
         end
 
-        required(:sentry).maybe do
+        optional(:sentry).filled do
           schema do
-            required(:enabled).filled(:bool?)
-            required(:dsn).maybe(:str?)
+            optional(:enabled).maybe(:bool?)
+            optional(:dsn).maybe(:str?)
           end
         end
       end
@@ -82,7 +83,6 @@ Config.setup do |config|
       required(:host_url).filled(:str?)
       required(:login_url).maybe(:str?)
       required(:name).filled(:str?)
-      required(:mailer_delivery_method).filled(:str?)
       optional(:theme).maybe(:str?)
       optional(:webhook_url).maybe(:str?)
     end
@@ -95,17 +95,31 @@ Config.setup do |config|
         each(:str?)
       end
     end
+
+    required(:mailer).filled do
+      schema do
+        required(:delivery_method).filled(:str?)
+        optional(:smtp).filled do
+          schema do
+            required(:address).filled(:str?)
+            required(:authentication).filled(:str?)
+            required(:enable_starttls_auto).filled(:bool?)
+            required(:password).filled(:str?)
+            required(:port).filled(:int?)
+            required(:username).filled(:str?)
+          end
+        end
+      end
+    end
   end
 
-  # rule(:dsn, :enabled) do
-  #   key.failure('must be filled') if values[:enabled] == true && values[:dsn].blank?
-  # end
+  contract.rule(add_ons: [:sentry, :dsn]) do
+    key.failure('must be filled') if values.dig(:add_ons, :sentry, :enabled) == true && values.dig(:add_ons, :sentry, :dsn).blank?
+  end
 
-  # block = proc do
-  #   key.failure('must be filled') if values[:enabled] == true && values[:dsn].blank?
-  # end
+  contract.rule(mailer: [:smtp]) do
+    key.failure('must be filled') if values.dig(:mailer, :delivery_method) == 'smtp' && values.dig(:mailer, :smtp).blank?
+  end
 
-  # Dry::Validation::Rule.new(keys: { add_ons: [:sentry, :dsn] }, block: block).tap do |rule|
-  #   config.schema.rules << rule
-  # end
+  config.validation_contract = contract.new
 end

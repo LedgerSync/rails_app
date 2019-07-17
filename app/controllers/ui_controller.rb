@@ -50,10 +50,4 @@ class UIController < ApplicationController
   def router
     @router ||= Util::Router.new
   end
-
-  def theme
-    @theme ||= Util::Theme.new
-  end
-
-  helper_method :theme
 end

@@ -18,4 +18,10 @@ class ApplicationController < ActionController::Base
       Raven.extra_context(**extra_context)
     end
   end
+
+  def theme
+    @theme ||= Util::Theme.new
+  end
+
+  helper_method :theme
 end

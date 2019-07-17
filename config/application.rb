@@ -22,6 +22,18 @@ module LedgerSyncApp
     config.action_mailer.default_url_options = url_options
     Rails.application.routes.default_url_options = url_options
 
-    config.action_mailer.delivery_method = Settings.application.mailer_delivery_method.try(:to_sym)
+    config.action_mailer.delivery_method = Settings.mailer.delivery_method.to_sym
+
+    case config.action_mailer.delivery_method
+    when :smtp
+      config.action_mailer.smtp_settings = {
+        address: Settings.dig(:mailer, :smtp, :address),
+        port: Settings.dig(:mailer, :smtp, :port),
+        user_name: Settings.dig(:mailer, :smtp, :user_name),
+        password: Settings.dig(:mailer, :smtp, :password),
+        authentication: Settings.dig(:mailer, :smtp, :authentication),
+        enable_starttls_auto: true
+       }
+    end
   end
 end

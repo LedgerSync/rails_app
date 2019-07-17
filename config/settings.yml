@@ -1,34 +1,45 @@
+# Below are the settings for the application.  Nested settings depend on their parents.  If a child is required and its
+# parent is not, the child is only required when the parent is present.
+#
+# See config/settings/*.yml for environment-specific settings (e.g. config/settings/development.yml)
+
 adaptors:
   quickbooks_online:
-    oauth_client_id: # required
-    oauth_client_secret: # required
-    oauth_redirect_uri: # required
+    oauth_client_id:                # required
+    oauth_client_secret:            # required
+    oauth_redirect_uri:             # required
 
 add_ons:
-  paper_trail: # https://github.com/paper-trail-gem/paper_trail
-    enabled: true # optional
-  sentry: # https://sentry.io
-    enabled: false # optional
-    dsn: # required if enabled
+  paper_trail:                      # optional: https://github.com/paper-trail-gem/paper_trail
+    enabled: true                   # - required
+  sentry:                           # optional: https://sentry.io
+    enabled: false                  # - required
+    dsn:                            # - required if enabled
 
 api:
-  root_secret_key: # required: The API key your application will use to send data to the Ledger Sync App
+  root_secret_key:                  # required: The API key your application will use to send data to the Ledger Sync App
 
 application:
-  login_url: # recommended: the url where users will be redirect if authentication is required
-  host_port: # optional
-  host_url: # required: where this app is hosted (e.g. `sync.example.com`)
-  mailer_delivery_method: # required
-  name: 'Ledger Sync' # required: usually your company name
-  theme: modern_treasury # optional: Name of theme in app/assets/stylesheets/themes
-  webhook_url: # optional: URL to which webhooks will be sent
+  login_url:                        # recommended: the url where users will be redirect if authentication is required
+  host_port:                        # optional
+  host_url:                         # required: where this app is hosted (e.g. `sync.example.com`)
+  name: 'Ledger Sync'               # required: usually your company name
+  theme: modern_treasury            # optional: Name of theme in app/assets/stylesheets/themes
+  webhook_url:                      # optional: URL to which webhooks will be sent
 
 authentication:
-  auth_token_valid_for_minutes: 5 # required: number of minutes before an auth token expires
+  auth_token_valid_for_minutes: 5   # required: number of minutes before an auth token expires
 
 customization:
-  after_application_css_urls: # A list of string URLs to style sheets that are to be loaded after the application CSS
-  before_application_css_urls: # A list of string URLs to style sheets that are to be loaded before the application CSS
+  after_application_css_urls:       # A list of string URLs to style sheets that are to be loaded after the application CSS
+  before_application_css_urls:      # A list of string URLs to style sheets that are to be loaded before the application CSS
 
-dev: # Settings that only work in development
-  offline: false # optional: when true, any controller/view blocks wrapped with dev_offline_optional will not be loaded.  Good for when on slow or no internet access.
+mailer:
+  delivery_method:                  # required: letter_opener (only in development), smtp, test (only in test)
+  # smtp:                           # required if delivery_method=smtp
+  #   address:                      # - required
+  #   authentication:               # - required
+  #   enable_starttls_auto: true    # - required
+  #   password:                     # - required
+  #   port:                         # - required
+  #   username:                     # - required

@@ -11,4 +11,5 @@ api:
 application:
   host_url: 'lvh.me'
   host_port: 3000
-  mailer_delivery_method: 'test'
+mailer:
+  delivery_method: 'test'

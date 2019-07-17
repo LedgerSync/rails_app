@@ -14,7 +14,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'bootstrap'
 gem 'coffee-rails', '~> 4.2'
 gem 'colorize'
-gem 'config'
+gem 'config', github: 'ryanwjackson/config', branch: 'dry_validation_contracts'
 gem 'draper'
 gem 'faraday'
 gem 'fast_jsonapi'

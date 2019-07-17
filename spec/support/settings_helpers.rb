@@ -1,6 +1,14 @@
 # frozen_string_literal: true
 
 module SettingsHelpers
+  def expect_invalid_config(config:, message: [])
+    config.validate!
+  rescue StandardError => e
+    expect(e).to be_a(Config::Validation::Error)
+    message = [] unless message.is_a?(Array)
+    message.each { |msg| expect(e.message).to include(msg) } if message.present?
+  end
+
   def deep_to_h(h = Settings.to_h)
     return h unless h.is_a?(Hash) || h.is_a?(Config::Options)
 
@@ -14,12 +22,9 @@ module SettingsHelpers
   def with_settings(settings_changes)
     raise 'Not a hash' unless settings_changes.is_a?(Hash)
 
-    sources = Settings.add_source!(deep_to_h.deep_merge(settings_changes))
-    Settings.reload!
+    Settings.merge!(settings_changes)
 
     yield
-
-    sources.pop
 
     Settings.reload!
     nil
