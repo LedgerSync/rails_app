@@ -137,6 +137,10 @@ RSpec.configure do |config|
   config.around(:each, :with_idempotency, type: :api) do |example|
     with_idempotency { example.run }
   end
+
+  config.before(:each, type: :settings) do |example|
+    Settings.reload!
+  end
 end
 
 Capybara.server = :puma

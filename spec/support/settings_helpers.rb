@@ -2,11 +2,16 @@
 
 module SettingsHelpers
   def expect_invalid_config(config:, message: [])
-    config.validate!
+    val = config.validate!
+    raise "Config did not raise an error and returned: #{val.inspect}"
   rescue StandardError => e
     expect(e).to be_a(Config::Validation::Error)
     message = [] unless message.is_a?(Array)
     message.each { |msg| expect(e.message).to include(msg) } if message.present?
+  end
+
+  def expect_valid_config(config:)
+    expect(config.validate!).to be_nil
   end
 
   def deep_to_h(h = Settings.to_h)

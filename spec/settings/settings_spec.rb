@@ -5,6 +5,17 @@ require 'rails_helper'
 describe 'Settings', type: :settings do
   let(:config) { Settings }
 
+  it { expect_valid_config(config: Settings) }
+  it { expect_valid_config(config: config) }
+
+  it do
+    config.merge!(application: { name: nil })
+    expect_invalid_config(
+      config: config,
+      message: 'application.name'
+    )
+  end
+
   it do
     expect(Settings.application.name).to eq('Ledger Sync')
 
