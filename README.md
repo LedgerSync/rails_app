@@ -246,6 +246,27 @@ To enable, set `Settings.paper_trail.enabled = true`
 
 # Development
 
+## QuickBooks Online
+
+### Setup
+
+Register at https://developer.intuit.com and create new App as below. In `Redirect URIs` enter `http://localhost:3000/qbo/callback` If it says that it's invalid, ignore it and hit save. There is no confirmation, but after refresh it will be persisted.
+
+You will need to set the following ENV vars in your `.env` or local settings YAML:
+
+`SETTINGS__ADAPTORS__QUICKBOOKS_ONLINE__OAUTH_CLIENT_ID`: `Client ID` from App > Keys
+`SETTINGS__ADAPTORS__QUICKBOOKS_ONLINE__OAUTH_CLIENT_SECRET`: `Client Secret` from App > Keys
+`SETTINGS__ADAPTORS__QUICKBOOKS_ONLINE__OAUTH_REDIRECT_URI`: `http://localhost:3000/ledgers/quickbooks_online/callback`
+
+- Access token is issued only for 1h.
+- Refresh token is issued for 100 days.
+- Once Access token expires, you will need to click `Refresh` button that will get you new access token.
+- Each day they generate new refresh token when you try to refresh.
+
+More details about tokens can be found [here](https://help.developer.intuit.com/s/question/0D50f000051WZUGCA4/refresh-token-is-expiring-each-day-instead-of-lasting-100-days)
+
+![2019-04-04 12 26 00](https://user-images.githubusercontent.com/482174/55549323-db5f7600-56d5-11e9-9169-985c5910aa40.gif)
+
 ## Local Gem Configuration
 
 If you are developing on both this project and the `ledger-sync-app-lib`, you may want to set your local Gemfile to use your local gem:
