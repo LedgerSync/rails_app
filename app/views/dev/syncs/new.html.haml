@@ -11,6 +11,8 @@
           %a#sync-invoice-tab.nav-link{"aria-controls" => "invoice", "aria-selected" => "false", "data-toggle" => "tab", :href => "#invoice", :role => "tab"} Invoice
         %li.nav-item
           %a#sync-vendor-tab.nav-link{"aria-controls" => "vendor", "aria-selected" => "false", "data-toggle" => "tab", :href => "#vendor", :role => "tab"} Vendor
+        %li.nav-item
+          %a#sync-purchase-tab.nav-link{"aria-controls" => "purchase", "aria-selected" => "false", "data-toggle" => "tab", :href => "#purchase", :role => "tab"} Purchase
 
       #myTabContent.tab-content
         #home.tab-pane.fade.show.active{"aria-labelledby" => "sync-customer-tab", :role => "tabpanel"}
@@ -38,5 +40,13 @@
             = form_tag dev_syncs_path, method: :post do
               .form-group
                 = text_area_tag :request_body, JSON.pretty_generate(Util::InputHelpers::Vendor.new.sync_request_body(account: current_account)), class: 'w-100 form-control', rows: 10
+              .form-group
+                = submit_tag 'Send', class: 'btn btn-primary form-control'
+        #purchase.tab-pane.fade{"aria-labelledby" => "sync-purchase-tab", :role => "tabpanel"}
+          .my-3
+            %h4 Purchase
+            = form_tag dev_syncs_path, method: :post do
+              .form-group
+                = text_area_tag :request_body, JSON.pretty_generate(Util::InputHelpers::Purchase.new.sync_request_body(account: current_account)), class: 'w-100 form-control', rows: 10
               .form-group
                 = submit_tag 'Send', class: 'btn btn-primary form-control'
