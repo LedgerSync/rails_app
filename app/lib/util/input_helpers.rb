@@ -139,6 +139,9 @@ module Util
         {
           'amount': 1234,
           'currency': 'usd',
+          'transaction_date': '2019-07-25',
+          'payment_type': 'Cash',
+          'memo': 'A memo',
           'vendor': vendor.external_id
         }
       end
