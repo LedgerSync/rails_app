@@ -42,11 +42,11 @@ class LedgerResource < ApplicationRecord
   has_one :account,
           through: :ledger
 
-  has_many :sync_resources,
-           through: :resource
-  has_many :syncs,
-           through: :sync_resources
-  has_many :sync_ledgers,
+  has_many  :sync_resources,
+            through: :resource
+  has_many  :syncs,
+            through: :sync_resources
+  has_many  :sync_ledgers,
             through: :syncs
 
   scope :creates, -> { where(resource_ledger_id: nil).or(where(resource_ledger_id: '')) }

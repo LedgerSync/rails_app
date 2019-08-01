@@ -51,4 +51,25 @@ class SyncLedger < ApplicationRecord
   scope :not_terminated, -> { where.not(status: SyncLedger.statuses.values_at(:succeeded, :failed)) }
   scope :not_succeeded, -> { where.not(status: SyncLedger.statuses.values_at(:succeeded)) }
   scope :not_failed, -> { where.not(status: SyncLedger.statuses.values_at(:failed)) }
+
+  def adaptor
+    Util::AdaptorBuilder.new(ledger: ledger).adaptor
+  end
+
+  def resources_data
+    ret = {}
+
+    ledger_resources.find_each do |ledger_resource|
+      resource = ledger_resource.resource
+      sync_resource = sync_resources.find_by!(sync: sync, resource: resource)
+
+      ret[resource.type] ||= {}
+      ret[resource.type][resource.external_id] = {
+        ledger_id: ledger_resource.resource_ledger_id,
+        data: sync_resource.data
+      }
+    end
+
+    ret
+  end
 end

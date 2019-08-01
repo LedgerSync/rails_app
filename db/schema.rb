@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_17_185851) do
+ActiveRecord::Schema.define(version: 2019_07_24_130620) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,6 +94,15 @@ ActiveRecord::Schema.define(version: 2019_06_17_185851) do
     t.index ["external_id", "type"], name: "index_resources_on_external_id_and_type", unique: true
   end
 
+  create_table "sync_ledger_logs", id: :string, force: :cascade do |t|
+    t.string "action", null: false
+    t.string "sync_ledger_id"
+    t.jsonb "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sync_ledger_id"], name: "index_sync_ledger_logs_on_sync_ledger_id"
+  end
+
   create_table "sync_ledgers", id: :string, force: :cascade do |t|
     t.string "sync_id"
     t.string "ledger_id"
@@ -167,6 +176,7 @@ ActiveRecord::Schema.define(version: 2019_06_17_185851) do
   add_foreign_key "ledgers", "users", column: "connected_by"
   add_foreign_key "ledgers", "users", column: "disconnected_by"
   add_foreign_key "resources", "accounts"
+  add_foreign_key "sync_ledger_logs", "sync_ledgers"
   add_foreign_key "sync_ledgers", "ledgers"
   add_foreign_key "sync_ledgers", "syncs"
   add_foreign_key "sync_resources", "resources"

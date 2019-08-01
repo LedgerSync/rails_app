@@ -39,6 +39,10 @@ FactoryBot.define do
     status { 0 }
     status_message { nil }
 
+    trait :payment do
+      resource_type { 'payment' }
+    end
+
     trait :with_ledger do
       after(:create) do |instance|
         FactoryBot.create(:ledger, account: instance.account)

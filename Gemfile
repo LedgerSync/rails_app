@@ -9,7 +9,6 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.2'
 
-gem 'ledger_sync', '1.0.3'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'bootstrap'
 gem 'coffee-rails', '~> 4.2'
@@ -24,6 +23,7 @@ gem 'haml-rails'
 gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails'
 gem 'kaminari'
+gem 'ledger_sync', '1.0.10'
 gem 'lograge'
 gem 'money-rails'
 gem 'oauth2'
