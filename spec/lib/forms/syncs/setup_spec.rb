@@ -7,7 +7,7 @@ describe Forms::Syncs::Setup, type: :form do
   include Formify::SpecHelpers
 
   let(:ledger) { FactoryBot.create(:ledger) }
-  let(:sync) { FactoryBot.create(:sync, account: ledger.account) }
+  let(:sync) { FactoryBot.create(:sync, organization: ledger.organization) }
   let(:attributes) do
     {
       sync: sync

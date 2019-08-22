@@ -1,8 +1,8 @@
 .container
   %h1 Syncs
-  - if current_account.syncs_for_index.empty?
+  - if current_organization.syncs_for_index.empty?
     .alert.alert-info You do not have any syncs yet.
-  - current_account.syncs_for_index.each do |sync|
+  - current_organization.syncs_for_index.each do |sync|
     .row.mb-5
       .col
         = render 'syncs/card', sync: sync

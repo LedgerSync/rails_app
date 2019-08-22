@@ -18,10 +18,10 @@ class SyncLedgersController < DashboardBaseController
   private
 
   def set_ledger
-    @ledger = current_account.ledgers.object.find(params[:ledger]).decorate
+    @ledger = current_organization.ledgers.object.find(params[:ledger]).decorate
   end
 
   def set_sync
-    @sync = current_account.syncs.find(params[:sync_id]).decorate
+    @sync = current_organization.syncs.find(params[:sync_id]).decorate
   end
 end

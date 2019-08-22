@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-describe 'POST /accounts/:id', type: :api do
-  let(:account) { FactoryBot.create(:account) }
-  let(:external_id) { account.external_id }
-  let(:path) { "accounts/#{external_id}" }
+describe 'POST /organizations/:id', type: :api do
+  let(:organization) { FactoryBot.create(:organization) }
+  let(:external_id) { organization.external_id }
+  let(:path) { "organizations/#{external_id}" }
 
   context 'unsigned request' do
     it 'returns unauthorized' do
@@ -16,13 +16,13 @@ describe 'POST /accounts/:id', type: :api do
 
   context 'when authenticated', :with_authorization do
     it 'finds by od' do
-      api_get "accounts/#{account.id}"
-      expect_object_of_type(:account)
+      api_get "organizations/#{organization.id}"
+      expect_object_of_type(:organization)
     end
 
     it 'finds by external_id' do
       api_get path
-      expect_object_of_type(:account)
+      expect_object_of_type(:organization)
     end
 
     context 'when does not exist' do

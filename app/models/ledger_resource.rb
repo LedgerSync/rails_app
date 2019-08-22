@@ -39,7 +39,7 @@ class LedgerResource < ApplicationRecord
              class_name: 'User',
              required: false
 
-  has_one :account,
+  has_one :organization,
           through: :ledger
 
   has_many  :sync_resources,

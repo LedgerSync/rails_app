@@ -8,7 +8,7 @@ module Forms
 
         attr_accessor :ledger
 
-        delegate_accessor :account,
+        delegate_accessor :organization,
                           :access_token,
                           :expires_at,
                           :refresh_token,
@@ -17,7 +17,7 @@ module Forms
         before_validation :set_kind
 
         validates_presence_of :access_token,
-                              :account,
+                              :organization,
                               :code,
                               :expires_at,
                               :kind,
@@ -34,7 +34,7 @@ module Forms
         end
 
         def save
-          with_advisory_lock_transaction(:accounts, account, :ledgers) do
+          with_advisory_lock_transaction(:organizations, organization, :ledgers) do
             validate_or_fail
               .and_then { create_ledger }
               .and_then { success(ledger) }

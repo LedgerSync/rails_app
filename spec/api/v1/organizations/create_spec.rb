@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-describe 'POST /accounts', type: :api do
-  let(:account) { FactoryBot.create(:account) }
+describe 'POST /organizations', type: :api do
+  let(:organization) { FactoryBot.create(:organization) }
   let(:external_id) { 'an-id' }
-  let(:path) { 'accounts' }
+  let(:path) { 'organizations' }
   let(:params) do
     {
       external_id: external_id,
@@ -22,12 +22,12 @@ describe 'POST /accounts', type: :api do
 
   context 'when authenticated', :with_authorization, :with_idempotency do
     it do
-      expect { api_post path, params: params }.to change(Account, :count).from(0).to(1)
-      expect_object_of_type(:account)
+      expect { api_post path, params: params }.to change(Organization, :count).from(0).to(1)
+      expect_object_of_type(:organization)
     end
 
     context 'when external_id exists' do
-      let(:external_id) { account.external_id }
+      let(:external_id) { organization.external_id }
 
       it do
         api_post path, params: params

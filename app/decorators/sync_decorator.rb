@@ -2,7 +2,7 @@ class SyncDecorator < ApplicationDecorator
   decorates_association :ledgers
 
   def ledgers_not_connected
-    @ledgers_not_connected ||= account.ledgers.where.not(id: ledgers.object.select(:id)).decorate
+    @ledgers_not_connected ||= organization.ledgers.where.not(id: ledgers.object.select(:id)).decorate
   end
 
   def status_color

@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: accounts
+# Table name: organizations
 #
 #  id          :string           not null, primary key
 #  name        :string
@@ -12,14 +12,14 @@
 #
 # Indexes
 #
-#  index_accounts_on_external_id  (external_id) UNIQUE
+#  index_organizations_on_external_id  (external_id) UNIQUE
 #
 
-class Account < ApplicationRecord
+class Organization < ApplicationRecord
   include ExternallyIdentifiable
   include Serializable
 
-  API_OBJECT = 'account'
+  API_OBJECT = 'organization'
   ID_PREFIX = 'acct'
 
   has_many :ledgers
@@ -31,7 +31,7 @@ class Account < ApplicationRecord
   has_many :ledger_resources,
            through: :ledgers
 
-  has_many :account_users
+  has_many :organization_users
   has_many :users,
-            through: :account_users
+            through: :organization_users
 end

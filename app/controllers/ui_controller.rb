@@ -9,11 +9,11 @@ class UIController < ApplicationController
 
   private
 
-  def current_account
-    @current_account ||= current_user.try(:accounts).try(:first).try(:decorate)
+  def current_organization
+    @current_organization ||= current_user.try(:organizations).try(:first).try(:decorate)
   end
 
-  helper_method :current_account
+  helper_method :current_organization
 
   def current_user
     @current_user ||= super.try(:decorate)

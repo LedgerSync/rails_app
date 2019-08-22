@@ -19,6 +19,6 @@ class LedgerResourcesController < DashboardBaseController
   private
 
   def set_ledger_resource
-    @ledger_resource = current_account.ledger_resources.find(params[:id]).decorate
+    @ledger_resource = current_organization.ledger_resources.find(params[:id]).decorate
   end
 end

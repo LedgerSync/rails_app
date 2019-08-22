@@ -2,17 +2,17 @@
 
 require 'rails_helper'
 
-describe 'DELETE /accounts/:account_id/users/:user_id', type: :api do
-  let(:account) { user.accounts.first }
+describe 'DELETE /organizations/:organization_id/users/:user_id', type: :api do
+  let(:organization) { user.organizations.first }
   let(:user) { FactoryBot.create(:user) }
   let(:params) do
     {
-      account: account.id,
+      organization: organization.id,
       user: user.id
     }
   end
 
-  let(:path) { "accounts/#{account.id}/users/#{user.id}" }
+  let(:path) { "organizations/#{organization.id}/users/#{user.id}" }
 
   context 'unsigned request' do
     it 'returns unauthorized' do
@@ -24,8 +24,8 @@ describe 'DELETE /accounts/:account_id/users/:user_id', type: :api do
   context 'when authenticated', :with_authorization do
     it do
       user
-      expect { api_delete path, params: params }.to change(AccountUser, :count).from(1).to(0)
-      expect_object_of_type(:account_user)
+      expect { api_delete path, params: params }.to change(OrganizationUser, :count).from(1).to(0)
+      expect_object_of_type(:organization_user)
     end
   end
 end

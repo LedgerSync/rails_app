@@ -9,7 +9,7 @@ module Util
             redirect_uri: Settings.adaptors.quickbooks_online.oauth_redirect_uri,
             response_type: 'code',
             state: SecureRandom.hex(12),
-            scope: 'com.intuit.quickbooks.accounting'
+            scope: 'com.intuit.quickbooks.organizationing'
           )
         end
 

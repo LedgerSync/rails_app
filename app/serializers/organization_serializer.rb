@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: accounts
+# Table name: organizations
 #
 #  id          :string           not null, primary key
 #  name        :string
@@ -10,8 +10,8 @@
 #
 # Indexes
 #
-#  index_accounts_on_external_id  (external_id) UNIQUE
+#  index_organizations_on_external_id  (external_id) UNIQUE
 #
 
-class AccountSerializer < APIObjectSerializer
+class OrganizationSerializer < APIObjectSerializer
 end

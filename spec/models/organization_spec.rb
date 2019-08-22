@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: accounts
+# Table name: organizations
 #
 #  id          :string           not null, primary key
 #  name        :string
@@ -10,12 +10,11 @@
 #
 # Indexes
 #
-#  index_accounts_on_external_id  (external_id) UNIQUE
+#  index_organizations_on_external_id  (external_id) UNIQUE
 #
 
-FactoryBot.define do
-  factory :account do
-    sequence(:external_id) { |n| "account_external_id_#{n}" }
-    sequence(:name) { |n| "name-#{n}" }
-  end
+require 'rails_helper'
+
+RSpec.describe Organization, type: :model do
+  pending "add some examples to (or delete) #{__FILE__}"
 end

@@ -14,7 +14,7 @@ module Forms
       initialize_with :sync
 
       def save
-        with_advisory_lock_transaction(account, :syncs) do
+        with_advisory_lock_transaction(organization, :syncs) do
           validate_or_fail
             .and_then { perform_sync }
             .and_then { schedule_next_if_succeeded }
@@ -24,13 +24,13 @@ module Forms
 
       private
 
-      delegate  :account,
+      delegate  :organization,
                 :next_sync,
                 :sync_ledgers,
                 to: :sync
 
       delegate  :ledgers,
-                to: :account
+                to: :organization
 
       def schedule_next_if_succeeded
         return success unless sync.succeeded?

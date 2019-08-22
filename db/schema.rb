@@ -10,28 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_24_130620) do
+ActiveRecord::Schema.define(version: 2019_08_22_114638) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "account_users", force: :cascade do |t|
-    t.string "account_id"
-    t.string "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_account_users_on_account_id"
-    t.index ["user_id", "account_id"], name: "index_account_users_on_user_id_and_account_id", unique: true
-    t.index ["user_id"], name: "index_account_users_on_user_id"
-  end
-
-  create_table "accounts", id: :string, force: :cascade do |t|
-    t.string "external_id"
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["external_id"], name: "index_accounts_on_external_id", unique: true
-  end
 
   create_table "auth_tokens", id: :string, force: :cascade do |t|
     t.string "user_id"
@@ -68,7 +50,7 @@ ActiveRecord::Schema.define(version: 2019_07_24_130620) do
 
   create_table "ledgers", id: :string, force: :cascade do |t|
     t.string "kind"
-    t.string "account_id"
+    t.string "organization_id"
     t.string "access_token"
     t.string "refresh_token"
     t.datetime "expires_at"
@@ -78,20 +60,38 @@ ActiveRecord::Schema.define(version: 2019_07_24_130620) do
     t.datetime "disconnected_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_ledgers_on_account_id"
     t.index ["connected_by"], name: "index_ledgers_on_connected_by"
     t.index ["disconnected_at"], name: "index_ledgers_on_disconnected_at"
     t.index ["disconnected_by"], name: "index_ledgers_on_disconnected_by"
+    t.index ["organization_id"], name: "index_ledgers_on_organization_id"
+  end
+
+  create_table "organization_users", force: :cascade do |t|
+    t.string "organization_id"
+    t.string "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_organization_users_on_organization_id"
+    t.index ["user_id", "organization_id"], name: "index_organization_users_on_user_id_and_organization_id", unique: true
+    t.index ["user_id"], name: "index_organization_users_on_user_id"
+  end
+
+  create_table "organizations", id: :string, force: :cascade do |t|
+    t.string "external_id"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["external_id"], name: "index_organizations_on_external_id", unique: true
   end
 
   create_table "resources", id: :string, force: :cascade do |t|
     t.string "external_id"
     t.string "type"
-    t.string "account_id"
+    t.string "organization_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_resources_on_account_id"
     t.index ["external_id", "type"], name: "index_resources_on_external_id_and_type", unique: true
+    t.index ["organization_id"], name: "index_resources_on_organization_id"
   end
 
   create_table "sync_ledger_logs", id: :string, force: :cascade do |t|
@@ -127,7 +127,7 @@ ActiveRecord::Schema.define(version: 2019_07_24_130620) do
   end
 
   create_table "syncs", id: :string, force: :cascade do |t|
-    t.string "account_id"
+    t.string "organization_id"
     t.string "resource_id"
     t.string "resource_type"
     t.string "resource_external_id"
@@ -138,7 +138,7 @@ ActiveRecord::Schema.define(version: 2019_07_24_130620) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.serial "position", null: false
-    t.index ["account_id"], name: "index_syncs_on_account_id"
+    t.index ["organization_id"], name: "index_syncs_on_organization_id"
     t.index ["resource_id"], name: "index_syncs_on_resource_id"
     t.index ["status"], name: "index_syncs_on_status"
   end
@@ -147,12 +147,12 @@ ActiveRecord::Schema.define(version: 2019_07_24_130620) do
     t.string "external_id"
     t.string "email"
     t.boolean "is_admin"
-    t.string "account_id"
+    t.string "organization_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
-    t.index ["account_id"], name: "index_users_on_account_id"
     t.index ["external_id"], name: "index_users_on_external_id", unique: true
+    t.index ["organization_id"], name: "index_users_on_organization_id"
   end
 
   create_table "versions", force: :cascade do |t|
@@ -166,22 +166,22 @@ ActiveRecord::Schema.define(version: 2019_07_24_130620) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
-  add_foreign_key "account_users", "accounts"
-  add_foreign_key "account_users", "users"
   add_foreign_key "auth_tokens", "users"
   add_foreign_key "ledger_resources", "ledgers"
   add_foreign_key "ledger_resources", "resources"
   add_foreign_key "ledger_resources", "users", column: "approved_by_id"
-  add_foreign_key "ledgers", "accounts"
+  add_foreign_key "ledgers", "organizations"
   add_foreign_key "ledgers", "users", column: "connected_by"
   add_foreign_key "ledgers", "users", column: "disconnected_by"
-  add_foreign_key "resources", "accounts"
+  add_foreign_key "organization_users", "organizations"
+  add_foreign_key "organization_users", "users"
+  add_foreign_key "resources", "organizations"
   add_foreign_key "sync_ledger_logs", "sync_ledgers"
   add_foreign_key "sync_ledgers", "ledgers"
   add_foreign_key "sync_ledgers", "syncs"
   add_foreign_key "sync_resources", "resources"
   add_foreign_key "sync_resources", "syncs"
-  add_foreign_key "syncs", "accounts"
+  add_foreign_key "syncs", "organizations"
   add_foreign_key "syncs", "resources"
-  add_foreign_key "users", "accounts"
+  add_foreign_key "users", "organizations"
 end

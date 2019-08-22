@@ -9,7 +9,7 @@ describe Forms::Ledgers::QuickBooksOnline::Create, type: :form do
   let(:attributes) do
     {
       access_token: :ACCESS_TOKEN_VALUE,
-      account: FactoryBot.create(:account),
+      organization: FactoryBot.create(:organization),
       code: :CODE_VALUE,
       expires_at: Time.zone.now + 1.week,
       realm_id: :REALM_ID_VALUE,
@@ -28,8 +28,8 @@ describe Forms::Ledgers::QuickBooksOnline::Create, type: :form do
     it { expect_error_with_missing_attribute(:access_token) }
   end
 
-  describe '#account' do
-    it { expect_error_with_missing_attribute(:account) }
+  describe '#organization' do
+    it { expect_error_with_missing_attribute(:organization) }
   end
 
   describe '#code' do

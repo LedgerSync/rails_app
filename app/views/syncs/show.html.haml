@@ -34,7 +34,7 @@
   .row.mb-3
     .col
       %h3 Ledgers
-      - if @sync.sync_ledgers.blank? && current_account.ledgers.blank?
+      - if @sync.sync_ledgers.blank? && current_organization.ledgers.blank?
         .alert.alert-info= t('ledgers.connect_a_ledger_html', href: link_to('connect a ledger', ledgers_path))
       - else
         = render 'syncs/ledgers_table', sync: @sync

@@ -3,27 +3,27 @@
 require 'rails_helper'
 require 'formify/spec_helpers'
 
-describe Forms::Accounts::AddUser, type: :form do
+describe Forms::Organizations::AddUser, type: :form do
   include Formify::SpecHelpers
 
-  let(:account) { FactoryBot.create(:account) }
-  let(:user) { FactoryBot.create(:user, :without_account) }
+  let(:organization) { FactoryBot.create(:organization) }
+  let(:user) { FactoryBot.create(:user, :without_organization) }
 
   let(:attributes) do
     {
-      account: account,
+      organization: organization,
       user: user
     }
   end
 
   it { expect_valid }
   it { expect(result).to be_success }
-  it { expect(value).to be_a(AccountUser) }
-  it { expect(value.account).to eq(account) }
+  it { expect(value).to be_a(OrganizationUser) }
+  it { expect(value.organization).to eq(organization) }
   it { expect(value.user).to eq(user) }
 
-  describe '#account' do
-    it { expect_error_with_missing_attribute(:account) }
+  describe '#organization' do
+    it { expect_error_with_missing_attribute(:organization) }
   end
 
   describe '#user' do
@@ -31,7 +31,7 @@ describe Forms::Accounts::AddUser, type: :form do
   end
 
   context 'when already added' do
-    let(:account) { user.accounts.first }
+    let(:organization) { user.organizations.first }
     let(:user) { FactoryBot.create(:user) }
 
     it { expect_invalid }

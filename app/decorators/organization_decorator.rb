@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AccountDecorator < Draper::Decorator # :nodoc:
+class OrganizationDecorator < Draper::Decorator # :nodoc:
   delegate_all
 
   def syncs_for_index

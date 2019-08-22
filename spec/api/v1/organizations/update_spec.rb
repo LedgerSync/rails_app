@@ -2,9 +2,9 @@
 
 require 'rails_helper'
 
-describe 'PUT /accounts/:id', type: :api do
-  let(:account) { FactoryBot.create(:account) }
-  let(:path) { "accounts/#{account.external_id}" }
+describe 'PUT /organizations/:id', type: :api do
+  let(:organization) { FactoryBot.create(:organization) }
+  let(:path) { "organizations/#{organization.external_id}" }
   let(:name) { 'new-name' }
 
   let(:params) do
@@ -22,10 +22,10 @@ describe 'PUT /accounts/:id', type: :api do
 
   context 'when authenticated', :with_authorization, :with_idempotency do
     it do
-      expect(account.name).not_to eq(name)
+      expect(organization.name).not_to eq(name)
       api_put path, params: params
-      expect_object_of_type(:account)
-      expect(account.reload.name).to eq(name)
+      expect_object_of_type(:organization)
+      expect(organization.reload.name).to eq(name)
     end
   end
 end

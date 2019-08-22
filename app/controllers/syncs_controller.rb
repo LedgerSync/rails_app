@@ -11,6 +11,6 @@ class SyncsController < DashboardBaseController
   private
 
   def set_sync
-    @sync = current_account.syncs.find(params[:id]).decorate
+    @sync = current_organization.syncs.find(params[:id]).decorate
   end
 end

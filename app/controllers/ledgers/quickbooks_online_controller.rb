@@ -9,7 +9,7 @@ module Ledgers
       )
 
       @ledger_form = Forms::Ledgers::QuickBooksOnline::Create.new(
-        account: current_account,
+        organization: current_organization,
         access_token: resp.token,
         code: params[:code],
         expires_at: Time.try(:at, resp.expires_at).try(:to_datetime),
@@ -69,7 +69,7 @@ module Ledgers
     end
 
     def set_ledger
-      @ledger = current_account
+      @ledger = current_organization
         .ledgers(kind: Util::QuickBooksOnline::KEY)
         .object
         .find(params[:id])

@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
         resources :syncs, only: %i[create show], path: :sync
 
-        resources :accounts, only: %i[create show update] do
+        resources :organizations, only: %i[create show update] do
           member do
             post 'users/:user_id', action: :add_user
             delete 'users/:user_id', action: :remove_user

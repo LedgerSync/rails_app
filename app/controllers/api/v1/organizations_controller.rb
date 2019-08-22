@@ -2,8 +2,8 @@
 
 module API
   module V1
-    class AccountsController < API::V1::BaseController
-      before_action :set_account, only: %i[add_user remove_user show update]
+    class OrganizationsController < API::V1::BaseController
+      before_action :set_organization, only: %i[add_user remove_user show update]
 
       def add_user
         find_user
@@ -13,8 +13,8 @@ module API
       end
 
       def create
-        Forms::Accounts::Create
-          .new(account_create_params)
+        Forms::Organizations::Create
+          .new(organization_create_params)
           .save
           .on_success(&method(:api_render))
           .raise_if_error
@@ -28,14 +28,14 @@ module API
       end
 
       def show
-        api_render(@account)
+        api_render(@organization)
       end
 
       def update
-        Forms::Accounts::Update
+        Forms::Organizations::Update
           .new(
-            account_update_params.merge(
-              account: @account
+            organization_update_params.merge(
+              organization: @organization
             )
           )
           .save
@@ -51,7 +51,7 @@ module API
         ).save
       end
 
-      def account_create_params
+      def organization_create_params
         params
           .permit(
             :external_id,
@@ -59,7 +59,7 @@ module API
           )
       end
 
-      def account_update_params
+      def organization_update_params
         params
           .permit(
             :name
@@ -67,25 +67,25 @@ module API
       end
 
       def do_add_user(user:)
-        Forms::Accounts::AddUser
+        Forms::Organizations::AddUser
           .new(
-            account: @account,
+            organization: @organization,
             user: user
           )
           .save
       end
 
       def do_remove_user(user:)
-        Forms::Accounts::RemoveUser
+        Forms::Organizations::RemoveUser
           .new(
-            account: @account,
+            organization: @organization,
             user: user
           )
           .save
       end
 
-      def set_account
-        @account = Account.find(params[:id], api: true)
+      def set_organization
+        @organization = Organization.find(params[:id], api: true)
       end
     end
   end

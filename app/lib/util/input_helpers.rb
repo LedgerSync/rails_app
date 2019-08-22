@@ -31,9 +31,9 @@ module Util
         }
       end
 
-      def sync_request_body(account: nil)
+      def sync_request_body(organization: nil)
         {
-          account_external_id: account.external_id,
+          organization_external_id: organization.external_id,
           resource_external_id: external_id,
           resource_type: 'customer',
           operation_method: 'upsert',
@@ -76,9 +76,9 @@ module Util
         }
       end
 
-      def sync_request_body(account: nil)
+      def sync_request_body(organization: nil)
         {
-          "account_external_id": account.external_id,
+          "organization_external_id": organization.external_id,
           "resource_external_id": external_id,
           "resource_type": 'payment',
           "operation_method": 'upsert',

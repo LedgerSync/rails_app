@@ -23,11 +23,11 @@ module Forms
 
       private
 
-      delegate :account,
+      delegate :organization,
                to: :sync
 
       delegate :ledgers,
-               to: :account
+               to: :organization
 
       def upsert_sync_ledgers
         ledgers.inject(success) do |result, ledger|
