@@ -24,7 +24,7 @@ class OrganizationUser < ApplicationRecord
   include Serializable
 
   API_OBJECT = 'organization_user'.freeze
-  ID_PREFIX = 'acct_usr'.freeze
+  ID_PREFIX = 'org_usr'.freeze
 
   belongs_to :organization
   belongs_to :user

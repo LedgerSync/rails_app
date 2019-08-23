@@ -20,7 +20,7 @@ class Organization < ApplicationRecord
   include Serializable
 
   API_OBJECT = 'organization'
-  ID_PREFIX = 'acct'
+  ID_PREFIX = 'org'
 
   has_many :ledgers
   has_many :users

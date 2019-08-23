@@ -90,7 +90,7 @@ post "/api/v1/organizations", external_id: 'my-organization-id-1', name: 'Acme C
 # Response
 {
   object: 'organization',
-  id: 'acct_1234567890',
+  id: 'org_1234567890',
   external_id: 'my-organization-id-1',
   name: 'Acme Co.'
 }
@@ -105,7 +105,7 @@ get "/api/v1/organizations/my-organization-id-1"
 # Response
 {
   object: 'organization',
-  id: 'acct_1234567890',
+  id: 'org_1234567890',
   external_id: 'my-organization-id-1',
   name: 'Acme Co.'
 }
@@ -120,7 +120,7 @@ post "/api/v1/organizations/my-organization-id-1", name: 'A Different Co'
 # Response
 {
   object: 'organization',
-  id: 'acct_1234567890',
+  id: 'org_1234567890',
   external_id: 'my-organization-id-1',
   name: 'A Different Co'
 }
@@ -135,7 +135,7 @@ post "/api/v1/organizations/my-organization-id-1/users/usr_123"
 # Response
 {
   object: 'organization_user',
-  organization: 'acct_1234567890',
+  organization: 'org_1234567890',
   user: 'usr_123'
 }
 ```
@@ -149,7 +149,7 @@ delete "/api/v1/organizations/my-organization-id-1/users/usr_123"
 # Response
 {
   object: 'organization_user',
-  organization: 'acct_1234567890',
+  organization: 'org_1234567890',
   user: 'usr_123'
 }
 ```
@@ -168,7 +168,7 @@ post "/api/v1/users", external_id: 'asdf', organization: '456'
 {
   object: 'user',
   id: 'usr_1234567890',
-  organization: 'acct_qwerty',
+  organization: 'org_qwerty',
   ...
 }
 ```
