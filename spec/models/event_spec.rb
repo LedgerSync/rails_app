@@ -1,0 +1,25 @@
+# == Schema Information
+#
+# Table name: events
+#
+#  id                :string           not null, primary key
+#  data              :text
+#  event_object_type :string
+#  type              :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  event_object_id   :string
+#  organization_id   :bigint(8)
+#
+# Indexes
+#
+#  index_events_on_event_object_id_and_event_object_type  (event_object_id,event_object_type)
+#  index_events_on_organization_id                        (organization_id)
+#  index_events_on_type                                   (type)
+#
+
+require 'rails_helper'
+
+RSpec.describe Event, type: :model do
+  pending "add some examples to (or delete) #{__FILE__}"
+end

@@ -25,7 +25,9 @@ application:
   host_url:                         # required: where this app is hosted (e.g. `sync.example.com`)
   name: 'Ledger Sync'               # required: usually your company name
   theme: modern_treasury            # optional: Name of theme in app/assets/stylesheets/themes
-  webhook_url:                      # optional: URL to which webhooks will be sent
+  webhooks:
+    url:                            # optional: URL to which webhooks will be sent
+    key:                            # required if url present: secret key used for signing webhooks
 
 authentication:
   auth_token_valid_for_minutes: 5   # required: number of minutes before an auth token expires
