@@ -31,6 +31,13 @@ describe 'authentication', js: true, type: :feature do
     expect_count '#home-container'
   end
 
+  it 'rediects' do
+    # logs in
+    redirect_url = 'http://lvh.me/asdf'
+    visit r.auth_token_path(auth_token, redirect: redirect_url)
+    expect_path('/asdf')
+  end
+
   context 'when auth_token is expired' do
     before do
       auth_token

@@ -30,6 +30,12 @@ class UIController < ApplicationController
     redirect_to root_url
   end
 
+  def pop_redirect_url(key: :redirect)
+    return session.delete(key) if session.key?(key)
+
+    params[key]
+  end
+
   def prettify(val)
     JSON.parse(val)
     JSON.pretty_generate(val)
@@ -47,7 +53,20 @@ class UIController < ApplicationController
     raise ActionController::BadRequest, 'Bad Request'
   end
 
+  def redirect?(key: :redirect)
+    params.key?(key) || session.key?(key)
+  end
+
+  def redirect_or_to(*args, key: :redirect, **keywords)
+    redirect_to pop_redirect_url(key: key) if redirect?(key: key)
+    redirect_to(*args, **keywords)
+  end
+
   def router
     @router ||= Util::Router.new
+  end
+
+  def store_redirect(key: :redirect)
+    session[key] = params[key]
   end
 end

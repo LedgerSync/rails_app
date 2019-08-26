@@ -22,7 +22,7 @@ module Ledgers
       save_and_render_form(
         form: @ledger_form,
         on_failure: ->(_result) { redirect_to(new_ledgers_quickbooks_online_path) },
-        on_success: ->(result) { redirect_to(ledgers_quickbooks_online_path(result.value)) }
+        on_success: ->(result) { redirect_or_to(ledgers_quickbooks_online_path(result.value)) }
       )
     end
 
@@ -43,6 +43,7 @@ module Ledgers
 
     def new
       @grant_url = Util::QuickBooksOnline.grant_url
+      store_redirect
       redirect_to @grant_url
     end
 
