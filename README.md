@@ -6,11 +6,11 @@ by [Modern Treasury](https://www.moderntreasury.com)
 
 Ledger Sync App is an open source application that allows you to easily sync to any supported accounting software.  This repository is a Ruby on Rails application you can spin up and run on your own servers.  Think of it as the "front end," while the [Ledger Sync App Lib](https://www.github.com/Modern-Treasury/organization-connector-lib) is the underlying worker.
 
-The library handles translating structured data and syncing it to supported organizationing software.  Our goal is to keep this application as generic and lean as possible, not requiring changes with every modification to the library.  The main goals of this app are the following:
+The library handles translating structured data and syncing it to supported accounting software.  Our goal is to keep this application as generic and lean as possible, not requiring changes with every modification to the library.  The main goals of this app are the following:
 
-1. Provide a quick and easy integration to organizationing software.
-2. Enable the user to connect organizationing software.
-3. Pass through any sync requests to the library and record ledger_resources of external objects to objects in the organizationing software.
+1. Provide a quick and easy integration to accounting software.
+2. Enable the user to connect accounting software.
+3. Pass through any sync requests to the library and record ledger_resources of external objects to objects in the accounting software.
 
 As a "provider" of this application to your users, you have the following capabilities:
 
