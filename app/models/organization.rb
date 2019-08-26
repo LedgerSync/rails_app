@@ -16,6 +16,7 @@
 #
 
 class Organization < ApplicationRecord
+  include Identifiable
   include ExternallyIdentifiable
   include Serializable
 

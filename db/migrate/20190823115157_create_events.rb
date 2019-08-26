@@ -5,12 +5,13 @@ class CreateEvents < ActiveRecord::Migration[5.2]
       t.text :data
       t.string :event_object_id
       t.string :event_object_type
-      t.references :organization, index: true
+      t.string :organization_id, index: true
 
 
       t.timestamps
     end
 
     add_index :events, [:event_object_id, :event_object_type]
+    add_foreign_key :events, :organizations
   end
 end

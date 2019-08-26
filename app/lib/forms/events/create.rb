@@ -20,6 +20,8 @@ module Forms
                             :organization,
                             :data
 
+      validate :validate_type
+
       initialize_with :event do
         self.event ||= Event.new
       end
@@ -43,6 +45,12 @@ module Forms
 
       def set_data
         self.data = event_object.try(:serialize).try(:to_json)
+      end
+
+      def validate_type
+        return if Event::REGISTERED_TYPES.include?(type)
+
+        errors.add(:type, 'is not a registered event type.')
       end
     end
   end

@@ -5,15 +5,7 @@ module Eventable # :nodoc:
 
   included do
     def log_event(object:, organization: nil, type:)
-      registered_events = [
-        'sync.created',
-        'sync.deleted',
-        'sync.failed',
-        'sync.succeeded',
-        'sync.updated'
-      ]
-
-      raise "Event type not recognized: #{type}" unless registered_events.include?(type)
+      raise "Event type not recognized: #{type}" unless Event::REGISTERED_TYPES.include?(type)
 
       organization ||= object.organization
 

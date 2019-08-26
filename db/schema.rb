@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 2019_08_23_115157) do
     t.text "data"
     t.string "event_object_id"
     t.string "event_object_type"
-    t.bigint "organization_id"
+    t.string "organization_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["event_object_id", "event_object_type"], name: "index_events_on_event_object_id_and_event_object_type"
@@ -180,6 +180,7 @@ ActiveRecord::Schema.define(version: 2019_08_23_115157) do
   end
 
   add_foreign_key "auth_tokens", "users"
+  add_foreign_key "events", "organizations"
   add_foreign_key "ledger_resources", "ledgers"
   add_foreign_key "ledger_resources", "resources"
   add_foreign_key "ledger_resources", "users", column: "approved_by_id"

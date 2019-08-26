@@ -11,14 +11,14 @@ module EventJobs
       )
 
       form.save
-          .and_then { |event| EventJobs::Emit.perform_asycn(event.id) }
+          .and_then { |event| Resonad.Success(EventJobs::Emit.perform_async(event.id)) }
           .raise_if_error
     end
   end
 
   class Emit < ApplicationJob
     def perform(event_id)
-      Forms::Event::Emit.new(
+      Forms::Events::Emit.new(
         event: Event.find(event_id)
       ).save.raise_if_error
     end
