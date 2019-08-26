@@ -4,6 +4,7 @@ module Forms
   module Syncs
     class UpdateStatus
       include Formify::Form
+      include Eventable
 
       attr_accessor :sync
 
@@ -24,8 +25,16 @@ module Forms
 
         if sync.unapproved_creates?
           sync.update!(status: :blocked)
+          log_event(
+            object: sync,
+            type: 'sync.blocked'
+          )
         else
           sync.update!(status: :queued)
+          log_event(
+            object: sync,
+            type: 'sync.queued'
+          )
         end
 
         success(sync)
