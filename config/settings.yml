@@ -26,8 +26,8 @@ application:
   name: 'Ledger Sync'               # required: usually your company name
   theme: modern_treasury            # optional: Name of theme in app/assets/stylesheets/themes
   webhooks:
-    url:                            # optional: URL to which webhooks will be sent
     key:                            # required if url present: secret key used for signing webhooks
+    url:                            # optional: URL to which webhooks will be sent
 
 authentication:
   auth_token_valid_for_minutes: 5   # required: number of minutes before an auth token expires

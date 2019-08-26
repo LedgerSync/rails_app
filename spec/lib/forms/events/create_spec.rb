@@ -24,11 +24,15 @@ describe Forms::Events::Create, type: :form do
   it { expect(value).to be_a(Event) }
   it { expect(JSON.parse(value.data)).to eq(event_object.serialize) }
 
-  describe '#type' do
-    it { expect_error_with_missing_attribute(:type) }
-  end
-
   describe '#event_object' do
     it { expect_error_with_missing_attribute(:event_object) }
+  end
+
+  describe '#organization' do
+    it { expect_error_with_missing_attribute(:organization) }
+  end
+
+  describe '#type' do
+    it { expect_error_with_missing_attribute(:type) }
   end
 end

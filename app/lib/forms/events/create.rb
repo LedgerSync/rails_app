@@ -13,11 +13,11 @@ module Forms
 
       before_validation :set_data
 
-      validates_presence_of :data,
+      validates_presence_of :event_object,
                             :event,
                             :type,
                             :organization,
-                            :event_object
+                            :data
 
       initialize_with :event do
         self.event ||= Event.new
@@ -41,7 +41,7 @@ module Forms
       end
 
       def set_data
-        self.data = event.serialize.to_json
+        self.data = event_object.try(:serialize).try(:to_json)
       end
     end
   end
