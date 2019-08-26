@@ -27,7 +27,7 @@ module Forms
         @headers ||= {
           'X-Signature' => signature,
           'Content-Type' => 'application/json',
-          'X-Organization-ID' => id,
+          'X-Organization-ID' => organization.id,
           'X-Event-ID' => id
         }
       end
@@ -35,7 +35,7 @@ module Forms
       def emit
         return success(event) unless url.present?
 
-        response = HTTP.headers(headers).post(url, body: data)
+        response = HTTP.headers(headers).post(url, body: serialized_event_json_string)
         status = response.status
 
         return failure(status.inspect) unless status.success?
@@ -43,8 +43,12 @@ module Forms
         success(event)
       end
 
+      def serialized_event_json_string
+        @serialized_event_json_string ||= event.serialize.to_json
+      end
+
       def signature
-        @signature ||= Util::WebhookSigner.new(data: data)
+        @signature ||= Util::WebhookSigner.new(data: serialized_event_json_string).signature
       end
 
       def url
