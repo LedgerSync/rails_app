@@ -2,23 +2,23 @@
 #
 # Table name: users
 #
-#  id          :string           not null, primary key
-#  email       :string
-#  is_admin    :boolean
-#  name        :string
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  account_id  :string
-#  external_id :string
+#  id              :string           not null, primary key
+#  email           :string
+#  is_admin        :boolean
+#  name            :string
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  external_id     :string
+#  organization_id :string
 #
 # Indexes
 #
-#  index_users_on_account_id   (account_id)
-#  index_users_on_external_id  (external_id) UNIQUE
+#  index_users_on_external_id      (external_id) UNIQUE
+#  index_users_on_organization_id  (organization_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (account_id => accounts.id)
+#  fk_rails_...  (organization_id => organizations.id)
 #
 
 FactoryBot.define do
@@ -28,16 +28,16 @@ FactoryBot.define do
     sequence(:email) { |n| "user-#{n}@example.com" }
 
     after(:create) do |instance|
-      instance.account_users << FactoryBot.create(:account_user, account: first_or_create(:account), user: instance) if instance.accounts.empty?
+      instance.organization_users << FactoryBot.create(:organization_user, organization: first_or_create(:organization), user: instance) if instance.organizations.empty?
     end
 
     trait :admin do
       is_admin { true }
     end
 
-    trait :without_account do
+    trait :without_organization do
       after(:create) do |instance|
-        instance.account_users.destroy_all
+        instance.organization_users.destroy_all
       end
     end
   end

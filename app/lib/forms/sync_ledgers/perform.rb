@@ -21,13 +21,11 @@ module Forms
       initialize_with :sync_ledger
 
       def save
-        with_advisory_lock_transaction(:sync_ledgers, sync_ledger) do
+        with_advisory_lock(:sync_ledgers, sync_ledger) do
           validate_or_fail
             .and_then { sync_to_ledger }
-            .and_then { save_new_ledger_resources }
-            .and_then { update_local_ledger }
-            .on_success { update_sync_ledger_status(:success) }
-            .on_failure { update_sync_ledger_status(:failure) }
+            .on_success { sync_ledger.update!(status: :succeeded) }
+            .on_failure { sync_ledger.update!(status: :failed) }
             .and_then { success(sync_ledger) }
         end
       end
@@ -39,16 +37,12 @@ module Forms
                 :sync_resources,
                 to: :sync_ledger
 
-      delegate :ledger_resources,
+      delegate  :ledger_resources,
                 to: :sync
-
-      def adaptor
-        @adaptor ||= Util::AdaptorBuilder.new(ledger: ledger).adaptor
-      end
 
       def lib_sync
         @lib_sync ||= LedgerSync::Sync.new(
-          adaptor: adaptor,
+          adaptor: sync_ledger.adaptor,
           method: sync.operation_method,
           resources_data: resources_data,
           resource_external_id: sync.resource_external_id,
@@ -56,67 +50,49 @@ module Forms
         )
       end
 
-      def lib_sync_result
-        @lib_sync_result = lib_sync.perform
-      end
-
-      def operations
-        @operations ||= lib_sync.operations
+      def log(action:, data:)
+        SyncLedgerLogs::Create.new(
+          action: action,
+          data: data,
+          sync_ledger: sync_ledger
+        ).save.raise_if_error
       end
 
       def resources_data
-        @resources_data ||= begin
-          ret = {}
-
-          ledger_resources.each do |ledger_resource|
-            resource = ledger_resource.resource
-            sync_resource = sync_resources.find_by!(sync: sync, resource: resource)
-
-            ret[resource.type] ||= {}
-            ret[resource.type][resource.external_id] = {
-              ledger_id: ledger_resource.resource_ledger_id,
-              data: sync_resource.data
-            }
-          end
-
-          ret
-        end
+        @resources_data ||= sync_ledger.resources_data
       end
 
       def save_new_ledger_resources
-        lib_sync_result.sync.operations.inject(success) do |result, op|
-          result.and_then do
-            resource = op.resource
-            Forms::LedgerResources::UpsertLedgerID
-              .new(
-                ledger: ledger,
-                resource_external_id: resource.external_id,
-                resource_ledger_id: resource.ledger_id,
-                resource_type: resource.class.resource_type
-              )
-              .save
-          end
+        @lib_sync_result.sync.operations.each do |op|
+          resource = op.resource
+          Forms::LedgerResources::UpsertLedgerID
+            .new(
+              ledger: ledger,
+              resource_external_id: resource.external_id,
+              resource_ledger_id: resource.ledger_id,
+              resource_type: resource.class.resource_type
+            )
+            .save
+            .on_failure { log(action: :sync, data: op.serialize) }
         end
-      end
-
-      def sync_to_ledger
-        lib_sync_result
-      end
-
-      def update_local_ledger
-        return success if adaptor.ledger_attributes_to_save.blank?
-
-        ledger.update!(adaptor.ledger_attributes_to_save)
-
         success
       end
 
-      def update_sync_ledger_status(status)
-        if status == :success
-          sync_ledger.update!(status: :succeeded)
-        else
-          sync_ledger.update!(status: :failed)
-        end
+      def sync_to_ledger
+        @lib_sync_result = lib_sync.perform
+
+        log(action: :sync, data: @lib_sync_result.serialize)
+        save_new_ledger_resources
+        update_local_ledger
+
+        @lib_sync_result
+      end
+
+      def update_local_ledger
+        return success if sync_ledger.adaptor.ledger_attributes_to_save.blank?
+
+        ledger.update!(lib_sync.adaptor.ledger_attributes_to_save)
+        success
       end
 
       def upsert_resources

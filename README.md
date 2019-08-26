@@ -4,7 +4,7 @@ by [Modern Treasury](https://www.moderntreasury.com)
 [![Build Status](https://travis-ci.org/LedgerSync/temp_app.svg?branch=master)](https://travis-ci.org/LedgerSync/temp_app)
 [![Coverage Status](https://coveralls.io/repos/github/LedgerSync/temp_app/badge.svg?branch=master)](https://coveralls.io/github/LedgerSync/temp_app?branch=master)
 
-Ledger Sync App is an open source application that allows you to easily sync to any supported accounting software.  This repository is a Ruby on Rails application you can spin up and run on your own servers.  Think of it as the "front end," while the [Ledger Sync App Lib](https://www.github.com/Modern-Treasury/account-connector-lib) is the underlying worker.
+Ledger Sync App is an open source application that allows you to easily sync to any supported accounting software.  This repository is a Ruby on Rails application you can spin up and run on your own servers.  Think of it as the "front end," while the [Ledger Sync App Lib](https://www.github.com/Modern-Treasury/organization-connector-lib) is the underlying worker.
 
 The library handles translating structured data and syncing it to supported accounting software.  Our goal is to keep this application as generic and lean as possible, not requiring changes with every modification to the library.  The main goals of this app are the following:
 
@@ -14,14 +14,14 @@ The library handles translating structured data and syncing it to supported acco
 
 As a "provider" of this application to your users, you have the following capabilities:
 
-1. Create and manage accounts.
-2. Create, manage, and associate users to accounts.
+1. Create and manage organizations.
+2. Create, manage, and associate users to organizations.
 3. Authenticate users to the application.
 4. Sync data
 
 # Supported Ledgers
 
-This application is designed to require minimal modifications with updates to the library.  When a new ledger is added, this application will need to be updated to support connecting to the new ledger.  Please see the [Ledger Sync App Lib](https://www.github.com/Modern-Treasury/account-connector-lib) for the ledger-specific support, as one ledger may support syncing an object (e.g. Invoice) while another may not.
+This application is designed to require minimal modifications with updates to the library.  When a new ledger is added, this application will need to be updated to support connecting to the new ledger.  Please see the [Ledger Sync App Lib](https://www.github.com/Modern-Treasury/organization-connector-lib) for the ledger-specific support, as one ledger may support syncing an object (e.g. Invoice) while another may not.
 
 #3 QuickBooks Online
 
@@ -71,7 +71,7 @@ An error will be raised if the same key is used but the request body does not ma
 
 Most objects in the API require and `external_id` attribute.  You can then use these interchangeably with the application's auto-generated random IDs.  The only constraint for `external_id` is that it cannot start with the same prefix as the application `id`.  For example, all user `id`s start with `usr_`.  Your `external_id` may not start with `usr_` to protect from any unintentional collisions.
 
-This feature affords you the ability to not require storing IDs in your database for objects like accounts and users.
+This feature affords you the ability to not require storing IDs in your database for objects like organizations and users.
 
 Please note that while you may use `external_id` or `id` interchangeably (unless otherwise specified), the API will always return the `id` attribute (e.g. the `url` attribute of `auth_token` objects will use `id`).
 
@@ -79,77 +79,77 @@ Please note that while you may use `external_id` or `id` interchangeably (unless
 
 All of the following routes are relative to the `Settings.application.host_url` supplied in the settings.
 
-## Accounts
+## Organizations
 
-### Create an account
+### Create an organization
 
 ```ruby
 # Request
-post "/api/v1/accounts", external_id: 'my-account-id-1', name: 'Acme Co.'
+post "/api/v1/organizations", external_id: 'my-organization-id-1', name: 'Acme Co.'
 
 # Response
 {
-  object: 'account',
-  id: 'acct_1234567890',
-  external_id: 'my-account-id-1',
+  object: 'organization',
+  id: 'org_1234567890',
+  external_id: 'my-organization-id-1',
   name: 'Acme Co.'
 }
 ```
 
-### Retrieve an account
+### Retrieve an organization
 
 ```ruby
 # Request
-get "/api/v1/accounts/my-account-id-1"
+get "/api/v1/organizations/my-organization-id-1"
 
 # Response
 {
-  object: 'account',
-  id: 'acct_1234567890',
-  external_id: 'my-account-id-1',
+  object: 'organization',
+  id: 'org_1234567890',
+  external_id: 'my-organization-id-1',
   name: 'Acme Co.'
 }
 ```
 
-### Update an account
+### Update an organization
 
 ```ruby
 # Request
-post "/api/v1/accounts/my-account-id-1", name: 'A Different Co'
+post "/api/v1/organizations/my-organization-id-1", name: 'A Different Co'
 
 # Response
 {
-  object: 'account',
-  id: 'acct_1234567890',
-  external_id: 'my-account-id-1',
+  object: 'organization',
+  id: 'org_1234567890',
+  external_id: 'my-organization-id-1',
   name: 'A Different Co'
 }
 ```
 
-### Add user to account
+### Add user to organization
 
 ```ruby
 # Request
-post "/api/v1/accounts/my-account-id-1/users/usr_123"
+post "/api/v1/organizations/my-organization-id-1/users/usr_123"
 
 # Response
 {
-  object: 'account_user',
-  account: 'acct_1234567890',
+  object: 'organization_user',
+  organization: 'org_1234567890',
   user: 'usr_123'
 }
 ```
 
-### Remove user to account
+### Remove user to organization
 
 ```ruby
 # Request
-delete "/api/v1/accounts/my-account-id-1/users/usr_123"
+delete "/api/v1/organizations/my-organization-id-1/users/usr_123"
 
 # Response
 {
-  object: 'account_user',
-  account: 'acct_1234567890',
+  object: 'organization_user',
+  organization: 'org_1234567890',
   user: 'usr_123'
 }
 ```
@@ -158,17 +158,17 @@ delete "/api/v1/accounts/my-account-id-1/users/usr_123"
 
 ### Create a user
 
-Creates a user associated with the given account.
+Creates a user associated with the given organization.
 
 ```ruby
 # Request
-post "/api/v1/users", external_id: 'asdf', account: '456'
+post "/api/v1/users", external_id: 'asdf', organization: '456'
 
 # Response
 {
   object: 'user',
   id: 'usr_1234567890',
-  account: 'acct_qwerty',
+  organization: 'org_qwerty',
   ...
 }
 ```
@@ -206,7 +206,7 @@ Redirect a user to the `url` of the created `auth_token`.
 ```ruby
 # Request
 post "/api/v1/syncs", {
-  account: 'your_or_our_id',
+  organization: 'your_or_our_id',
   resource_external_id: 'your_cus_id',
   resource_type: 'customer',
   operation_method: 'upsert',

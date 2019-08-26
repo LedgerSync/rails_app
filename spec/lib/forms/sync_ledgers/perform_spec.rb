@@ -9,6 +9,7 @@ describe Forms::SyncLedgers::Perform, type: :form do
   let(:sync_ledger) { FactoryBot.create(:sync_ledger) }
   let(:sync) { sync_ledger.sync }
   let(:ledger) { sync_ledger.ledger }
+  let(:adaptor) { sync_ledger.adaptor }
 
   let(:attributes) do
     {
@@ -30,4 +31,21 @@ describe Forms::SyncLedgers::Perform, type: :form do
   it { expect_valid }
   it { expect(result).to be_success }
   it { expect(value).to be_a(SyncLedger) }
+  it { expect { value }.to change(SyncLedgerLog, :count).from(0).to(1) }
+
+  xit 'saves even if failed' do
+    lib_sync = LedgerSync::Sync.new(
+      adaptor: adaptor,
+      method: sync.operation_method,
+      resources_data: sync_ledger.resources_data,
+      resource_external_id: sync.resource_external_id,
+      resource_type: sync.resource_type
+    )
+    expect(lib_sync.operations.count).to eq(2)
+    raise NotImplementedError
+  end
+
+  xit 'creates a log for each attempt' do
+    raise NotImplementedError
+  end
 end

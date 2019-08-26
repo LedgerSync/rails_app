@@ -15,20 +15,20 @@
 #  refresh_token   :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  account_id      :string
+#  organization_id :string
 #
 # Indexes
 #
-#  index_ledgers_on_account_id       (account_id)
 #  index_ledgers_on_connected_by     (connected_by)
 #  index_ledgers_on_disconnected_at  (disconnected_at)
 #  index_ledgers_on_disconnected_by  (disconnected_by)
+#  index_ledgers_on_organization_id  (organization_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (account_id => accounts.id)
 #  fk_rails_...  (connected_by => users.id)
 #  fk_rails_...  (disconnected_by => users.id)
+#  fk_rails_...  (organization_id => organizations.id)
 #
 
 class Ledger < ApplicationRecord
@@ -37,7 +37,7 @@ class Ledger < ApplicationRecord
   API_OBJECT = 'ledger'
   ID_PREFIX = 'ldgr'
 
-  belongs_to :account
+  belongs_to :organization
 
   has_many :sync_ledgers
   has_many :syncs,

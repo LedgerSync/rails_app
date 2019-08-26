@@ -23,13 +23,13 @@ module Forms
 
       private
 
-      delegate  :account,
+      delegate  :organization,
                 :references,
                 :resources,
                 to: :sync
 
       delegate  :ledgers,
-                to: :account
+                to: :organization
 
       def upsert_resources
         references.inject(success) do |type_result, (resource_type, type_references)|
@@ -37,7 +37,7 @@ module Forms
             type_references.inject(success) do |reference_result, (resource_external_id, reference)|
               reference_result.and_then do
                 result = Forms::Resources::Upsert.new(
-                  account: account,
+                  organization: organization,
                   external_id: resource_external_id,
                   type: resource_type
                 ).save

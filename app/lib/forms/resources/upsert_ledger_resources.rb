@@ -19,11 +19,11 @@ module Forms
 
       private
 
-      delegate  :account,
+      delegate  :organization,
                 to: :resource
 
       delegate  :ledgers,
-                to: :account
+                to: :organization
 
       def upsert_ledger_resource_resource
         ledgers.inject(success) do |result, ledger|

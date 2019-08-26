@@ -6,7 +6,7 @@ describe 'settings/add_ons/paper_trail', :settings do
   it do
     ClimateControl.modify(SETTINGS__ADD_ONS__PAPER_TRAIL__ENABLED: 'true') do
       Settings.reload!
-      # Creates a User, Account, and AccountUser
+      # Creates a User, Organization, and OrganizationUser
       expect { FactoryBot.create(:user) }.to change(PaperTrail::Version, :count).from(0).to(3)
     end
     Settings.reload!

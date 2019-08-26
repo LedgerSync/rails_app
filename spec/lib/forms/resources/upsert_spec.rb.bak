@@ -11,7 +11,7 @@ describe Forms::Resources::Upsert, type: :form do
   # You can override these in blocks or use let(:attributes_override) { { foo: bar } }
   let(:attributes) do
     {
-      account: ACCOUNT_VALUE,
+      organization: ACCOUNT_VALUE,
       external_id: EXTERNAL_ID_VALUE,
       resource: RESOURCE_VALUE,
       type: TYPE_VALUE
@@ -22,10 +22,10 @@ describe Forms::Resources::Upsert, type: :form do
   it { expect(result).to be_success }
   it { expect(value).to be_a(Resource) } # Model name inferred
 
-  describe '#account' do
-    it { expect_error_with_missing_attribute(:account) }
-    xit { expect_error_with_attribute_value(:account, ACCOUNT_BAD_VALUE, message: nil) } # :message is optional
-    xit { expect_valid_with_attribute_value(:account, ACCOUNT_GOOD_VALUE) }
+  describe '#organization' do
+    it { expect_error_with_missing_attribute(:organization) }
+    xit { expect_error_with_attribute_value(:organization, ACCOUNT_BAD_VALUE, message: nil) } # :message is optional
+    xit { expect_valid_with_attribute_value(:organization, ACCOUNT_GOOD_VALUE) }
   end
 
   describe '#external_id' do

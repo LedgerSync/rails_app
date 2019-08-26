@@ -7,26 +7,26 @@ module Forms
 
       attr_accessor :resource
 
-      delegate_accessor :account,
+      delegate_accessor :organization,
                         :external_id,
                         :type,
                         to: :resource
 
-      validates_presence_of :account,
+      validates_presence_of :organization,
                             :external_id,
                             :resource,
                             :type
 
       initialize_with :resource do |attributes|
         self.resource ||= Resource.find_or_initialize_by(
-          account: attributes[:account],
+          organization: attributes[:organization],
           external_id: attributes[:external_id],
           type: attributes[:type]
         )
       end
 
       def save
-        with_advisory_lock_transaction(:account, account, :resources, resource) do
+        with_advisory_lock_transaction(:organization, organization, :resources, resource) do
           validate_or_fail
             .and_then { upsert_resource }
             .and_then { success(resource) }

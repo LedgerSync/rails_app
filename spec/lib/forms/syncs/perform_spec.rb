@@ -34,7 +34,7 @@ describe Forms::Syncs::Perform, type: :form do
   end
 
   context 'when next sync' do
-    let(:next_sync) { FactoryBot.create(:sync, account: sync.account) }
+    let(:next_sync) { FactoryBot.create(:sync, organization: sync.organization) }
 
     before { next_sync }
 

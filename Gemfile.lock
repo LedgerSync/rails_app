@@ -152,7 +152,7 @@ GEM
       dry-initializer (~> 3.0)
       dry-logic (~> 1.0)
       dry-types (~> 1.0)
-    dry-types (1.1.0)
+    dry-types (1.1.1)
       concurrent-ruby (~> 1.0)
       dry-container (~> 0.3)
       dry-core (~> 0.4, >= 0.4.4)
@@ -259,7 +259,7 @@ GEM
     kaminari-core (1.1.1)
     launchy (2.4.3)
       addressable (~> 2.3)
-    ledger_sync (1.0.3)
+    ledger_sync (1.0.10)
       colorize
       coveralls
       dry-schema
@@ -553,7 +553,7 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   jquery-rails
   kaminari
-  ledger_sync (= 1.0.3)
+  ledger_sync (= 1.0.10)
   letter_opener
   listen (>= 3.0.5, < 3.2)
   lograge

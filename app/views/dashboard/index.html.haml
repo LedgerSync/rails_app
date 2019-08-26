@@ -1,6 +1,6 @@
 #dashboard-container.container.my-5
   %h1.mb-5 Dashboard
-  - unless current_account.ledger_connected?
+  - unless current_organization.ledger_connected?
     .alert.alert-info.my-5= t('ledgers.connect_a_ledger_html', href: link_to('connect a ledger', ledgers_path))
   .dashboard-info-section
     .col.border.rounded.p-3

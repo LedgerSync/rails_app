@@ -13,19 +13,19 @@
 #  status_message       :text
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
-#  account_id           :string
+#  organization_id      :string
 #  resource_external_id :string
 #  resource_id          :string
 #
 # Indexes
 #
-#  index_syncs_on_account_id   (account_id)
-#  index_syncs_on_resource_id  (resource_id)
-#  index_syncs_on_status       (status)
+#  index_syncs_on_organization_id  (organization_id)
+#  index_syncs_on_resource_id      (resource_id)
+#  index_syncs_on_status           (status)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (account_id => accounts.id)
+#  fk_rails_...  (organization_id => organizations.id)
 #  fk_rails_...  (resource_id => resources.id)
 #
 
@@ -43,7 +43,7 @@ class Sync < ApplicationRecord
     failed: 3
   }
 
-  belongs_to :account
+  belongs_to :organization
   belongs_to :resource,
               required: false
 
@@ -69,11 +69,11 @@ class Sync < ApplicationRecord
   scope :not_failed, -> { where.not(status: Sync.statuses.values_at(:failed)) }
 
   def next_sync
-    account.syncs.where('position > ?', position).order(position: :asc).first
+    organization.syncs.where('position > ?', position).order(position: :asc).first
   end
 
   def parents
-    account
+    organization
       .syncs
       .where('position < ?', position)
   end

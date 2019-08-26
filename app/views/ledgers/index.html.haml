@@ -5,7 +5,7 @@
       = link_to new_ledgers_quickbooks_online_path, class: 'btn btn-primary' do
         Connect QuickBooks
 
-  - current_account.ledgers.each do |ledger|
+  - current_organization.ledgers.each do |ledger|
     .row
       .col
         = render 'ledgers/card', ledger: ledger

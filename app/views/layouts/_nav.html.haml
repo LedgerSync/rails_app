@@ -10,9 +10,9 @@
         Syncs
     - if current_user
       %li.nav-item.dropdown
-        %a#account-dropdown.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "http://example.com"}
-          Account
-        .dropdown-menu{"aria-labelledby" => "account-dropdown"}
+        %a#organization-dropdown.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "http://example.com"}
+          Organization
+        .dropdown-menu{"aria-labelledby" => "organization-dropdown"}
           -# = link_to 'Settings',settings_profile_path, class: 'dropdown-item'
           - if current_user.is_admin?
             -# = link_to 'Admin', admin_root_path, class: 'dropdown-item', target: '_blank'

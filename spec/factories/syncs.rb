@@ -11,19 +11,19 @@
 #  status_message       :text
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
-#  account_id           :string
+#  organization_id      :string
 #  resource_external_id :string
 #  resource_id          :string
 #
 # Indexes
 #
-#  index_syncs_on_account_id   (account_id)
-#  index_syncs_on_resource_id  (resource_id)
-#  index_syncs_on_status       (status)
+#  index_syncs_on_organization_id  (organization_id)
+#  index_syncs_on_resource_id      (resource_id)
+#  index_syncs_on_status           (status)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (account_id => accounts.id)
+#  fk_rails_...  (organization_id => organizations.id)
 #  fk_rails_...  (resource_id => resources.id)
 #
 
@@ -31,7 +31,7 @@
 FactoryBot.define do
   factory :sync do
     sequence(:id) { |n| "sync_#{n}" }
-    account { first_or_create(:account) }
+    organization { first_or_create(:organization) }
     sequence(:resource_external_id) { |n| "external_id_#{n}" }
     resource_type { 'customer' }
     operation_method { 'upsert' }
@@ -39,9 +39,13 @@ FactoryBot.define do
     status { 0 }
     status_message { nil }
 
+    trait :payment do
+      resource_type { 'payment' }
+    end
+
     trait :with_ledger do
       after(:create) do |instance|
-        FactoryBot.create(:ledger, account: instance.account)
+        FactoryBot.create(:ledger, organization: instance.organization)
       end
     end
   end

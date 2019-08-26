@@ -26,7 +26,7 @@ module API
       def sync_create_params
         params
           .permit(
-            :account_external_id,
+            :organization_external_id,
             :operation_method,
             :resource_external_id,
             :resource_type,
