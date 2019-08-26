@@ -4,6 +4,7 @@ module Forms
   module Events
     class Create
       include Formify::Form
+
       attr_accessor :event
 
       delegate_accessor :type,

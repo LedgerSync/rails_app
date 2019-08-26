@@ -4,6 +4,7 @@ module Forms
   module Syncs
     class Create
       include Formify::Form
+      include Eventable
 
       attr_accessor :organization_external_id,
                     :sync
@@ -33,6 +34,7 @@ module Forms
         with_advisory_lock_transaction(:syncs, organization, :create) do
           validate_or_fail
             .and_then { create_sync }
+            .and_then { emit }
             .and_then { schedule_upsert_references }
             .and_then { success(sync) }
         end
@@ -42,6 +44,14 @@ module Forms
 
       def create_sync
         sync.save!
+        success(sync)
+      end
+
+      def emit
+        log_event(
+          object: sync,
+          type: 'sync.created'
+        )
         success(sync)
       end
 

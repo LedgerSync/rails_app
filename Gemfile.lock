@@ -231,8 +231,15 @@ GEM
       nokogiri (>= 1.6.0)
       ruby_parser (~> 3.5)
     htmlentities (4.3.4)
+    http (4.1.1)
+      addressable (~> 2.3)
+      http-cookie (~> 1.0)
+      http-form_data (~> 2.0)
+      http_parser.rb (~> 0.6.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
+    http-form_data (2.1.1)
+    http_parser.rb (0.6.0)
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
     iniparse (1.4.4)
@@ -550,6 +557,7 @@ DEPENDENCIES
   guard-rspec
   haml-rails
   hookup
+  http
   jbuilder (~> 2.5)
   jquery-rails
   kaminari

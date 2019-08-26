@@ -10,24 +10,26 @@ describe Util::WebhookSigner do
 
   subject { described_class.new(data: data) }
 
-  it { expect { subject }.to raise_error }
+  let(:key) { Settings.application.webhooks.key }
 
-  context 'with key' do
-    let(:key) { 'asdf' }
+  it { expect(Settings.application.webhooks.key).to be_present }
+  it { expect(Settings.application.webhooks.url).to be_present }
+  it { expect(subject.key).to eq(key) }
+  it { expect(subject.signature).to eq(OpenSSL::HMAC.hexdigest('SHA256', key, data.to_s)) }
 
+  context 'without key' do
     around do |example|
-      with_settings(application: { webhooks: { key: key } }) do
+      with_settings(application: { webhooks: { key: nil } }) do
         example.run
       end
     end
 
-    it { expect(subject.key).to eq('asdf') }
-    it { expect(subject.signature).to eq(OpenSSL::HMAC.hexdigest('SHA256', key, data.to_s)) }
+    it { expect { subject }.to raise_error }
+  end
 
-    context 'without data as string' do
-      let(:data) { {} }
+  context 'without data as string' do
+    let(:data) { {} }
 
-      it { expect { subject }.to raise_error }
-    end
+    it { expect { subject }.to raise_error }
   end
 end

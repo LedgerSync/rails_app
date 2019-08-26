@@ -4,6 +4,7 @@ module Forms
   module Syncs
     class Perform
       include Formify::Form
+      include Eventable
 
       attr_accessor :sync
 
@@ -32,6 +33,26 @@ module Forms
       delegate  :ledgers,
                 to: :organization
 
+      def mark_failure
+        sync.update!(status: :failed)
+
+        log_event(
+          object: sync,
+          type: 'sync.failed'
+        )
+        success(sync)
+      end
+
+      def mark_success
+        sync.update!(status: :succeeded)
+
+        log_event(
+          object: sync,
+          type: 'sync.created'
+        )
+        success(sync)
+      end
+
       def schedule_next_if_succeeded
         return success unless sync.succeeded?
         return success unless next_sync.present?
@@ -45,8 +66,8 @@ module Forms
         if sync_ledger_forms.reject(&:valid?).empty?
           sync_ledger_forms
             .inject(success) { |res, form| res.and_then { form.save } }
-            .on_success { sync.update!(status: :succeeded) }
-            .on_failure { sync.update!(status: :failed) }
+            .on_success { mark_success }
+            .on_failure { mark_failure }
         else
           sync_ledger_forms.map(&:save)
         end

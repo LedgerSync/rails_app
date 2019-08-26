@@ -50,6 +50,8 @@ class Sync < ApplicationRecord
   has_many :sync_ledgers
   has_many :ledgers,
            through: :sync_ledgers
+  has_many :sync_ledger_logs,
+           through: :sync_ledgers
   has_many :sync_resources
   has_many  :resources,
             through: :sync_resources

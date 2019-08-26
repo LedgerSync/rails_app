@@ -3,17 +3,25 @@
 require 'rails_helper'
 require 'formify/spec_helpers'
 
-describe Forms::Events::Notify, type: :form do
+describe Forms::Events::Emit, type: :form do
   include Formify::SpecHelpers
 
   let(:event) { FactoryBot.create(:event) }
-  let(:url) { 'https://www.example.com' }
 
   let(:attributes) do
     {
-      event: event,
-      url: url
+      event: event
     }
+  end
+
+  before do
+    stub_request(
+      :post,
+      Settings.application.webhooks.url
+    ).to_return(
+      body: 'success',
+      status: 200
+    )
   end
 
   it { expect_valid }
@@ -22,9 +30,5 @@ describe Forms::Events::Notify, type: :form do
 
   describe '#event' do
     it { expect_error_with_missing_attribute(:event) }
-  end
-
-  describe '#url' do
-    it { expect_error_with_missing_attribute(:url) }
   end
 end
