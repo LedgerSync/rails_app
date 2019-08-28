@@ -22,13 +22,18 @@ class AuthTokensController < UIController
 
   def show
     authenticate!
-    flash[:success] = t('.success')
-    redirect_to root_path
+
+    if redirect?
+      redirect_to pop_redirect_url
+    else
+      flash[:success] = t('.success')
+      redirect_to root_path
+    end
   end
 
   private
 
-  def authenticate(auth_token)
+  def authenticate(_auth_token)
     redirect_to root_path
   end
 
