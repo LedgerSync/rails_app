@@ -84,7 +84,10 @@ Config.setup do |config|
       required(:login_url).maybe(:str?)
       required(:name).filled(:str?)
       optional(:theme).maybe(:str?)
-      optional(:webhook_url).maybe(:str?)
+      optional(:webhooks).schema do
+        optional(:url).maybe(:str?)
+        optional(:key).maybe(:str?)
+      end
     end
 
     optional(:customization).schema do
@@ -115,6 +118,10 @@ Config.setup do |config|
 
   contract.rule(add_ons: [:sentry, :dsn]) do
     key.failure('must be filled') if values.dig(:add_ons, :sentry, :enabled) == true && values.dig(:add_ons, :sentry, :dsn).blank?
+  end
+
+  contract.rule(application: [:webhooks, :key]) do
+    key.failure('must be filled') if values.dig(:application, :webhooks, :url).present? && values.dig(:application, :webhooks, :key).blank?
   end
 
   contract.rule(mailer: [:smtp]) do

@@ -11,5 +11,8 @@ api:
 application:
   host_url: 'lvh.me'
   host_port: 3000
+  webhooks:
+    key: 'foobarbaz'
+    url: 'http://lvh.me'
 mailer:
   delivery_method: 'test'

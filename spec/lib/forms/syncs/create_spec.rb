@@ -16,6 +16,7 @@ describe Forms::Syncs::Create, type: :form do
     it { expect { result }.to change(SyncJobs::SetupSync.jobs, :size).from(0).to(1) }
     it { expect(value).to be_a(Sync) }
     it { expect { value }.to change(Sync, :count).from(0).to(1) }
+    it { expect { value }.to change(EventJobs::CreateAndEmit.jobs, :count).from(0).to(1) }
     it { expect_error_with_missing_attribute(:organization_external_id) }
     it { expect_error_with_missing_attribute(:resource_external_id) }
     it { expect_error_with_missing_attribute(:resource_type) }
@@ -29,6 +30,7 @@ describe Forms::Syncs::Create, type: :form do
     it { expect(result).to be_success }
     it { expect(value).to be_a(Sync) }
     it { expect { value }.to change(Sync, :count).from(0).to(1) }
+    it { expect { value }.to change(EventJobs::CreateAndEmit.jobs, :count).from(0).to(1) }
     it { expect_error_with_missing_attribute(:organization_external_id) }
     it { expect_error_with_missing_attribute(:resource_external_id) }
     it { expect_error_with_missing_attribute(:resource_type) }
