@@ -42,7 +42,7 @@ module API
       private
 
       def organization
-        @organization ||= Organization.efind!(params[:organization], api: true)
+        @organization ||= Organization.find_by_id_or_external_id!(params[:organization], api: true)
       end
 
       def resource

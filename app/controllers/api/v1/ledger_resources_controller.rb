@@ -47,7 +47,7 @@ module API
       end
 
       def resource
-        @resource ||= Resource.efind!(params[:resource], api: true)
+        @resource ||= Resource.find_by_id_or_external_id!(params[:resource], api: true)
       end
 
       def ledger_resource
