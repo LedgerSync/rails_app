@@ -31,7 +31,6 @@ module API
         Forms::Resources::Update
           .new(
             resource_params.merge(
-              organization: organization,
               resource: resource
             )
           )
@@ -43,7 +42,7 @@ module API
       private
 
       def organization
-        @organization ||= Organization.efind!(params[:organization])
+        @organization ||= Organization.efind!(params[:organization], api: true)
       end
 
       def resource

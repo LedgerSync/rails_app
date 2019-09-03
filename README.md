@@ -23,7 +23,7 @@ As a "provider" of this application to your users, you have the following capabi
 
 This application is designed to require minimal modifications with updates to the library.  When a new ledger is added, this application will need to be updated to support connecting to the new ledger.  Please see the [Ledger Sync App Lib](https://www.github.com/Modern-Treasury/organization-connector-lib) for the ledger-specific support, as one ledger may support syncing an object (e.g. Invoice) while another may not.
 
-#3 QuickBooks Online
+## QuickBooks Online
 
 - Supports QuickBooks Online Oauth2
 
@@ -283,25 +283,166 @@ To remove:
 
 The app leverages fragment caching using a Russian Doll strategy.  To enable/disable caching in development, run `bundle exec rails dev:cache`.
 
-# OLD
+# API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Resources
 
-Things you may want to cover:
+### Create a resource
 
-* Ruby version
+**Route**
 
-* System dependencies
+`POST /api/v1/resources`
 
-* Configuration
+**Params**
 
-* Database creation
+| attribute | constraints | type | description |
+| --- | --- | --- | --- |
+| external_id | required | string | The new external_id of the resource |
+| organization | required | string | The `id` or `external_id` of the organization |
+| type | required | string | A valid type supported by LedgerSync |
 
-* Database initialization
+**Example**
 
-* How to run the test suite
+```ruby
+# Request
+post "/api/v1/resources", external_id: 'my-resource-id-1', organization: 'org_abc', type: 'customer'
 
-* Services (job queues, cache servers, search engines, etc.)
+# Response
+{
+  object: 'resource',
+  id: 'rsrc_1234567890',
+  external_id: 'my-resource-id-1',
+  organization: 'org_abc',
+  type: 'customer
+}
+```
 
-* Deployment instructions
+### Retrieve a resource
+
+**Route**
+
+`GET /api/v1/resources/:id`
+
+**Example**
+
+```ruby
+# Request
+get "/api/v1/resources/my-resource-id-1"
+
+# Response
+{
+  object: 'resource',
+  id: 'rsrc_1234567890',
+  external_id: 'my-resource-id-1',
+  organization: 'org_abc',
+  type: 'customer
+}
+```
+
+### Update a resource
+
+**Route**
+
+`POST /api/v1/resources/:id`
+
+**Params**
+
+| attribute | constraints | type | description |
+| --- | --- | --- | --- |
+| external_id | required | string | The new external_id of the resource |
+
+**Example**
+
+```ruby
+# Request
+post "/api/v1/resources/my-resource-id-1", external_id: 'a_new_external_id'
+
+# Response
+{
+  object: 'resource',
+  id: 'rsrc_1234567890',
+  external_id: 'a_new_external_id',
+  organization: 'org_abc',
+  type: 'customer
+}
+```
+
+### Create a ledger_resource
+
+**Route**
+
+`POST /api/v1/ledger_resources`
+
+**Params**
+
+| attribute | constraints | type | description |
+| --- | --- | --- | --- |
+| ledger | required | string | The `id` of the ledger |
+| resource | required | string | The `id` or `external_id` of the resource |
+| resource_ledger_id | required | string | The `id` of the resource in the ledger.  This is to be retrieved from the ledger itself. |
+
+**Example**
+
+```ruby
+# Request
+post "/api/v1/ledger_resources", ledger: 'ldgr_123', resource: 'rsrc_987', resource_ledger_id: 'qbo_customer_1_id'
+
+# Response
+{
+  object: 'ledger_resource',
+  id: 'rsrc_1234567890',
+  ledger: 'ldgr_123',
+  resource: 'rsrc_987',
+  resource_ledger_id: 'qbo_customer_1_id'
+}
+```
+
+### Retrieve a ledger_resource
+
+**Route**
+
+`GET /api/v1/ledger_resources/:id`
+
+**Example**
+
+```ruby
+# Request
+get "/api/v1/ledger_resources/my-ledger_resource-id-1"
+
+# Response
+{
+  object: 'ledger_resource',
+  id: 'rsrc_1234567890',
+  ledger: 'ldgr_123',
+  resource: 'rsrc_987',
+  resource_ledger_id: 'qbo_customer_1_id'
+}
+```
+
+### Update a ledger_resource
+
+**Route**
+
+`POST /api/v1/ledger_resources/:id`
+
+**Params**
+
+| attribute | constraints | type | description |
+| --- | --- | --- | --- |
+| resource_ledger_id | required | string | The `id` of the resource in the ledger.  This is to be retrieved from the ledger itself. |
+
+**Example**
+
+```ruby
+# Request
+post "/api/v1/ledger_resources/my-ledger_resource-id-1", resource_ledger_id: 'new_qbo_customer_1_id'
+
+# Response
+{
+  object: 'ledger_resource',
+  id: 'rsrc_1234567890',
+  ledger: 'ldgr_123',
+  resource: 'rsrc_987',
+  resource_ledger_id: 'new_qbo_customer_1_id'
+}
+```

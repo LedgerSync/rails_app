@@ -7,17 +7,10 @@ module Forms
       attr_accessor :resource
 
       delegate_accessor :external_id,
-                        :organization,
-                        :type,
                         to: :resource
 
       validates_presence_of :external_id,
-                            :organization,
-                            :resource,
-                            :type
-
-      validates :type,
-                resource_type: true
+                            :resource
 
       validates :external_id,
                 external_id: {
