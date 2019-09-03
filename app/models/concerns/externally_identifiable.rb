@@ -8,9 +8,11 @@ module ExternallyIdentifiable
       find_by(id: use_id) || find_by(external_id: use_id)
     end
 
-    def efind!(use_id)
+    def efind!(use_id, api: false)
       ret = efind(use_id)
       return ret if ret.present?
+
+      raise NoSuchRecordError.new(self::API_OBJECT, external_id: true) if api
 
       raise ActiveRecord::RecordNotFound, "#{name} could not be found with id or external_id: #{use_id}"
     end

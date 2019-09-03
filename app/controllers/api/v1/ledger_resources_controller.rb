@@ -6,8 +6,9 @@ module API
       def create
         Forms::LedgerResources::Create
           .new(
-            resource_params.merge(
-              organization: organization
+            ledger_resource_params.merge(
+              ledger: ledger,
+              resource: resource
             )
           )
           .save
@@ -17,22 +18,21 @@ module API
 
       def destroy
         Forms::LedgerResources::Destroy
-          .new(resource: resource)
+          .new(ledger_resource: ledger_resource)
           .save
           .on_success(&method(:api_render))
           .raise_if_error
       end
 
       def show
-        api_render(resource)
+        api_render(ledger_resource)
       end
 
       def update
         Forms::LedgerResources::Update
           .new(
-            resource_params.merge(
-              organization: organization,
-              resource: resource
+            ledger_resource_params.merge(
+              ledger_resource: ledger_resource
             )
           )
           .save
@@ -43,22 +43,20 @@ module API
       private
 
       def ledger
-        @ledger ||= Ledger.efind!(params[:ledger])
+        @ledger ||= Ledger.find(params[:ledger], api: true)
       end
 
       def resource
-        @resource ||= Lesource.efind!(params[:resource])
+        @resource ||= Resource.efind!(params[:resource], api: true)
       end
 
       def ledger_resource
         @ledger_resource ||= LedgerResource.find(params[:id], api: true)
       end
 
-      def resource_params
+      def ledger_resource_params
         params
           .permit(
-            :ledger,
-            :resource,
             :resource_ledger_id
           )
       end
