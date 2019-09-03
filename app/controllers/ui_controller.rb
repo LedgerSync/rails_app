@@ -26,8 +26,7 @@ class UIController < ApplicationController
   def ensure_authorized_user
     return if current_user
 
-    flash[:info] = t('authorization.log_in_required')
-    redirect_to root_url
+    redirect_to Settings.application.login_url
   end
 
   def pop_redirect_url(key: :redirect)

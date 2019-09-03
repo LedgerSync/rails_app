@@ -20,7 +20,7 @@ api:
   root_secret_key:                  # required: The API key your application will use to send data to the Ledger Sync App
 
 application:
-  login_url:                        # recommended: the url where users will be redirect if authentication is required
+  login_url:                        # required: the url where users will be redirect if authentication is required
   host_port:                        # optional
   host_url:                         # required: where this app is hosted (e.g. `sync.example.com`)
   name: 'Ledger Sync'               # required: usually your company name
