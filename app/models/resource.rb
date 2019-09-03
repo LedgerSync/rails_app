@@ -22,19 +22,21 @@
 #
 
 class Resource < ApplicationRecord
-  include Identifiable
+  include ExternallyIdentifiable
+  include Serializable
 
   API_OBJECT = 'resource'
   ID_PREFIX = 'rsrc'
 
   belongs_to :organization
 
-  has_many :ledger_resources
-  has_many :ledgers,
-           through: :ledger_resources
-  has_many :sync_resources
-  has_many :syncs,
-           through: :sync_resources
+  has_many  :ledger_resources,
+            dependent: :destroy
+  has_many  :ledgers,
+            through: :ledger_resources
+  has_many  :sync_resources
+  has_many  :syncs,
+            through: :sync_resources
 
   def self.inheritance_column
     nil

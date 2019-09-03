@@ -4,6 +4,17 @@ module ExternallyIdentifiable
   extend ActiveSupport::Concern
 
   module ClassMethods
+    def efind(use_id)
+      find_by(id: use_id) || find_by(external_id: use_id)
+    end
+
+    def efind!(use_id)
+      ret = efind(use_id)
+      return ret if ret.present?
+
+      raise ActiveRecord::RecordNotFound, "#{name} could not be found with id or external_id: #{use_id}"
+    end
+
     def external_id_invalid_message
       "cannot start with '#{self::ID_PREFIX}_'"
     end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Idempotency
-  class InvalidRequestMethodError < IdempotencyError
+  class PostAndPutRequestsOnlyError < IdempotencyError
     def initialize
       super(
         'You can only use Idempotency Keys with POST and PUT requests.',
