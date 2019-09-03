@@ -1,11 +1,9 @@
 # == Schema Information
 #
-# Table name: users
+# Table name: resources
 #
 #  id              :string           not null, primary key
-#  email           :string
-#  is_admin        :boolean
-#  name            :string
+#  type            :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  external_id     :string
@@ -13,8 +11,8 @@
 #
 # Indexes
 #
-#  index_users_on_external_id      (external_id) UNIQUE
-#  index_users_on_organization_id  (organization_id)
+#  index_resources_on_external_id_and_type  (external_id,type) UNIQUE
+#  index_resources_on_organization_id       (organization_id)
 #
 # Foreign Keys
 #
