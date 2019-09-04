@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-describe 'GET /users/:id', type: :api do
-  let(:user) { FactoryBot.create(:user) }
-  let(:external_id) { user.external_id }
-  let(:path) { "users/#{external_id}" }
+describe 'GET /resources/:id', type: :api do
+  let(:resource) { FactoryBot.create(:resource) }
+  let(:external_id) { resource.external_id }
+  let(:path) { "resources/#{external_id}" }
 
   it 'returns unauthorized' do
     api_get path
@@ -14,13 +14,13 @@ describe 'GET /users/:id', type: :api do
 
   context 'when authenticated', :with_authorization do
     it 'finds by id' do
-      api_get "users/#{user.id}"
-      expect_object_of_type(:user)
+      api_get "resources/#{resource.id}"
+      expect_object_of_type(:resource)
     end
 
     it 'finds by external_id' do
       api_get path
-      expect_object_of_type(:user)
+      expect_object_of_type(:resource)
     end
 
     context 'when does not exist' do

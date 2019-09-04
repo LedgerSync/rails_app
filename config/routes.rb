@@ -11,6 +11,8 @@ Rails.application.routes.draw do
         end
 
         resources :syncs, only: %i[create show], path: :sync
+        resources :ledger_resources, only: %i[create destroy show update]
+        resources :resources, only: %i[create destroy show update]
 
         resources :organizations, only: %i[create show update] do
           member do

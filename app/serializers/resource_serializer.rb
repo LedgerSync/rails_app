@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: resources
@@ -21,24 +19,8 @@
 #  fk_rails_...  (organization_id => organizations.id)
 #
 
-class Resource < ApplicationRecord
-  include ExternallyIdentifiable
-  include Serializable
-
-  API_OBJECT = 'resource'
-  ID_PREFIX = 'rsrc'
+class ResourceSerializer < APIObjectSerializer
+  attributes :external_id, :type
 
   belongs_to :organization
-
-  has_many  :ledger_resources,
-            dependent: :destroy
-  has_many  :ledgers,
-            through: :ledger_resources
-  has_many  :sync_resources
-  has_many  :syncs,
-            through: :sync_resources
-
-  def self.inheritance_column
-    nil
-  end
 end
