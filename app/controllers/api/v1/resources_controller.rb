@@ -23,6 +23,10 @@ module API
           .raise_if_error
       end
 
+      def index
+        ApiPagination.paginate json: Resource.all
+      end
+
       def show
         api_render(resource)
       end
