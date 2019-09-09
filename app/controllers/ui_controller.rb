@@ -9,8 +9,18 @@ class UIController < ApplicationController
 
   private
 
+  def authorized_as_organization?
+    @authorized_as_organization ||= current_user.is_a?(Organization)
+  end
+
   def current_organization
-    @current_organization ||= current_user.try(:organizations).try(:first).try(:decorate)
+    @current_organization ||= begin
+      if authorized_as_organization?
+        current_user
+      else
+        current_user.try(:organizations).try(:first).try(:decorate)
+      end
+    end
   end
 
   helper_method :current_organization
@@ -23,8 +33,14 @@ class UIController < ApplicationController
 
   helper_method :current_user
 
-  def ensure_authorized_user
+  def ensure_authorized
     return if current_user
+
+    redirect_to Settings.application.login_url
+  end
+
+  def ensure_authorized_user
+    return if current_user.is_a?(User)
 
     redirect_to Settings.application.login_url
   end

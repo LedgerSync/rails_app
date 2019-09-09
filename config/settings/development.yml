@@ -1,6 +1,7 @@
 application:
   host_url: 'localhost'
   host_port: 3000
+  login_url: 'http://rsvp.localhost:3000'
 
 dev:
   offline: false                    # optional: when true, any controller/view blocks wrapped with dev_offline_optional will not be loaded.  Good for when on slow or no internet access.

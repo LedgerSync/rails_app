@@ -10,17 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_23_115157) do
+ActiveRecord::Schema.define(version: 2019_09_09_121441) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "auth_tokens", id: :string, force: :cascade do |t|
-    t.string "user_id"
+    t.string "resource_id"
     t.datetime "used_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_auth_tokens_on_user_id"
+    t.string "resource_type"
+    t.index ["resource_id", "resource_type"], name: "index_auth_tokens_on_resource_id_and_resource_type"
+    t.index ["resource_id"], name: "index_auth_tokens_on_resource_id"
   end
 
   create_table "events", id: :string, force: :cascade do |t|
@@ -179,7 +181,6 @@ ActiveRecord::Schema.define(version: 2019_08_23_115157) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
-  add_foreign_key "auth_tokens", "users"
   add_foreign_key "events", "organizations"
   add_foreign_key "ledger_resources", "ledgers"
   add_foreign_key "ledger_resources", "resources"

@@ -3,14 +3,16 @@ module Forms
     class Create
       include Formify::Form
 
-      attr_accessor :user, :auth_token
+      attr_accessor :auth_token
+
+      delegate_accessor :resource,
+                        to: :auth_token
 
       validates_presence_of :auth_token,
-                            :user
+                            :resource
 
-      def initialize(attributes = {})
-        self.user = attributes[:user]
-        self.auth_token = AuthToken.new(user: user)
+      initialize_with do
+        self.auth_token = AuthToken.new
       end
 
       def save
@@ -30,7 +32,7 @@ module Forms
       end
 
       def expire_old_tokens
-        user.auth_tokens.not_used.find_each { |e| e.update!(used_at: Time.zone.now) }
+        resource.auth_tokens.not_used.find_each { |e| e.update!(used_at: Time.zone.now) }
         success
       end
     end

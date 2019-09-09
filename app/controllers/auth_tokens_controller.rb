@@ -21,7 +21,7 @@ class AuthTokensController < UIController
   end
 
   def show
-    authenticate!
+    authenticate!(:token)
 
     if redirect?
       redirect_to pop_redirect_url

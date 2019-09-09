@@ -19,7 +19,8 @@ describe API::Renderable do
       h = {
         'id' => auth_token.id,
         'object' => 'auth_token',
-        'user' => auth_token.user.id,
+        'resource' => auth_token.resource.id,
+        'resource_type' => 'User',
         'url' => "http://lvh.me:3000/auth/#{auth_token.id}",
         'token' => auth_token.id
       }.merge(

@@ -48,6 +48,7 @@ en:
       success: 'You have been successfully logged out.'
     dev_login:
       success: 'You have been successfully logged in as a developer.'
+    invalid_organization_token: 'Invalid organization token.'
     invalid_token: 'Invalid token.'
     use:
       failure:

@@ -23,6 +23,8 @@ class Organization < ApplicationRecord
   API_OBJECT = 'organization'
   ID_PREFIX = 'org'
 
+  has_many  :auth_tokens,
+            as: :resource
   has_many :ledgers
   has_many :users
   has_many :syncs

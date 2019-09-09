@@ -4,7 +4,7 @@ Warden::Strategies.add(:token) do
   end
 
   def authenticate!
-    result.failure? ? fail!(I18n.t('authentication.invalid_token')) : success!(result.value.user)
+    result.failure? ? fail!(I18n.t('authentication.invalid_token')) : success!(result.value.resource)
   end
 
   private

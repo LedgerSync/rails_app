@@ -11,6 +11,7 @@ api:
 application:
   host_url: 'lvh.me'
   host_port: 3000
+  login_url: 'http://rsvp.localhost:3000'
   webhooks:
     key: 'foobarbaz'
     url: 'http://lvh.me'

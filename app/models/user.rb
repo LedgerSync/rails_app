@@ -28,7 +28,8 @@ class User < ApplicationRecord
   API_OBJECT = 'user'.freeze
   ID_PREFIX = 'usr'.freeze
 
-  has_many :auth_tokens
+  has_many  :auth_tokens,
+            as: :resource
   has_many :organization_users
   has_many :organizations,
             through: :organization_users

@@ -81,7 +81,7 @@ Config.setup do |config|
     required(:application).schema do
       required(:host_port).maybe(:int?)
       required(:host_url).filled(:str?)
-      required(:login_url).maybe(:str?)
+      required(:login_url).filled(:str?)
       required(:name).filled(:str?)
       optional(:theme).maybe(:str?)
       optional(:webhooks).schema do
