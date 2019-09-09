@@ -144,6 +144,8 @@ module APIHelpers
   def json
     return nil if response_body == 'null'
 
+    prb
+
     JSON.parse(response_body).with_indifferent_access
   end
 

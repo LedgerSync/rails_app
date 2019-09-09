@@ -24,7 +24,7 @@ module API
       end
 
       def index
-        paginate json: Resource.all
+        paginate jsonapi: Resource.all
       end
 
       def show
