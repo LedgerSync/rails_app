@@ -29,13 +29,13 @@ module API
     end
 
     def idempotency_record_request!
-      return if response.status == 401 # Return when unauthorized.
+      return if [400, 401, 404].include?(response.status) # Do not record if invalid, unauthorized, not_found
 
-      response_body =   if response.body.is_a?(String)
-                          JSON.parse(response.body)
-                        else
-                          response.body
-                        end
+      response_body = if response.body.is_a?(String)
+                        JSON.parse(response.body)
+                      else
+                        response.body
+                      end
 
       IdempotencyKey.create!(
         key: idempotency_key_header,
