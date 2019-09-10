@@ -40,7 +40,8 @@ class Sync < ApplicationRecord
     blocked: 0,
     queued: 1,
     succeeded: 2,
-    failed: 3
+    failed: 3,
+    skipped: 4
   }
 
   belongs_to :organization
@@ -89,7 +90,7 @@ class Sync < ApplicationRecord
   end
 
   def terminated?
-    succeeded? || failed?
+    succeeded? || failed? || skipped?
   end
 
   def unterminated_upstream_syncs

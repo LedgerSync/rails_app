@@ -3,7 +3,7 @@
 module API
   module V1
     class SyncsController < API::V1::BaseController
-      before_action :set_sync, only: :show
+      before_action :set_sync, only: %i[retry show skip]
 
       def create
         Forms::Syncs::Create
@@ -13,8 +13,24 @@ module API
           .raise_if_error
       end
 
+      def retry
+        Forms::Syncs::Retry
+          .new(sync: @sync)
+          .save
+          .on_success(&method(:api_render))
+          .raise_if_error
+      end
+
       def show
         api_render(@sync)
+      end
+
+      def skip
+        Forms::Syncs::Skip
+          .new(sync: @sync)
+          .save
+          .on_success(&method(:api_render))
+          .raise_if_error
       end
 
       private

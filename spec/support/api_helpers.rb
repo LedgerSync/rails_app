@@ -281,7 +281,7 @@ module APIHelpers
 
     # unset_header('HTTP_AUTHORIZATION')
     header 'Authorization', ''
-    headers.each { |k, v| unset_header(k) }
+    headers.each { |k, _v| unset_header(k) }
   end
 
   def with_idempotency(key: nil)
@@ -291,9 +291,11 @@ module APIHelpers
     key ||= "ikey_#{@request_count}"
 
     set_header('HTTP_IDEMPOTENCY_KEY', key)
+    header 'IDEMPOTENCY_KEY', key
 
     yield
 
     unset_header('HTTP_IDEMPOTENCY_KEY')
+    header 'IDEMPOTENCY_KEY', ''
   end
 end

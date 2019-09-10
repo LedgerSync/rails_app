@@ -36,8 +36,14 @@ FactoryBot.define do
     resource_type { 'customer' }
     operation_method { 'upsert' }
     references { Util::InputHelpers::Customer.new(external_id: resource_external_id).references }
-    status { 0 }
+    status { :blocked }
     status_message { nil }
+
+    Sync.statuses.each do |use_status|
+      trait use_status do
+        status { use_status }
+      end
+    end
 
     trait :payment do
       resource_type { 'payment' }

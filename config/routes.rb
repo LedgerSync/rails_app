@@ -11,6 +11,12 @@ Rails.application.routes.draw do
         end
 
         resources :syncs, only: %i[create show], path: :sync
+        resources :syncs, only: %i[create show] do
+          member do
+            post :retry
+            post :skip
+          end
+        end
         resources :ledger_resources, only: %i[create destroy show update]
         resources :resources, only: %i[create destroy show update]
 
