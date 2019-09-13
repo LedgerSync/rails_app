@@ -24,7 +24,7 @@ module APIHelpers
     api_request(:put, *args)
   end
 
-  def api_request(method, action, params: {}, headers: [], version: 'v1')
+  def api_request(method, action, params: {}, headers: {}, version: 'v1')
     use_headers = @env || {}
 
     headers&.each do |k, v|
@@ -61,9 +61,7 @@ module APIHelpers
   end
 
   def api_list_structure?(response_data)
-    response_data.key?('object') &&
-      response_data['object'] == 'list' &&
-      response_data.key?('data')
+    json['data'].is_a?(Array)
   end
 
   def expect_200
@@ -92,12 +90,6 @@ module APIHelpers
     expect(api_list_structure?(json)).to eq(true)
     expect(json['data'].length).to eq(length) unless length.nil?
     expect(json['data'].first['object']).to eq(object.to_s) if object.present?
-  end
-
-  def expect_api_list_of_invoices(length = 1)
-    expect_api_list_structure(length)
-    expect(api_list_first['object']).to eq('invoice')
-    expect(api_list_first).to include('summary')
   end
 
   def expect_error(type, message = nil, status = 400, sub_type: nil)
@@ -132,9 +124,9 @@ module APIHelpers
     expect(json['error']['param']).to eq(param.to_s)
   end
 
-  def expect_object_of_type(obj)
+  def expect_object_of_type(type)
     expect_200
-    expect(json).to include('object' => obj.to_s)
+    expect(json['data']).to include('type' => type.to_s)
   end
 
   def expect_status(status)
@@ -143,8 +135,6 @@ module APIHelpers
 
   def json
     return nil if response_body == 'null'
-
-    prb
 
     JSON.parse(response_body).with_indifferent_access
   end
@@ -175,6 +165,8 @@ module APIHelpers
   end
 
   def prb
+    pdb json
+  rescue JSON::ParseError
     pdb response_body
   end
 

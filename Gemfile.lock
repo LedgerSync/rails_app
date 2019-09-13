@@ -65,6 +65,7 @@ GEM
     ast (2.4.0)
     autoprefixer-rails (9.6.1.1)
       execjs
+    awesome_print (1.8.0)
     better_errors (2.5.1)
       coderay (>= 1.0.0)
       erubi (>= 1.0.0)
@@ -537,6 +538,7 @@ PLATFORMS
 DEPENDENCIES
   annotate
   api-pagination
+  awesome_print
   better_errors
   bootsnap (>= 1.1.0)
   bootstrap

@@ -17,15 +17,25 @@ describe API::Renderable do
 
     it do
       h = {
-        'id' => auth_token.id,
-        'object' => 'auth_token',
-        'user' => auth_token.user.id,
-        'url' => "http://lvh.me:3000/auth/#{auth_token.id}",
-        'token' => auth_token.id
-      }.merge(
-        'created_at' => auth_token.created_at.to_i,
-        'updated_at' => auth_token.updated_at.to_i
-      )
+        'data': {
+          'id': auth_token.id,
+          'type': :auth_token,
+          attributes: {
+            'url': "http://lvh.me:3000/auth/#{auth_token.id}",
+            'token': auth_token.id,
+            'created_at': auth_token.created_at.to_i,
+            'updated_at': auth_token.updated_at.to_i
+          },
+          'relationships': {
+            'user': {
+              'data': {
+                id: auth_token.user.id,
+                type: :user
+              }
+            }
+          }
+        }
+      }
       expect(api_as_json).to eq(h)
     end
   end

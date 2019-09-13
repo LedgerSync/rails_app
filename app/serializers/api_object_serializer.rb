@@ -7,11 +7,11 @@ class APIObjectSerializer
   #   end
   # end
 
-  def self.belongs_to(object_attr)
-    attribute object_attr do |object|
-      object.send(object_attr).try(:id)
-    end
-  end
+  # def self.belongs_to(object_attr)
+  #   attribute object_attr do |object|
+  #     object.send(object_attr).try(:id)
+  #   end
+  # end
 
   def self.date(object_attr)
     attribute object_attr do |object|
@@ -37,25 +37,25 @@ class APIObjectSerializer
     end
   end
 
-  def self.has_one(object_attr, serializer:)
-    attribute object_attr do |object|
-      serializer.new(object_attr).as_json['data']['attributes']
-    end
-  end
+  # def self.has_one(object_attr, serializer:)
+  #   attribute object_attr do |object|
+  #     serializer.new(object_attr).as_json['data']['attributes']
+  #   end
+  # end
 
-  def self.has_many(object_attr, serializer:)
-    attribute object_attr do |object|
-      object.send(object_attr).map do |object_attr_instance|
-        serializer.new(object_attr_instance).as_json['data']['attributes']
-      end
-    end
-  end
+  # def self.has_many(object_attr, serializer:)
+  #   attribute object_attr do |object|
+  #     object.send(object_attr).map do |object_attr_instance|
+  #       serializer.new(object_attr_instance).as_json['data']['attributes']
+  #     end
+  #   end
+  # end
 
-  attribute :id
+  # attribute :id
 
-  attribute :object do |object|
-    object.class::API_OBJECT
-  end
+  # attribute :object do |object|
+  #   object.class::API_OBJECT
+  # end
 
   datetime :created_at
   datetime :updated_at
