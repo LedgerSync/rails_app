@@ -4,6 +4,7 @@ module API
     include API::Renderable
     include API::Authenticatable
     include API::Idempotentable
+    include Rails::Pagination
 
     protect_from_forgery with: :null_session
   end

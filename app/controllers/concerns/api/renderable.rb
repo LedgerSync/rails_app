@@ -14,26 +14,7 @@ module API
       return obj if obj.is_a?(Hash)
 
       serializer ||= obj.serializer
-      raw_json = serializer.new(obj).as_json['data']
-      # return raw_json['attributes'] if raw_json.is_a?(Hash)
-
-      # {
-      #   object: 'list',
-      #   data: raw_json.map { |e| e['attributes'] }
-      # }
-      raw_json['attributes']
+      serializer.new(obj).serializable_hash
     end
-
-    # def api_render_error(_error)
-    #   attribute = record.errors.first.first
-
-    #   if attribute == :base
-    #     raise InvalidRequestError, record.errors.full_messages.first
-    #   else
-    #     raise ParamValueError,
-    #           attribute,
-    #           message: record.errors.full_messages_for(attribute).first
-    #   end
-    # end
   end
 end

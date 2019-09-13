@@ -60,10 +60,12 @@ GEM
     annotate (2.7.5)
       activerecord (>= 3.2, < 7.0)
       rake (>= 10.4, < 13.0)
+    api-pagination (4.8.2)
     arel (9.0.0)
     ast (2.4.0)
     autoprefixer-rails (9.6.1.1)
       execjs
+    awesome_print (1.8.0)
     better_errors (2.5.1)
       coderay (>= 1.0.0)
       erubi (>= 1.0.0)
@@ -535,6 +537,8 @@ PLATFORMS
 
 DEPENDENCIES
   annotate
+  api-pagination
+  awesome_print
   better_errors
   bootsnap (>= 1.1.0)
   bootstrap
