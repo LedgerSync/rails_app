@@ -27,7 +27,8 @@ module APIHelpers
   def api_request(method, action, params: {}, headers: {}, version: 'v1')
     use_headers = @env || {}
 
-    headers&.each do |k, v|
+    headers.each do |k, v|
+      set_header(k, v)
       use_headers[k] = v
     end
 
@@ -36,6 +37,11 @@ module APIHelpers
     pdb "#{url} : #{params.inspect}" if @verbose
     response = send(method, url, params, use_headers)
     prb if @verbose || verbose_status?(response.status)
+
+    headers.each do |k, v|
+      unset_header(k)
+      use_headers.delete(k)
+    end
   end
 
   def app
@@ -44,7 +50,7 @@ module APIHelpers
 
   def header_key(key)
     key = key.to_s.upcase
-    raise "Key cannot include hyphens: #{key}" if key.include?('-')
+    # raise "Key cannot include hyphens: #{key}" if key.include?('-')
 
     return key if key[0..4] == 'HTTP_'
 
@@ -53,6 +59,7 @@ module APIHelpers
 
   def set_header(key, val)
     @env ||= {}
+    @env[key] = val
     @env[header_key(key)] = val
   end
 
@@ -219,6 +226,7 @@ module APIHelpers
 
   def unset_header(key)
     @env ||= {}
+    @env.delete(key)
     @env.delete(header_key(key))
   end
 
