@@ -35,6 +35,8 @@ class Event < ApplicationRecord
     'sync.created',
     'sync.failed',
     'sync.queued',
+    'sync.retried',
+    'sync.skipped',
     'sync.succeeded'
   ].freeze
 

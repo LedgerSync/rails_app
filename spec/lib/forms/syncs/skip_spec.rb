@@ -3,10 +3,10 @@
 require 'rails_helper'
 require 'formify/spec_helpers'
 
-describe Forms::Syncs::Retry, type: :form do
+describe Forms::Syncs::Skip, type: :form do
   include Formify::SpecHelpers
 
-  let(:sync) { FactoryBot.create(:sync, status: :failed) }
+  let(:sync) { FactoryBot.create(:sync) }
 
   let(:attributes) do
     {
@@ -18,8 +18,8 @@ describe Forms::Syncs::Retry, type: :form do
   it { expect(result).to be_success }
   it { expect(value).to be_a(Sync) }
   it do
-    sync.update!(status: :failed)
-    expect(sync).to be_failed
+    next_sync = FactoryBot.create(:sync, organization: sync.organization)
+    expect(sync.reload.next_sync).to eq(next_sync)
     expect { value }.to change(SyncJobs::Perform.jobs, :count).from(0).to(1)
   end
 

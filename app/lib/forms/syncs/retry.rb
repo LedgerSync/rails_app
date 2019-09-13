@@ -4,6 +4,8 @@ module Forms
   module Syncs
     class Retry
       include Formify::Form
+      include Eventable
+
       attr_accessor :sync
 
       validates_presence_of :sync
@@ -24,7 +26,10 @@ module Forms
 
       def retry_sync
         sync.update!(status: :queued)
-        Forms::Syncs::Perform.new(sync: sync).save
+        log_event(object: sync, type: 'sync.retried')
+        log_event(object: sync, type: 'sync.queued')
+        SyncJobs::Perform.perform_async(sync.id)
+        success
       end
 
       def validate_failure

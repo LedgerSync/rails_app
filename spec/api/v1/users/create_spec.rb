@@ -15,11 +15,9 @@ describe 'POST /users', type: :api do
     }
   end
 
-  context 'unsigned request' do
-    it 'returns unauthorized' do
-      api_post path, params: params
-      expect_401
-    end
+  it 'returns unauthorized' do
+    api_post path, params: params
+    expect_401
   end
 
   context 'when authenticated', :with_authorization, :with_idempotency do
