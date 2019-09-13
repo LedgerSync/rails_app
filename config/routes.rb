@@ -18,7 +18,7 @@ Rails.application.routes.draw do
           end
         end
         resources :ledger_resources, only: %i[create destroy show update]
-        resources :resources, only: %i[create destroy index show update]
+        resources :resources
 
         resources :organizations, only: %i[create show update] do
           member do
