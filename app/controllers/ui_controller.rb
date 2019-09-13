@@ -57,8 +57,11 @@ class UIController < ApplicationController
   end
 
   def redirect_or_to(*args, key: :redirect, **keywords)
-    redirect_to pop_redirect_url(key: key) if redirect?(key: key)
-    redirect_to(*args, **keywords)
+    if redirect?(key: key)
+      redirect_to pop_redirect_url(key: key)
+    else
+      redirect_to(*args, **keywords)
+    end
   end
 
   def router
