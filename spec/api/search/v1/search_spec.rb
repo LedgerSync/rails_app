@@ -16,5 +16,11 @@ describe 'GET api/search/v1/ledgers/:id/:lib_resource_type', type: :api do
       search_api_get path
       expect_object_of_type('lib_search_result')
     end
+
+    it do
+      search_api_get "#{path}?query=foobarbaz"
+      expect_object_of_type('lib_search_result')
+      expect(json.dig(:data, :attributes, :query)).to eq('foobarbaz')
+    end
   end
 end
