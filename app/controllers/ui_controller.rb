@@ -44,14 +44,6 @@ class UIController < ApplicationController
 
   helper_method :prettify
 
-  def raise_404
-    raise ActionController::RoutingError, 'Not Found'
-  end
-
-  def raise_400
-    raise ActionController::BadRequest, 'Bad Request'
-  end
-
   def redirect?(key: :redirect)
     params.key?(key) || session.key?(key)
   end
