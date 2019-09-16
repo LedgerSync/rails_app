@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LibSearchResultSerializer < ObjectSerializer
   set_id { |object| Fingerprintable::Fingerprinter.new(object: object).fingerprint }
 
