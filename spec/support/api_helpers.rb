@@ -211,18 +211,6 @@ module APIHelpers
     api_request(:get, *args, **{ version: 'search/v1' }.merge(keywords))
   end
 
-  def search_api_post(*args, **keywords)
-    api_request(:post, *args, **{ version: 'search/v1' }.merge(keywords))
-  end
-
-  def search_api_delete(*args, **keywords)
-    api_request(:delete, *args, **{ version: 'search/v1' }.merge(keywords))
-  end
-
-  def search_api_put(*args, **keywords)
-    api_request(:put, *args, **{ version: 'search/v1' }.merge(keywords))
-  end
-
   def stringify_keys(h)
     # Hash[hash.map{ |k, v| [k.to_s, v] }]
     if h.is_a? Hash
