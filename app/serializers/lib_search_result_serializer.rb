@@ -10,9 +10,7 @@ class LibSearchResultSerializer < ObjectSerializer
   end
 
   attribute :next_page_pagination do |object|
-    if object.next_searcher.present?
-      object.next_searcher.try(:pagination)
-    end
+    object.next_searcher.try(:pagination) if object.next_searcher.present?
   end
 
   attribute :next_page_url do |object, params|
@@ -27,9 +25,7 @@ class LibSearchResultSerializer < ObjectSerializer
   end
 
   attribute :previous_page_pagination do |object|
-    if object.previous_searcher.present?
-      object.previous_searcher.try(:pagination)
-    end
+    object.previous_searcher.try(:pagination) if object.previous_searcher.present?
   end
 
   attribute :previous_page_url do |object, params|
