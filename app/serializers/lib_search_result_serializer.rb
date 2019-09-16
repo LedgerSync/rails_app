@@ -10,29 +10,37 @@ class LibSearchResultSerializer < ObjectSerializer
   end
 
   attribute :next_page_pagination do |object|
-    object.next_searcher.try(:pagination)
+    if object.next_searcher.present?
+      object.next_searcher.try(:pagination)
+    end
   end
 
   attribute :next_page_url do |object, params|
-    uri = URI.parse(params[:original_url])
-    uri_params = Rack::Utils.parse_nested_query(uri.query)
-    uri.query = uri_params.merge(
-      pagination: object.next_searcher.pagination
-    ).to_query
-    uri.to_s
+    if object.next_searcher.present?
+      uri = URI.parse(params[:original_url])
+      uri_params = Rack::Utils.parse_nested_query(uri.query)
+      uri.query = uri_params.merge(
+        pagination: object.next_searcher.pagination
+      ).to_query
+      uri.to_s
+    end
   end
 
   attribute :previous_page_pagination do |object|
-    object.previous_searcher.try(:pagination)
+    if object.previous_searcher.present?
+      object.previous_searcher.try(:pagination)
+    end
   end
 
   attribute :previous_page_url do |object, params|
-    uri = URI.parse(params[:original_url])
-    uri_params = Rack::Utils.parse_nested_query(uri.query)
-    uri.query = uri_params.merge(
-      pagination: object.previous_searcher.pagination
-    ).to_query
-    uri.to_s
+    if object.previous_searcher.present?
+      uri = URI.parse(params[:original_url])
+      uri_params = Rack::Utils.parse_nested_query(uri.query)
+      uri.query = uri_params.merge(
+        pagination: object.previous_searcher.pagination
+      ).to_query
+      uri.to_s
+    end
   end
 
   attribute :resources do |object|
