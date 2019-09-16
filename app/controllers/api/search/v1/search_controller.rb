@@ -11,7 +11,8 @@ module API
           api_render(
             searcher,
             params: {
-              ledger: ledger
+              ledger: ledger,
+              original_url: request.original_url
             },
             serializer: LibSearchResultSerializer
           )
