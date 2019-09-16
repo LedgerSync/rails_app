@@ -136,7 +136,10 @@ module APIHelpers
   def json
     return nil if response_body == 'null'
 
-    JSON.parse(response_body).with_indifferent_access
+    ret = JSON.parse(response_body)
+    return ret.with_indifferent_access if ret.is_a?(Hash)
+
+    ret
   end
 
   def post_invalid_param(*args)
@@ -202,6 +205,10 @@ module APIHelpers
     response.body
   rescue StandardError
     last_response.body
+  end
+
+  def search_api_get(*args, **keywords)
+    api_request(:get, *args, **{ version: 'search/v1' }.merge(keywords))
   end
 
   def stringify_keys(h)

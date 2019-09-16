@@ -5,6 +5,16 @@ Rails.application.routes.draw do
     get '/' => 'errors#not_found'
 
     namespace :api, path: nil, defaults: { format: 'json' } do
+      namespace :search do
+        namespace :v1 do
+          resources :ledgers, only: %i[] do
+            member do
+              get ':lib_resource_type', controller: :search, action: :search
+            end
+          end
+        end
+      end
+
       namespace :v1 do
         resources :users, only: %i[create update] do
           resources :auth_tokens, only: :create

@@ -3,6 +3,14 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def raise_404(message: nil)
+    raise ActionController::RoutingError, (message || 'Not Found')
+  end
+
+  def raise_400(message: nil)
+    raise ActionController::BadRequest, (message || 'Bad Request')
+  end
+
   if Settings.dig(:add_ons, :sentry, :enabled) == true
     def set_raven_context
       Raven.user_context(
