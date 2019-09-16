@@ -40,7 +40,11 @@ class AuthTokensController < UIController
   def redirect_if_logged_in
     return if current_user.blank?
 
-    flash[:info] = t('authorization.already_logged_in')
-    redirect_to root_url
+    if redirect?
+      redirect_to pop_redirect_url
+    else
+      flash[:info] = t('authorization.already_logged_in')
+      redirect_to root_url
+    end
   end
 end
