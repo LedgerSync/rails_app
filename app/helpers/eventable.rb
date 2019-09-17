@@ -12,9 +12,11 @@ module Eventable # :nodoc:
       raise "No organization for event: #{type}" if organization.blank?
 
       EventJobs::CreateAndEmit.perform_async(
-        data: object.serialize,
-        organization: organization.id,
-        type: type
+        object.serialize,
+        object.class.name,
+        object.id,
+        organization.id,
+        type
       )
     end
   end
