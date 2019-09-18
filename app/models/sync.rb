@@ -67,8 +67,9 @@ class Sync < ApplicationRecord
             presence: true
 
   scope :created_at_desc, -> { order(created_at: :desc) }
-  scope :not_terminated, -> { where.not(status: Sync.statuses.values_at(:succeeded, :failed)) }
+  scope :not_terminated, -> { where.not(status: Sync.statuses.values_at(:succeeded, :failed, :skipped)) }
   scope :not_succeeded, -> { where.not(status: Sync.statuses.values_at(:succeeded)) }
+  scope :not_succeeded_or_skipped, -> { where.not(status: Sync.statuses.values_at(:succeeded, :skipped)) }
   scope :not_failed, -> { where.not(status: Sync.statuses.values_at(:failed)) }
 
   def next_sync
@@ -82,7 +83,7 @@ class Sync < ApplicationRecord
   end
 
   def parent_blocker
-    parents.not_succeeded.order(position: :asc).first
+    parents.not_succeeded_or_skipped.order(position: :asc).first
   end
 
   def self_reference
