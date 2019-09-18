@@ -48,12 +48,14 @@ class UIController < ApplicationController
     params.key?(key) || session.key?(key)
   end
 
-  def redirect_or_to(*args, key: :redirect, **keywords)
-    if redirect?(key: key)
-      redirect_to pop_redirect_url(key: key)
-    else
-      redirect_to(*args, **keywords)
-    end
+  def redirect_or_to(url, key: :redirect, query: {})
+    to_url = if redirect?(key: key)
+               pop_redirect_url(key: key)
+             else
+               url
+             end
+
+    redirect_to Util::URLHelper.new(to_url).merge_query(query).to_s
   end
 
   def router

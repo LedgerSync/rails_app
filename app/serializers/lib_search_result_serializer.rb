@@ -15,12 +15,10 @@ class LibSearchResultSerializer < ObjectSerializer
 
   attribute :next_page_url do |object, params|
     if object.next_searcher.present?
-      uri = URI.parse(params[:original_url])
-      uri_params = Rack::Utils.parse_nested_query(uri.query)
-      uri.query = uri_params.merge(
-        pagination: object.next_searcher.pagination
-      ).to_query
-      uri.to_s
+      Util::URLHelper
+        .new(params[:original_url])
+        .merge_query(pagination: object.next_searcher.pagination)
+        .to_s
     end
   end
 
@@ -30,12 +28,10 @@ class LibSearchResultSerializer < ObjectSerializer
 
   attribute :previous_page_url do |object, params|
     if object.previous_searcher.present?
-      uri = URI.parse(params[:original_url])
-      uri_params = Rack::Utils.parse_nested_query(uri.query)
-      uri.query = uri_params.merge(
-        pagination: object.previous_searcher.pagination
-      ).to_query
-      uri.to_s
+      Util::URLHelper
+      .new(params[:original_url])
+      .merge_query(pagination: object.previous_searcher.pagination)
+      .to_s
     end
   end
 

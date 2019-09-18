@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ledgers
   class QuickBooksOnlineController < DashboardBaseController
     before_action :set_ledger, only: %i[destroy show update]
@@ -22,7 +24,7 @@ module Ledgers
       save_and_render_form(
         form: @ledger_form,
         on_failure: ->(_result) { redirect_to(new_ledgers_quickbooks_online_path) },
-        on_success: ->(result) { redirect_or_to(ledgers_quickbooks_online_path(result.value)) }
+        on_success: ->(result) { redirect_or_to(ledgers_quickbooks_online_path(result.value), query: { ledger_id: result.value.id }) }
       )
     end
 
@@ -71,10 +73,10 @@ module Ledgers
 
     def set_ledger
       @ledger = current_organization
-        .ledgers(kind: Util::QuickBooksOnline::KEY)
-        .object
-        .find(params[:id])
-        .decorate
+                .ledgers(kind: Util::QuickBooksOnline::KEY)
+                .object
+                .find(params[:id])
+                .decorate
     end
   end
 end
