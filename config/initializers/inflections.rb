@@ -16,4 +16,5 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'ID'
   inflect.acronym 'QuickBooks'
   inflect.acronym 'UI'
+  inflect.acronym 'URL'
 end
