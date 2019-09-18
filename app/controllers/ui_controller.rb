@@ -55,7 +55,7 @@ class UIController < ApplicationController
                url
              end
 
-    redirect_to Util::URLHelper.new(to_url).merge_query(query)
+    redirect_to Util::URLHelper.new(to_url).merge_query(query).to_s
   end
 
   def router
