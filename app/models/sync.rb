@@ -4,18 +4,19 @@
 #
 # Table name: syncs
 #
-#  id                   :string           not null, primary key
-#  operation_method     :string
-#  position             :integer          not null
-#  references           :jsonb
-#  resource_type        :string
-#  status               :integer          default("blocked"), not null
-#  status_message       :text
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
-#  organization_id      :string
-#  resource_external_id :string
-#  resource_id          :string
+#  id                          :string           not null, primary key
+#  operation_method            :string
+#  position                    :integer          not null
+#  references                  :jsonb
+#  resource_type               :string
+#  status                      :integer          default("blocked"), not null
+#  status_message              :text
+#  without_create_confirmation :boolean
+#  created_at                  :datetime         not null
+#  updated_at                  :datetime         not null
+#  organization_id             :string
+#  resource_external_id        :string
+#  resource_id                 :string
 #
 # Indexes
 #
@@ -84,6 +85,10 @@ class Sync < ApplicationRecord
 
   def parent_blocker
     parents.not_succeeded_or_skipped.order(position: :asc).first
+  end
+
+  def requires_create_confirmation?
+    !without_create_confirmation && unapproved_creates?
   end
 
   def self_reference

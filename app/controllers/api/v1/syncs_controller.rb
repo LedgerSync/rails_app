@@ -46,6 +46,7 @@ module API
             :operation_method,
             :resource_external_id,
             :resource_type,
+            :without_create_confirmation,
             references: {}
           )
       end
