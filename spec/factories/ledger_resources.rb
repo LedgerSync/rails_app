@@ -26,7 +26,6 @@
 
 FactoryBot.define do
   factory :ledger_resource do
-    # sequence(:id) { |n| "ldgr_rsrc_#{n}" }
     ledger { first_or_create(:ledger) }
     resource { first_or_create(:resource) }
 

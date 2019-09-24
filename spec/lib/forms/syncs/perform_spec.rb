@@ -31,6 +31,13 @@ describe Forms::Syncs::Perform, type: :form do
       expect(value.reload).not_to be_succeeded
       expect(value).to be_blocked
     end
+
+    it do
+      sync.update!(without_create_confirmation: true)
+      resource = FactoryBot.create(:resource, external_id: sync.resource_external_id, type: sync.resource_type)
+      FactoryBot.create(:ledger_resource, ledger: ledger, resource: resource)
+      expect(value.reload).to be_succeeded
+    end
   end
 
   context 'when next sync' do

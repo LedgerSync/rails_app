@@ -23,7 +23,7 @@ module Forms
       def update_status
         return success if sync.terminated?
 
-        if sync.unapproved_creates?
+        if sync.requires_create_confirmation?
           sync.update!(status: :blocked)
           log_event(
             object: sync,

@@ -14,6 +14,7 @@ module Forms
                         :resource_type,
                         :operation_method,
                         :references,
+                        :without_create_confirmation,
                         to: :sync
 
       before_validation :populate_organization
