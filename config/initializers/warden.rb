@@ -24,7 +24,7 @@ Warden::Strategies.add(:developer) do
   end
 
   def authenticate!
-    success!(User.first || FactoryBot.create(:user, :admin))
+    success!(User.where(is_admin: true).first || FactoryBot.create(:user, :admin))
   end
 end
 
