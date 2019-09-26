@@ -8,8 +8,8 @@ describe 'idempotency', type: :api do
   let(:auth_token) { FactoryBot.create(:auth_token, user: user) }
   let(:params) { { 'user_id' => user.external_id, 'foo' => 'bar' } }
 
-  def do_post
-    api_post path, params: params
+  def do_post(**more_params)
+    api_post path, params: params.merge(more_params)
   end
 
   it do
@@ -52,7 +52,7 @@ describe 'idempotency', type: :api do
       it do
         with_idempotency(key: 'asdf') do
           expect { do_post }.to change(AuthToken, :count).from(0).to(1)
-          do_post
+          do_post(with_different: :body)
           expect_idempotency_error(idempotency_error_type: :duplicate_idempotent_request)
         end
       end
