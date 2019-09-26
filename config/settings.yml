@@ -38,6 +38,7 @@ customization:
 
 mailer:
   delivery_method:                  # required: letter_opener (only in development), smtp, test (only in test)
+  disable_email_to_users: false     # optional
   # smtp:                           # required if delivery_method=smtp
   #   address:                      # - required
   #   authentication:               # - required
