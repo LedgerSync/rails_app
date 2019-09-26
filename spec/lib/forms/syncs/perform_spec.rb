@@ -22,7 +22,11 @@ describe Forms::Syncs::Perform, type: :form do
   end
 
   context 'when ledger' do
-    before { sync_ledger }
+    before do
+      # resource = FactoryBot.create(:resource, external_id: sync.resource_external_id, type: sync.resource_type)
+      # FactoryBot.create(:ledger_resource, ledger: ledger, resource: resource)
+      Forms::Syncs::Setup.new(sync: sync_ledger.sync).save
+    end
 
     it { expect_valid }
     it { expect(result).to be_success }
@@ -34,8 +38,6 @@ describe Forms::Syncs::Perform, type: :form do
 
     it do
       sync.update!(without_create_confirmation: true)
-      resource = FactoryBot.create(:resource, external_id: sync.resource_external_id, type: sync.resource_type)
-      FactoryBot.create(:ledger_resource, ledger: ledger, resource: resource)
       expect(value.reload).to be_succeeded
     end
   end

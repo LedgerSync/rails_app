@@ -35,6 +35,7 @@ module Forms
       private
 
       def upsert_sync_resource
+        sync_resource.save!
         success(sync_resource)
       end
     end

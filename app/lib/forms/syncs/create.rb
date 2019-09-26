@@ -32,13 +32,14 @@ module Forms
       end
 
       def save
-        with_advisory_lock_transaction(:syncs, organization, :create) do
+        result = with_advisory_lock_transaction(:syncs, organization, :create) do
           validate_or_fail
             .and_then { create_sync }
             .and_then { emit }
-            .and_then { schedule_upsert_references }
-            .and_then { success(sync) }
         end
+
+        result.and_then { schedule_upsert_references }
+              .and_then { success(sync) }
       end
 
       private
@@ -69,7 +70,7 @@ module Forms
         return if organization_external_id.blank?
         return if organization.present?
 
-        errors.add(:base, :test)
+        errors.add(:organization_external_id, 'is not a valid organization external ID.')
       end
     end
   end
