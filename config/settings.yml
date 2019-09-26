@@ -20,13 +20,16 @@ api:
   root_secret_key:                  # required: The API key your application will use to send data to the Ledger Sync App
 
 application:
-  login_url:                        # required: the url where users will be redirect if authentication is required
+  developer_email:                  # required: email for developer notifications (e.g. webhook failure)
   host_port:                        # optional
   host_url:                         # required: where this app is hosted (e.g. `sync.example.com`)
+  login_url:                        # required: the url where users will be redirect if authentication is required
   name: 'Ledger Sync'               # required: usually your company name
   theme: modern_treasury            # optional: Name of theme in app/assets/stylesheets/themes
   webhooks:
     key:                            # required if url present: secret key used for signing webhooks
+    retry_back_off_in_seconds: 20   # required: retry_back_off_in_seconds ** retry_count
+    retry_limit: 10                 # required
     url:                            # optional: URL to which webhooks will be sent
 
 authentication:
@@ -39,6 +42,7 @@ customization:
 mailer:
   delivery_method:                  # required: letter_opener (only in development), smtp, test (only in test)
   disable_email_to_users: false     # optional
+  from_email:                       # required: email address for replies
   # smtp:                           # required if delivery_method=smtp
   #   address:                      # - required
   #   authentication:               # - required

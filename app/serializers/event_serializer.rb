@@ -5,6 +5,7 @@
 #  id                :string           not null, primary key
 #  data              :text
 #  event_object_type :string
+#  retries           :integer
 #  type              :string
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null

@@ -18,9 +18,15 @@ module EventJobs
 
   class Emit < ApplicationJob
     def perform(event_id)
-      Forms::Events::Emit.new(
-        event: Event.find(event_id)
-      ).save.raise_if_error
+      event = Event.find(event_id)
+      begin
+        Forms::Events::Emit.new(
+          event: event
+        ).save.raise_if_error
+      rescue StandardError => e
+        Forms::Events::ScheduleRetry.new(event: event).save.raise_if_error
+        raise e
+      end
     end
   end
 end

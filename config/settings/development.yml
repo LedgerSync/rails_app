@@ -1,4 +1,5 @@
 application:
+  developer_email: me@example.com
   host_url: 'localhost'
   host_port: 3000
 
@@ -7,3 +8,4 @@ dev:
 
 mailer:
   delivery_method: 'letter_opener'
+  from_email: 'no-reply-dev@example.com'

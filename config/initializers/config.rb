@@ -79,6 +79,7 @@ Config.setup do |config|
     end
 
     required(:application).schema do
+      required(:developer_email).filled(:str?)
       required(:host_port).maybe(:int?)
       required(:host_url).filled(:str?)
       required(:login_url).maybe(:str?)
@@ -86,6 +87,8 @@ Config.setup do |config|
       optional(:theme).maybe(:str?)
       optional(:webhooks).schema do
         optional(:url).maybe(:str?)
+        optional(:retry_back_off_in_seconds).filled(:int?)
+        optional(:retry_limit).filled(:int?)
         optional(:key).maybe(:str?)
       end
     end
@@ -102,6 +105,7 @@ Config.setup do |config|
     required(:mailer).filled do
       schema do
         required(:delivery_method).filled(:str?)
+        required(:from_email).filled(:str?)
         optional(:smtp).filled do
           schema do
             required(:address).filled(:str?)
