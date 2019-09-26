@@ -53,7 +53,7 @@ module API
     def idempotency_wrap
       if idempotency_key_header.present?
         raise Idempotency::InvalidRequestMethodError unless idempotentable_request?
-        raise Idempotency::DuplicateRequestError, idempotency_key_header if idempotency_key? && idempotency_key.request_body == request_body
+        raise Idempotency::DuplicateRequestError, idempotency_key_header if idempotency_key? && idempotency_key.request_body != request_body
 
         ActiveRecord::Base.transaction do
           IdempotencyKey.with_advisory_lock(idempotency_key_header, transaction: true) do
