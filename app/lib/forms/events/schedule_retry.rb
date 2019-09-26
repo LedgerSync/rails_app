@@ -45,6 +45,8 @@ module Forms
 
         event.retries ||= 0
         event.retries += 1
+        event.save!
+
         wait_in_seconds = retry_back_off_in_seconds**event.retries
         EventJobs::Emit.perform_in(wait_in_seconds.seconds, event.id)
 
