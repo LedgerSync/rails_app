@@ -87,8 +87,6 @@ Config.setup do |config|
       optional(:theme).maybe(:str?)
       optional(:webhooks).schema do
         optional(:url).maybe(:str?)
-        optional(:retry_back_off_in_seconds).filled(:int?)
-        optional(:retry_limit).filled(:int?)
         optional(:key).maybe(:str?)
       end
     end

@@ -38,9 +38,22 @@ module Forms
         response = HTTP.headers(headers).post(url, body: serialized_event_json_string)
         status = response.status
 
-        return failure(status.inspect) unless status.success?
+        return success(event) if status.success?
 
-        success(event)
+        notify_provider
+        failure(status.inspect)
+      end
+
+      def notify_provider
+        redis = Redis.new
+        key = 'webhooks/provider_last_notified_at'
+
+        provider_last_notified_at = redis.get(key)
+
+        return if provider_last_notified_at.present? && (Time.zone.now - Time.parse(provider_last_notified_at)) < 24.hours
+
+        redis.set(key, Time.zone.now.to_s)
+        DeveloperMailer.webhook_failure(event.id).deliver_later
       end
 
       def serialized_event_json_string

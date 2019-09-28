@@ -39,7 +39,6 @@ module Forms
       delegate_accessor :data, to: :event
 
       def create_event
-        event.retries = 0
         event.save!
         success(event)
       end

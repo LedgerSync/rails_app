@@ -28,8 +28,6 @@ application:
   theme: modern_treasury            # optional: Name of theme in app/assets/stylesheets/themes
   webhooks:
     key:                            # required if url present: secret key used for signing webhooks
-    retry_back_off_in_seconds: 20   # required: retry_back_off_in_seconds ** retry_count
-    retry_limit: 10                 # required
     url:                            # optional: URL to which webhooks will be sent
 
 authentication:
