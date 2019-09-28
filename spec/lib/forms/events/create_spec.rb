@@ -23,7 +23,6 @@ describe Forms::Events::Create, type: :form do
   it { expect(result).to be_success }
   it { expect(value).to be_a(Event) }
   it { expect(JSON.parse(value.data)).to eq(event_object.serialize) }
-  it { expect(value.retries).to be_zero }
 
   describe '#event_object' do
     it { expect_error_with_missing_attribute(:event_object) }
