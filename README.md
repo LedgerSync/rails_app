@@ -1,8 +1,8 @@
 # Ledger Sync App
 by [Modern Treasury](https://www.moderntreasury.com)
 
-[![Build Status](https://travis-ci.org/LedgerSync/temp_app.svg?branch=master)](https://travis-ci.org/LedgerSync/temp_app)
-[![Coverage Status](https://coveralls.io/repos/github/LedgerSync/temp_app/badge.svg?branch=master)](https://coveralls.io/github/LedgerSync/temp_app?branch=master)
+[![Build Status](https://travis-ci.org/LedgerSync/rails_app.svg?branch=master)](https://travis-ci.org/LedgerSync/rails_app)
+[![Coverage Status](https://coveralls.io/repos/github/LedgerSync/rails_app/badge.svg?branch=master)](https://coveralls.io/github/LedgerSync/rails_app?branch=master)
 
 Ledger Sync App is an open source application that allows you to easily sync to any supported accounting software.  This repository is a Ruby on Rails application you can spin up and run on your own servers.  Think of it as the "front end," while the [Ledger Sync App Lib](https://www.github.com/Modern-Treasury/organization-connector-lib) is the underlying worker.
 
