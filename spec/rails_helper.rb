@@ -13,6 +13,7 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
 )
 
 SimpleCov.start do
+  add_filter '/channels'
   add_filter '/config/initializers'
   add_filter '/spec/support'
 end

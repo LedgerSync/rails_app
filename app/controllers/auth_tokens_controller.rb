@@ -8,7 +8,7 @@ class AuthTokensController < UIController
   end
 
   def dev_login
-    raise_404 unless Rails.env.development?
+    raise_404 unless development_enabled?
 
     warden.logout
     authenticate!(:developer)

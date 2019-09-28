@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LedgersController < DashboardBaseController
   before_action :set_ledger, only: :show
 

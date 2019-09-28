@@ -98,6 +98,7 @@ Rails.application.routes.draw do
     resources :ledgers, only: %i[index show]
 
     namespace :ledgers do
+      resources :tests, path: :test, only: %i[show], controller: :test
       resources :quickbooks_onlines, path: :quickbooks_online, only: %i[destroy new show update], controller: :quickbooks_online do
         collection do
           get :callback

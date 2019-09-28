@@ -12,9 +12,12 @@ class LedgerDecorator < Draper::Decorator # :nodoc:
   end
 
   def show_path
-    case kind
+    case kind.to_s
     when Util::QuickBooksOnline::KEY
       r.ledgers_quickbooks_online_path(self)
+    when LedgerSync.adaptors.test.root_key.to_s
+      raise NotImplementedError unless Rails.env.test?
+      r.ledgers_test_path(self)
     else
       raise NotImplementedError
     end
