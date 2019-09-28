@@ -26,7 +26,7 @@ class UIController < ApplicationController
   def ensure_authorized_user
     return if current_user
 
-    redirect_to Settings.application.login_url
+    redirect_to Settings.application.login_url || root_url
   end
 
   def pop_redirect_url(key: :redirect)
