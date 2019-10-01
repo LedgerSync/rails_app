@@ -9,10 +9,12 @@ add_ons:
 api:
   root_secret_key: 'test_api_key'
 application:
+  developer_email: test@example.com
   host_url: 'lvh.me'
   host_port: 3000
   webhooks:
     key: 'foobarbaz'
-    url: 'http://lvh.me'
+    url: 'http://127.0.0.1:3000'
 mailer:
   delivery_method: 'test'
+  from_email: 'no-reply-test@example.com'

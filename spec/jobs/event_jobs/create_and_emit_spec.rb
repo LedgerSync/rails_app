@@ -14,6 +14,13 @@ describe EventJobs::CreateAndEmit do
   let(:perform) { Sidekiq::Testing.inline! { described_class.perform_async(*args) } }
   let(:result) { described_class.new.perform(*args) }
 
+  before do
+    stub_request(
+      :post,
+      Settings.application.webhooks.url
+    )
+  end
+
   it { expect(result).to be_success }
   it { expect { result.value }.to change(EventJobs::Emit.jobs, :count).from(0).to(1) }
 end

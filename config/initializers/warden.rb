@@ -18,7 +18,7 @@ end
 
 Warden::Strategies.add(:developer) do
   def valid?
-    raise 'Invalid strategy' unless Rails.env.development?
+    raise 'Invalid strategy' unless Util::DevelopmentHelper.development_enabled?
 
     true
   end
