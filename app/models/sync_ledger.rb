@@ -59,9 +59,9 @@ class SyncLedger < ApplicationRecord
   def resources_data
     ret = {}
 
-    ledger_resources.find_each do |ledger_resource|
-      resource = ledger_resource.resource
-      sync_resource = sync_resources.find_by!(sync: sync, resource: resource)
+    sync_resources.find_each do |sync_resource|
+      resource = sync_resource.resource
+      ledger_resource = ledger_resources.find_by!(ledger: ledger, resource: resource)
 
       ret[resource.type] ||= {}
       ret[resource.type][resource.external_id] = {

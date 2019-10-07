@@ -10,15 +10,17 @@ module Forms
       validates_presence_of :sync
 
       def save
-        with_advisory_lock_transaction(:syncs, sync) do
+        result = with_advisory_lock_transaction(:syncs, sync) do
           validate_or_fail
             .and_then { destroy_sync_resources(sync) }
             .and_then { |sync| upsert_resources(sync) }
             .and_then { |sync| set_sync_resource(sync) }
             .and_then { |sync| upsert_sync_ledgers(sync) }
-            .and_then { |sync| perform_sync(sync) }
             .and_then { success(sync) }
         end
+
+        result.and_then { |sync| schedule_perform_sync(sync) }
+              .and_then { success(sync) }
       end
 
       private
@@ -29,10 +31,9 @@ module Forms
           .save
       end
 
-      def perform_sync(sync)
-        Forms::Syncs::Perform
-          .new(sync: sync)
-          .save
+      def schedule_perform_sync(sync)
+        SyncJobs::Perform.perform_async(sync.id)
+        success(sync)
       end
 
       def set_sync_resource(sync)
@@ -47,9 +48,11 @@ module Forms
       end
 
       def upsert_resources(sync)
-        Forms::Syncs::UpsertResources
-          .new(sync: sync)
-          .save
+        result = Forms::Syncs::UpsertResources
+                 .new(sync: sync)
+                 .save
+
+        result
       end
 
       def upsert_sync_ledgers(sync)

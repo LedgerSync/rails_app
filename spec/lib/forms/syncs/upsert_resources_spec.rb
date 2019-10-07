@@ -17,5 +17,6 @@ describe Forms::Syncs::UpsertResources, type: :form do
   it { expect_valid }
   it { expect(result).to be_success }
   it { expect(value).to be_a(Sync) }
+  it { expect { value }.to change(Resource, :count).from(0).to(1) }
   it { expect { value }.to change(SyncResource, :count).from(0).to(1) }
 end
