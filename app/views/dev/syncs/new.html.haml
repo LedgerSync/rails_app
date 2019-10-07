@@ -4,11 +4,16 @@
     .col
       %ul#myTab.nav.nav-tabs{:role => "tablist"}
         %li.nav-item
-          %a#sync-customer-tab.nav-link.active{"aria-controls" => "home", "aria-selected" => "true", "data-toggle" => "tab", :href => "#home", :role => "tab"} Customer
+          %a#sync-customer-tab.nav-link.active{"aria-controls" => "customer", "aria-selected" => "true", "data-toggle" => "tab", :href => "#customer", :role => "tab"} Customer
         %li.nav-item
-          %a#sync-payment-tab.nav-link{"aria-controls" => "profile", "aria-selected" => "false", "data-toggle" => "tab", :href => "#profile", :role => "tab"} Payment
+          %a#sync-payment-tab.nav-link{"aria-controls" => "payment", "aria-selected" => "false", "data-toggle" => "tab", :href => "#payment", :role => "tab"} Payment
         %li.nav-item
-          %a#sync-invoice-tab.nav-link{"aria-controls" => "contact", "aria-selected" => "false", "data-toggle" => "tab", :href => "#contact", :role => "tab"} Invoice
+          %a#sync-invoice-tab.nav-link{"aria-controls" => "invoice", "aria-selected" => "false", "data-toggle" => "tab", :href => "#invoice", :role => "tab"} Invoice
+        %li.nav-item
+          %a#sync-vendor-tab.nav-link{"aria-controls" => "vendor", "aria-selected" => "false", "data-toggle" => "tab", :href => "#vendor", :role => "tab"} Vendor
+        %li.nav-item
+          %a#sync-purchase-tab.nav-link{"aria-controls" => "purchase", "aria-selected" => "false", "data-toggle" => "tab", :href => "#purchase", :role => "tab"} Purchase
+
       #myTabContent.tab-content
         #home.tab-pane.fade.show.active{"aria-labelledby" => "sync-customer-tab", :role => "tabpanel"}
           .my-3
@@ -18,7 +23,7 @@
                 = text_area_tag :request_body, JSON.pretty_generate(Util::InputHelpers::Customer.new.sync_request_body(organization: current_organization)), class: 'w-100 form-control', rows: 10
               .form-group
                 = submit_tag 'Send', class: 'btn btn-primary form-control'
-        #profile.tab-pane.fade{"aria-labelledby" => "sync-payment-tab", :role => "tabpanel"}
+        #payment.tab-pane.fade{"aria-labelledby" => "sync-payment-tab", :role => "tabpanel"}
           .my-3
             %h4 Payment
             = form_tag dev_syncs_path, method: :post do
@@ -26,6 +31,22 @@
                 = text_area_tag :request_body, JSON.pretty_generate(Util::InputHelpers::Payment.new.sync_request_body(organization: current_organization)), class: 'w-100 form-control', rows: 10
               .form-group
                 = submit_tag 'Send', class: 'btn btn-primary form-control'
-        #contact.tab-pane.fade{"aria-labelledby" => "sync-invoice-tab", :role => "tabpanel"}
+        #invoice.tab-pane.fade{"aria-labelledby" => "sync-invoice-tab", :role => "tabpanel"}
           .my-3
             %h4 Coming Soon
+        #vendor.tab-pane.fade{"aria-labelledby" => "sync-vendor-tab", :role => "tabpanel"}
+          .my-3
+            %h4 Vendor
+            = form_tag dev_syncs_path, method: :post do
+              .form-group
+                = text_area_tag :request_body, JSON.pretty_generate(Util::InputHelpers::Vendor.new.sync_request_body(account: current_account)), class: 'w-100 form-control', rows: 10
+              .form-group
+                = submit_tag 'Send', class: 'btn btn-primary form-control'
+        #purchase.tab-pane.fade{"aria-labelledby" => "sync-purchase-tab", :role => "tabpanel"}
+          .my-3
+            %h4 Purchase
+            = form_tag dev_syncs_path, method: :post do
+              .form-group
+                = text_area_tag :request_body, JSON.pretty_generate(Util::InputHelpers::Purchase.new.sync_request_body(account: current_account)), class: 'w-100 form-control', rows: 10
+              .form-group
+                = submit_tag 'Send', class: 'btn btn-primary form-control'

@@ -86,5 +86,93 @@ module Util
         }
       end
     end
+
+    class Vendor
+      attr_accessor :external_id
+
+      def initialize(external_id: SecureRandom.uuid)
+        self.external_id = external_id
+      end
+
+      def data
+        {
+          'first_name': 'Eric',
+          'last_name': "Cartman #{external_id}"
+        }
+      end
+
+      def reference(merge_data: {}, ledger_id: nil, merge: {})
+        {
+          "ledger_id": ledger_id,
+          "data": data.merge(merge_data)
+        }.merge(merge)
+      end
+
+      def references
+        {
+          "vendor": {
+            external_id => reference
+          }
+        }
+      end
+
+      def sync_request_body(account: nil)
+        {
+          "account_external_id": account.external_id,
+          "resource_external_id": external_id,
+          "resource_type": 'vendor',
+          "operation_method": 'upsert',
+          "references": references
+        }
+      end
+    end
+
+    class Purchase
+      attr_accessor :vendor, :external_id
+
+      def initialize(vendor: nil, external_id: SecureRandom.uuid)
+        self.vendor = vendor || Vendor.new
+        self.external_id = external_id
+      end
+
+      def data
+        {
+          'amount': 1234,
+          'currency': 'usd',
+          'transaction_date': '2019-07-25',
+          'payment_type': 'Cash',
+          'memo': 'A memo',
+          'vendor': vendor.external_id
+        }
+      end
+
+      def reference(merge_data: {}, ledger_id: nil, merge: {})
+        {
+          "ledger_id": ledger_id,
+          "data": data.merge(merge_data)
+        }.merge(merge)
+      end
+
+      def references
+        {
+          "purchase": {
+            external_id => reference
+          },
+          "vendor": {
+            vendor.external_id => vendor.reference
+          }
+        }
+      end
+
+      def sync_request_body(account: nil)
+        {
+          "account_external_id": account.external_id,
+          "resource_external_id": external_id,
+          "resource_type": 'purchase',
+          "operation_method": 'upsert',
+          "references": references
+        }
+      end
+    end
   end
 end
