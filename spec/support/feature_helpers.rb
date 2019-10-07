@@ -31,10 +31,16 @@ module FeatureHelpers
   #   end
   # end
 
-  def expect_content(content)
-    raise 'content cannot be blank' if content.blank?
+  def expect_content(*args, **keywords)
+    raise 'content cannot be blank' if args.last.blank?
 
-    expect(page).to have_content(content, wait: 10)
+    expect(page).to have_content(*args, wait: 10, **keywords)
+  end
+
+  def expect_no_content(*args, **keywords)
+    raise 'content cannot be blank' if args.last.blank?
+
+    expect(page).not_to have_content(*args, wait: 10, **keywords)
   end
 
   def expect_count(selector, num = 1)

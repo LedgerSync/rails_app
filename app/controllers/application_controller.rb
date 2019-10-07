@@ -3,6 +3,12 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def development_enabled?
+    Util::DevelopmentHelper.development_enabled?
+  end
+
+  helper_method :development_enabled?
+
   def raise_404(message: nil)
     raise ActionController::RoutingError, (message || 'Not Found')
   end

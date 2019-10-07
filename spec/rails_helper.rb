@@ -1,7 +1,19 @@
 # frozen_string_literal: true
 
 require 'simplecov'
+require 'simplecov'
+require 'coveralls'
+Coveralls.wear!('rails')
+
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
+  [
+    Coveralls::SimpleCov::Formatter,
+    SimpleCov::Formatter::HTMLFormatter
+  ]
+)
+
 SimpleCov.start do
+  add_filter '/channels'
   add_filter '/config/initializers'
   add_filter '/spec/support'
 end

@@ -18,8 +18,10 @@ module EventJobs
 
   class Emit < ApplicationJob
     def perform(event_id)
+      event = Event.find(event_id)
+
       Forms::Events::Emit.new(
-        event: Event.find(event_id)
+        event: event
       ).save.raise_if_error
     end
   end

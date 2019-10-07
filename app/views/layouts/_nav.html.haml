@@ -25,7 +25,8 @@
       %li.nav-item.mr-3
         = link_to '#', class: 'nav-link' do
           Log In
-      - if Rails.env.development?
-        %li.nav-item.mr-3
-          = link_to dev_login_path, class: 'btn btn-danger' do
-            Dev Log In
+- if development_enabled?
+  %ul
+    %li.nav-item.mr-3
+      = link_to dev_login_path, class: 'btn btn-danger' do
+        Dev Log In

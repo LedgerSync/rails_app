@@ -24,12 +24,12 @@ describe Util::WebhookSigner do
       end
     end
 
-    it { expect { subject }.to raise_error }
+    it { expect { subject }.to raise_error(RuntimeError, 'Missing Settings.application.webhooks.key') }
   end
 
   context 'without data as string' do
     let(:data) { {} }
 
-    it { expect { subject }.to raise_error }
+    it { expect { subject }.to raise_error(RuntimeError, 'data must be a string') }
   end
 end

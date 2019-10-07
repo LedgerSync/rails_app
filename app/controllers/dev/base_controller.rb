@@ -7,7 +7,9 @@ module Dev
     private
 
     def ensure_development
-      raise_404 unless Rails.env.development?
+      return if development_enabled?
+
+      raise_404
     end
   end
 end

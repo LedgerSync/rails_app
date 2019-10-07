@@ -4,6 +4,7 @@ addons:
   postgresql: "9.6"
 services:
   - postgresql
+  - redis-server
 sudo: false
 language: ruby
 cache: bundler
